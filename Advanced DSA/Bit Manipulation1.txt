@@ -1,0 +1,21 @@
+Ques-1 ->
+Problem Description - 
+    You are given two integers A and B.
+    Set the A-th bit and B-th bit in 0, and return output in decimal Number System.
+
+Note: The bit positions are 0-indexed, which means that the least significant bit (LSB) has index 0.
+
+Problem Constraints - 
+    0 <= A <= 30
+    0 <= B <= 30
+
+Solution - 
+    module.exports = { 
+    //param A : integer
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let C = 0 | (1 << A);
+            return C | (1 << B);
+        }
+    };
