@@ -1,0 +1,47 @@
+Ques-1 ->
+
+# Problem Description
+    Given an array of integers A, every element appears twice except for one. Find that integer that occurs once.
+
+    NOTE: Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+
+# Problem Constraints
+    1 <= |A| <= 2000000
+
+    0 <= A[i] <= INTMAX
+
+# Solution - 
+
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+
+        //Approach -1 
+        singleNumber : function(A){
+        let ans = 0, N= A.length;
+        for(let i=0;i<N;i++){
+            ans = ans ^ Number(A[i]);
+        }
+        return Number(ans);
+        
+        //Approach -2 
+            function checkBit(A, B) {
+                if((BigInt(A) & BigInt(1 << B)) == 0) return 0 
+                    else return 1;
+                }
+            
+            let ans = 0, N = A.length;
+            for(let i=0;i<31;i++) {
+                let count = 0;
+                for(let j=0;j<N;j++) {
+                    if(checkBit(A[j], i)) {
+                        count++;
+                    }
+                }
+                if(count & 1) { // means count is odd
+                    ans = ans | (1<<i); // adding ith bit in ans.(set a bit through this operation)
+                }
+            }
+            return ans;
+        }
+    };

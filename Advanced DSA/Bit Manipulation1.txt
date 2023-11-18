@@ -19,3 +19,257 @@ Note: The bit positions are 0-indexed, which means that the least significant bi
             return C | (1 << B);
         }
     };
+
+Ques-2 ->
+# Problem Description
+    You are given two integers A and B.
+    If B-th bit in A is set, make it unset.
+    If B-th bit in A is unset, leave as it is.
+    Return the updated A value.
+
+# Note:
+    The bit position is 0-indexed, which means that the least significant bit (LSB) has index 0.
+
+# Problem Constraints
+    1 <= A <= 109
+    0 <= B <= 30
+
+# Solution - 
+    module.exports = { 
+    //param A : integer
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            for(let i=0;i<=B;i++) {
+                if((A & (1 << B)) == 0) {
+                    return A;
+                } else {
+                    A = A ^ (1 << B)
+                }
+            }
+            return A;
+        }
+    };
+
+Ques-3 ->
+# Problem Description
+    You are given two integers A and B.
+    Return 1 if B-th bit in A is set
+    Return 0 if B-th bit in A is unset
+
+# Note:
+    The bit position is 0-indexed, which means that the least significant bit (LSB) has index 0.
+
+# Problem Constraints
+    1 <= A <= 109
+    0 <= B <= 30
+
+# Input Format
+    First argument A is an integer.
+    Second argument B is an integer.
+
+Output Format
+Return an integer.
+
+# Solution - 
+    module.exports = { 
+    //param A : integer
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            for(let i=0;i<=B;i++) {
+                if((A & (1 << B)) == 0) return 0 
+                else return 1;
+            }
+        }
+    };
+
+Ques-4 ->
+# Problem Description
+    Write a function that takes an integer and returns the number of 1 bits present in its binary representation.
+
+# Problem Constraints
+    1 <= A <= 109
+
+# Solution - 
+module.exports = { 
+ //param A : integer
+ //return an integer
+	numSetBits : function(A){
+        // Approach - 1
+        A = A.toString(2);
+        let count = 0;
+        for(let i=0;i<A.length;i++) {
+            if(A[i] == 1) {
+                count++;
+            }
+        }
+        return count;
+
+        // Approach - 2
+        let count = 0;
+        while(A != 0) {
+            A = A & (A-1);
+            count++;
+        }
+        return count;
+
+        // Approach - 3
+        let count = 0;
+        for(let i=0;i<30;i++) {
+           if((A & (1 << i)) > 0) {
+               count++;
+           }
+        }
+        return count;
+	}
+};
+
+Ques - 5 ->
+
+# Problem Description
+    Alex and Sam are good friends. Alex is doing a lot of programming these days. He has set a target score of A for himself.
+    Initially, Alex's score was zero. Alex can double his score by doing a question, or Alex can seek help from Sam for doing questions that will contribute 1 to Alex's score. Alex wants his score to be precisely A. Also, he does not want to take much help from Sam.
+
+    Find and return the minimum number of times Alex needs to take help from Sam to achieve a score of A.
+
+# Problem Constraints
+    0 <= A <= 10^9
+
+# Solution - 
+    module.exports = { 
+    //param A : integer
+    //return an integer
+        solve : function(A){
+            let count = 0;
+            wahile(A>0) { 
+                if(A%2 != 0) {
+                    A = A-1;
+                    count++;
+                } else if(A%2 == 0){
+                    A = A/2;
+                }
+                if(A%2 != 0) {
+                    A = A^1;
+                    count++;
+                } else {
+                    A = A >> 1;
+                }
+            }
+            return count;
+        }
+    };
+
+
+    //             Alex        Sam
+    // target  -   A
+    // ini score - 0
+    // doing question = *2
+    // help with sam - +1
+
+Ques - 6 ->
+# Problem Description
+    You are given two integers A and B.
+    If B-th bit in A is set, make it unset
+    If B-th bit in A is unset, make it set
+    Return the updated A value
+
+# Problem Constraints
+    1 <= A <= 109
+    0 <= B <= 30
+
+# Solution - 
+    module.exports = { 
+    //param A : integer
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            A = A ^ (1 << B);
+            return A;
+        }
+    };
+
+Ques - 7->
+
+# Problem Description
+    Given an integer A. Unset B bits from the right of A in binary.
+
+    For example, if A = 93 and B = 4, the binary representation of A is 1011101.
+    If we unset the rightmost 4 bits, we get the binary number 1010000, which is equal to the decimal value 80.
+
+# Problem Constraints
+    1 <= A <= 1018
+    1 <= B <= 60
+
+# Solution - 
+module.exports = { 
+ //param A : long
+ //param B : integer
+ //return a long integers
+	solve : function(A, B){
+        return A>>BigInt(B)<<BigInt(B);
+	}
+};
+
+Ques - 8 ->
+# Problem Description
+    Alex has a cat named Boomer. He decides to put his cat to the test for eternity.
+
+    He starts on day 1 with one stash of food unit, every next day, the stash doubles.
+
+    If Boomer is well behaved during a particular day, only then she receives food worth equal to the stash produced on that day.
+
+    Boomer receives a net worth of A units of food. What is the number of days she received the stash?
+
+
+# Problem Constraints
+    1 <= A <= 231-1
+
+# Solution - 
+
+    module.exports = { 
+    //param A : integer
+    //return an integer
+        solve : function(A){
+            let stash = 0;
+            let numberOfDays = 0;
+
+            while(stash < A) {
+                if(A & 1 == 1) { // A&1 == 0, means it is even number otherwise odd number 
+                    numberOfDays++;
+                }
+                A = A>>1;
+            }
+            return numberOfDays;
+        }
+    };
+
+Ques - 9 ->
+# Problem Description
+    Given an integer A, find and return the Ath magic number.
+
+    A magic number is defined as a number that can be expressed as a power of 5 or a sum of unique powers of 5.
+
+    First few magic numbers are 5, 25, 30(5 + 25), 125, 130(125 + 5), ….
+
+
+# Problem Constraints
+    1 <= A <= 5000
+
+# Solution - 
+    module.exports = { 
+    //param A : integer
+    //return an integer
+        solve : function(A){
+            let ans = 0;
+            let pow = 1;
+            while(A>0) {
+                pow *=5;
+                if((A&1) == 1){
+                    ans += pow;
+                }
+                A = A>>1;
+            }
+            return ans;
+        }
+    };
