@@ -23,7 +23,6 @@ Ques-1 -->
             return count;
 
             // Approach -2
-            
             let count = 0;
             for( let i=1;i<=Math.sqrt(A);i++) {
                 if(A%i == 0) {
