@@ -1,0 +1,263 @@
+Ques-1 --> (Maximum Subarray Easy)
+
+# Problem Description
+    You are given an integer array C of size A. Now you need to find a subarray (contiguous elements) so that the sum of contiguous elements is maximum.
+    But the sum must not exceed B.
+
+# Problem Constraints
+    1 <= A <= 103
+    1 <= B <= 109
+    1 <= C[i] <= 106
+
+# Solution - 
+    module.exports = { 
+    //param A : integer
+    //param B : integer
+    //param C : array of integers
+    //return an integer
+        maxSubarray : function(A, B, C){
+            //Approach -1 
+            let max = 0;
+            if(A == 1) return C[0];
+            for(let i=0;i<A;i++) {
+                for(let j=i;j<A;j++) {
+                    let subarray_sum = 0;
+                    for(let k=i;k<=j;k++) {
+                        subarray_sum += Number(C[k]);
+                        if(B>= subarray_sum) {
+                            max = Math.max(max, subarray_sum);
+                        }
+                    }
+                }
+            }
+            return max;
+
+            //Approach -2 
+            let ans = 0;
+            for(let i = 0; i < A; i++) {
+                let sum = 0;
+                for( let j = i; j < A; j++) {
+                    sum += Number(C[j]);
+                    if( sum <= B && ans < sum) ans = Number(sum);
+                    else if( sum > B) break;
+                }
+            }
+            return ans;
+        }
+    };
+
+Ques-2 --> (Sum of All Subarrays)
+
+# Problem Description
+    You are given an integer array A of length N.
+    You have to find the sum of all subarray sums of A.
+    More formally, a subarray is defined as a contiguous part of an array which we can obtain by deleting zero or more elements from either end of the array.
+    A subarray sum denotes the sum of all the elements of that subarray.
+    Note : Be careful of integer overflow issues while calculations. Use appropriate datatypes.
+
+# Problem Constraints
+    1 <= N <= 105
+    1 <= Ai <= 10 4
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //return a long integers
+        subarraySum : function(A){
+            let total_sum = BigInt(0);
+            for(let i=0;i<A.length;i++) {
+                total_sum +=  BigInt(A[i])*BigInt((i+1))*BigInt((A.length-i));
+            }
+            return total_sum;
+        }
+    };
+
+Ques-3 --> (Subarray with given sum and length)
+
+# Problem Description -
+    Given an array A of length N. Also given are integers B and C.
+    Return 1 if there exists a subarray with length B having sum C and 0 otherwise
+
+# Problem Constraints
+    1 <= N <= 105
+    1 <= A[i] <= 104
+    1 <= B <= N
+    1 <= C <= 109
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //param C : integer
+    //return an integer
+        solve : function(A, B, C) {
+            let answer = 0, i=0, j=B-1, sum=0;
+
+            for(let k=i;k<=j;k++) {
+                sum +=Number(A[k]);
+            }
+            i++;
+            j++;
+
+            while(j<A.length) {
+                if(B<=1) sum = A[i];
+                else sum += Number(A[j] - A[i-1]);
+
+                if(sum==C) answer = 1;
+                i++;
+                j++;
+            }
+            if(sum==C) answer = 1;
+            return answer;
+        }
+    };
+
+
+Ques-4 --> (Good Subarrays Easy)
+
+# Problem Description
+    Given an array of integers A, a subarray of an array is said to be good if it fulfills any one of the criteria:
+    1. Length of the subarray is be even, and the sum of all the elements of the subarray must be less than B.
+    2. Length of the subarray is be odd, and the sum of all the elements of the subarray must be greater than B.
+    Your task is to find the count of good subarrays in A.
+
+# Problem Constraints
+    1 <= len(A) <= 5 x 103
+    1 <= A[i] <= 103
+    1 <= B <= 107
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let count = 0;
+            let subarray_length;
+
+            for(let i=0;i<A.length;i++) {
+                let currentSum = 0;
+                for(let j=i;j<A.length;j++) {
+                    subarray_length=j-i+1;
+                    currentSum += A[j];
+                    
+                    if(subarray_length % 2==0 && currentSum < B) {
+                        count++;
+                    } else if(subarray_length %2 !== 0 && currentSum > B) {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+    };
+
+Ques-5 --> (Counting Subarrays Easy)
+
+# Problem Description - 
+    Given an array A of N non-negative numbers and a non-negative number B,
+    you need to find the number of subarrays in A with a sum less than B.
+    We may assume that there is no overflow.
+
+# Problem Constraints - 
+    1 <= N <= 5 x 103
+    1 <= A[i] <= 1000
+    1 <= B <= 107
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let count = 0;
+            for(let i=0;i<A.length;i++) {
+                let current_sum = 0;
+                for(let j=i;j<A.length;j++) {
+                    current_sum += Number(A[j]);
+                    if(current_sum <B) {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+    };
+
+Ques-6 --> (Minimum Swaps)
+
+# Problem Description - 
+    Given an array of integers A and an integer B, find and return the minimum number of swaps required to bring all the numbers less than or equal to B together.
+    Note: It is possible to swap any two elements, not necessarily consecutive.
+
+# Problem Constraints - 
+    1 <= length of the array <= 100000
+    -109 <= A[i], B <= 109
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let N = A.length;
+            let i=0, j=N;
+            let swapcount=0;
+
+            if(N<=1) return 0;
+            while(i<j) {
+                if(A[i] <= B) swapcount++;
+                i++;
+            }
+            let L = 0;
+            let M = swapcount-1;
+            let countR = 0;
+            for(let Op = L;Op<=M;Op++) {
+                if(A[Op] > B) countR++;
+            }
+
+            L++;
+            M++;
+            let ans = countR;
+            while(M<N) {
+                if(A[M] > B) countR++;
+                if(A[L-1] > B) countR--;
+                ans = Math.min(ans, countR);
+                L++;
+                M++;    
+            }
+            return ans;
+        }
+    };
+
+Ques-7 --> (Subarray with least average)
+
+# Problem Description - 
+    Given an array A of size N, find the subarray of size B with the least average.
+
+# Problem Constraints - 
+    1 <= B <= N <= 105
+    -105 <= A[i] <= 105
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let N=A.length, current_sum=0, result_index=0;
+            for(let i=0;i<B;i++) {
+                current_sum += A[i];
+            }
+
+            let answer = current_sum;
+            for(let i=B;i<N;i++) {
+                current_sum += A[i] - A[i-B];
+                if(current_sum < answer) {
+                    answer = current_sum;
+                    result_index = i-(B-1);
+                }
+            }
+            return result_index;
+        }
+    };
