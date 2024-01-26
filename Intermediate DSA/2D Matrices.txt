@@ -176,7 +176,7 @@ Ques-5 --> (Rotate Matrix)
         //return nothing 
         solve : function(A){ 
             let N = A.length;
-            
+            // transpose matrix
             for(let i=0;i<N;i++) {
                 for(let j=0;j<=i;j++) {
                     let temp = A[i][j];
@@ -184,6 +184,8 @@ Ques-5 --> (Rotate Matrix)
                     A[j][i] = temp;
                 }
             }
+            //reverse matrix
+            //approach - 1
             for(let k=0;k<A.length;k++) {
                 let m=0;
                 let n = A[k].length-1;
@@ -194,6 +196,10 @@ Ques-5 --> (Rotate Matrix)
                     m++;
                     n--;
                 }   
+            }
+            // approach - 2
+            for(const row of mat){
+                row.reverse();
             }
         } 
     };
