@@ -1,0 +1,126 @@
+Ques-1 --> (Elements Removal)
+
+# Problem Description - 
+    Given an integer array A of size N. You can remove any element from the array in one operation.
+    The cost of this operation is the sum of all elements in the array present before this operation.
+    Find the minimum cost to remove all elements from the array.
+
+# Problem Constraints - 
+    0 <= N <= 1000
+    1 <= A[i] <= 103
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            A.sort((a, b) => b-a);
+            let answer = 0;
+
+            for(let i=0;i<A.length;i++) {
+                answer += A[i]*(i+1);
+            }
+            return answer;
+        }
+    };
+
+Ques-2 --> (Noble Integer)
+
+# Problem Description - 
+    Given an integer array A, find if an integer p exists in the array such that the number of integers greater than p in the array equals p.
+
+# Problem Constraints - 
+    1 <= |A| <= 2*105
+    -108 <= A[i] <= 108
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            A.sort((a, b) => b-a);
+            let val = -1;
+            let count = -1;
+            if(A[0] == 0) val = 1;
+
+            for(let i=1;i<A.length;i++) {
+            if(A[i] == i && A[i] !== A[i-1]) {
+                val = 1;
+                count = 1;
+            } 
+            if(A[i] == A[i-1] && count == 1) {
+                val = 1;
+            } else {
+                count = -1;
+            }
+            }
+            return val;
+        }
+    };
+
+Ques-3 --> (Time Complexity-ii)
+
+What is the time complexity of the following code snippet?
+
+    ArrayList v = new ArrayList();
+
+    for(int i = 0; i < n; i++){
+        v.append(i);
+    }
+
+    Collections.sort(v);
+
+# Solution - O(nlogn)
+
+Ques-4 --> (Kth Smallest Element)
+
+# Problem Description - 
+    Find the Bth smallest element in given array A .
+    NOTE: Users should try to solve it in less than equal to B swaps.
+
+# Problem Constraints - 
+    1 <= |A| <= 100000
+    1 <= B <= min(|A|, 500)
+    1 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        kthsmallest : function(A, B){
+            A.sort((a, b) => a-b);
+            let ans = A[B-1];
+            
+            return ans;
+        }
+    };
+
+Ques-5 --> (Arithmetic Progression?)
+
+# Problem Description -
+    Given an integer array A of size N. Return 1 if the array can be arranged to form an arithmetic progression, otherwise return 0.
+    A sequence of numbers is called an arithmetic progression if the difference between any two consecutive elements is the same.
+
+# Problem Constraints - 
+    2 <= N <= 105
+    -109 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            A.sort((a, b) => a-b);
+            let firstElem = A[1];
+            let secondElem = A[0];
+            let difference = firstElem-secondElem;
+
+            for(let i=1;i<A.length-1;i++) {
+                if(!(A[i+1] - A[i] == difference)){
+                    return 0;
+                }
+            }
+            return 1;
+        }
+    };

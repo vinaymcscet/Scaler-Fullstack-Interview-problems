@@ -1,0 +1,360 @@
+Ques-1 --> (Toggle Case)
+
+# Problem Description - 
+    You are given a character string A having length N, consisting of only lowercase and uppercase latin letters.
+    You have to toggle case of each character of string A. For e.g 'A' is changed to 'a', 'e' is changed to 'E', etc.
+
+# Problem Constraints - 
+    1 <= N <= 105
+    A[i] ∈ ['a'-'z', 'A'-'Z']
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //return a strings
+        solve : function(A){
+            let B = A.split("");
+            
+            for(let i=0;i<B.length;i++) {
+                    if(B[i].charCodeAt()<=90) {
+                        B[i] = String.fromCharCode(B[i].charCodeAt() + 32);
+                    } else {
+                        B[i] = String.fromCharCode(B[i].charCodeAt() - 32)
+                    }
+            }
+            return B.join("");
+        }
+    };
+
+Ques-2 --> (Simple Reverse)
+
+# Problem Description - 
+    Given a string A, you are asked to reverse the string and return the reversed string.
+
+# Problem Constraints - 
+    1 <= |A| <= 105
+    String A consist only of lowercase characters.
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //return a strings
+        solve : function(A){
+            // Approach - 1
+            return A.split("").reverse().join("");
+
+            // Approach - 2
+            let B = A.split("");
+            let C = [];
+            for(let i=B.length-1;i>=0;i--) {
+                C.push(B[i]);
+            }
+            return C.join("");
+
+            // Approach - 3
+            let B = A.split("");
+            let i=0, j=B.length-1;
+            while(i<j) {
+                let temp = B[j];
+                B[j] = B[i];
+                B[i] = temp;
+                i++;
+                j--;
+            }
+            return B.join("");
+        }
+    };
+
+Ques-3 --> (Reverse the String)
+
+# Problem Description - 
+    You are given a string A of size N.
+    Return the string A after reversing the string word by word.
+    NOTE:
+    A sequence of non-space characters constitutes a word.
+    Your reversed string should not contain leading or trailing spaces, even if it is present in the input string.
+    If there are multiple spaces between words, reduce them to a single space in the reversed string.
+
+# Problem Constraints - 
+    1 <= N <= 3 * 105
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //return a strings
+        solve : function(A){
+            // Approach - 1
+            return A.split(" ").reverse().join(" ");
+
+            // Approach - 2
+            let B = A.split(" ");
+            let i=0, j=B.length-1;
+            while(i<j) {
+                let temp = B[j];
+                B[j] = B[i];
+                B[i] = temp;
+                i++;
+                j--;
+            }
+            return B.join(" ");
+        }
+    };
+
+Ques-4 --> (Longest Palindromic Substring)
+
+# Problem Description - 
+    Given a string A of size N, find and return the longest palindromic substring in A.
+    Substring of string A is A[i...j] where 0 <= i <= j < len(A)
+    Palindrome string:
+    A string which reads the same backwards. More formally, A is palindrome if reverse(A) = A.
+    Incase of conflict, return the substring which occurs first ( with the least starting index).
+
+# Problem Constraints - 
+    1 <= N <= 6000
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //return a strings
+        longestPalindrome : function(A){  
+            //Approach - 1
+            if (A === null || A.length < 1) return "";
+            let start = 0,
+                end = 0;
+
+            for (let i = 0; i < A.length; i++) {
+                const len1 = expandAroundCenter(A, i, i);
+                const len2 = expandAroundCenter(A, i, i + 1);
+                const len = Math.max(len1, len2);
+                if (len > end - start + 1) {
+                    start = i - Math.floor((len - 1) / 2);
+                    end = i + Math.floor(len / 2);
+                }
+            }
+            return A.slice(start, end + 1);
+            function expandAroundCenter(s, left, right) {
+                while (left >= 0 && right < s.length && s[left] === s[right]) {
+                    left--;
+                    right++;
+                }
+                return right - left - 1;
+            }
+
+            //Approach - 2
+            let str = "";
+            let N = A.split("");
+            let M = A.length;
+            let count = 0;
+
+            for(let i=0;i<M;i++) {
+                let left = i, right = i+1;
+                while(left>=0 && M) {
+                    if(N[left] !== N[right]) {
+                        break;
+                    } else {
+                        if(right-left+1>count) {
+                            str = A.substring(left, right+1);
+                            count = right-left+1;
+                        }
+                        left--;
+                        right++;
+                    }
+                }
+
+                let l1 = i, r1 = i;
+                while(l1>=0 && r1<M) {
+                    if(N[l1] !== N[r1]) {
+                        break;
+                    } else {
+                        if(r1-l1+1>count) {
+                            str = A.substring(l1, r1+1);
+                            count = r1-l1+1;
+                        }
+                        l1--;
+                        r1++;
+                    }
+                }
+            }
+            return str;
+        }
+    };
+
+Ques-5 --> (String operations)
+
+# Problem Description - 
+    Akash likes playing with strings. One day he thought of applying following operations on the string in the given order:
+    Concatenate the string with itself.
+    Delete all the uppercase letters.
+    Replace each vowel with '#'.
+    You are given a string A of size N consisting of lowercase and uppercase alphabets. Return the resultant string after applying the above operations.
+    NOTE: 'a' , 'e' , 'i' , 'o' , 'u' are defined as vowels.
+
+# Problem Constraints - 
+    1<=N<=100000
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //return a strings
+        solve : function(A){
+            //let B = A.split("");
+            let result = "";
+
+            for(let i=0;i<A.length;i++) {
+                if(A.charCodeAt(i)<65 || A.charCodeAt(i)> 90 ) {
+                let C = A.charAt(i);
+                result += (C=='a' || C=='e'||C=='i'||C=='o'||C=='u') ? '#' : A.charAt(i);
+                } 
+            }
+            return result + result;
+        }
+    };
+
+Ques-6 --> (Longest Common Prefix)
+
+# Problem Description - 
+    Given the array of strings A, you need to find the longest string S, which is the prefix of ALL the strings in the array.
+    The longest common prefix for a pair of strings S1 and S2 is the longest string S which is the prefix of both S1 and S2.
+    Example: the longest common prefix of "abcdefgh" and "abcefgh" is "abc".
+
+$ Problem Constraints - 
+    0 <= sum of length of all strings <= 1000000
+
+# Solution - 
+    module.exports = { 
+    //param A : array of strings
+    //return a strings
+        longestCommonPrefix : function(A){
+            let N = A.length;
+            let j=0, result = "", tempChar = "";
+
+            if(N==1) result = A[0];
+            let minLenStr = A.reduce((a, b) => {
+                return a.length <= b.length ? a.length: b.length
+            });
+
+            let minSizeStr = A.find(item => item.length == minLenStr);
+            
+            for(let i=0;i<minLenStr;i++) {
+            tempChar = minSizeStr.charAt(i);
+
+                for(j=0;j<N;j++) {
+                    if(tempChar !== A[j].charAt(i)) {
+                        break;
+                    }
+                }
+                if(j === N) {
+                    j=0;
+                    result += tempChar;
+                } else {
+                    break;
+                }
+            }
+            return result;
+        }
+    };
+
+Ques-7 --> (Isalnum())
+
+# Problem Description - 
+    You are given a function isalpha() consisting of a character array A.
+    Return 1 if all the characters of a character array are alphanumeric (a-z, A-Z, and 0-9) else, return 0.
+
+# Problem Constraints - 
+    1 <= |A| <= 105
+
+# Solution - 
+    module.exports = { 
+    //param A : array of characters
+    //return an integer
+        solve : function(A){
+            let count = 0;
+            for(let i=0;i<A.length;i++) {
+                let charCode = A[i].charCodeAt();
+
+                if( charCode>= 65 && charCode<=90 || 
+                    charCode>= 97 && charCode<=122 ||
+                    charCode>=48 && charCode<=58) {
+                count = 1; 
+                }  else {
+                    return 0;
+                }
+            }
+            return count;
+        
+        }
+    };
+
+Ques-8 --> (Count Occurrences)
+
+# Problem Description - 
+    Find the number of occurrences of bob in string A consisting of lowercase English alphabets.
+
+# Problem Constraints - 
+    1 <= |A| <= 1000
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //return an integer
+        solve : function(A){
+            let N = A.length;
+            let count = 0;
+            for(let i=0;i<N;i++) {
+                if(A.substr(i, 3) == 'bob') {
+                    count++;
+                }
+            }
+            return count;
+        }
+    };
+
+Ques-9 --> (Amazing Subarrays)
+
+    You are given a string S, and you have to find all the amazing substrings of S.
+    An amazing Substring is one that starts with a vowel (a, e, i, o, u, A, E, I, O, U).
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //return an integer
+        solve : function(A){
+            // Approach - 1 
+            let vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+            let N = A.length;
+            let count = 0, sum = 0;
+            let mod = 10003;
+            
+
+            for(let i=N-1;i>=0;i--) {
+                count++;
+                if(vowels.includes(A[i])) {
+                    sum = (sum + count)% mod;
+                }
+            }
+            return sum;
+
+            // Approach - 2
+            let mp = new Map();
+            let N = A.length;
+            let ans = 0, mod = 10003;
+
+            mp.set('a',1);  
+            mp.set('e',1);  
+            mp.set('i',1);  
+            mp.set('o',1); 
+            mp.set('u',1);
+            mp.set('A',1);  
+            mp.set('E',1);  
+            mp.set('I',1);  
+            mp.set('O',1);
+            mp.set('U',1);
+
+            for(let i=0;i<N;i++) {
+                if(mp.has(A[i])){
+                    ans = (ans + (N-i)) % mod;
+                }
+            }
+            return ans;
+        }
+    };
