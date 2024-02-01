@@ -1,0 +1,324 @@
+Ques-1 --> (Frequency of element query)
+
+# Problem Description - 
+    Given an array A. You have some integers given in the array B.
+    For the i-th number, find the frequency of B[i] in the array A and return a list containing all the frequencies.
+
+# Problem Constraints -
+    1 <= |A| <= 105
+    1 <= |B| <= 105
+    1 <= A[i] <= 105
+    1 <= B[i] <= 105
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //return a array of integers
+        solve : function(A, B){
+            const inputMap = new Map();
+            let freqArray = [];
+
+            for(let i=0;i<A.length;i++) {
+                if(inputMap.has(A[i])) {
+                    let currentValue = inputMap.get(A[i]);
+                    inputMap.set(A[i], currentValue+1);
+                } else {
+                    inputMap.set(A[i], 1);
+                }
+            }
+            for(let j=0;j<B.length;j++) {
+                if(inputMap.has(B[j])) {
+                    let freqValue = inputMap.get(B[j]);
+                    freqArray.push(freqValue);
+                } else {
+                    freqArray.push(0);
+                }
+            }
+            return freqArray;
+        }
+    };
+
+Ques-2 --> (Sub-array with 0 sum)
+
+# Problem Description -
+    Given an array of integers A, find and return whether the given array contains a non-empty subarray with a sum equal to 0.
+    If the given array contains a sub-array with sum zero return 1, else return 0.
+
+# Problem Constraints -
+    1 <= |A| <= 100000
+    -10^9 <= A[i] <= 10^9
+
+# Solution -
+    // Do not write code to include libraries, main() function or accept any input from the console.
+    // Initialization code is already written and hidden from you. Do not write code for it again.
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+    solve : function(A){
+        // Just write your code below to complete the function. Required input is available to you as the function arguments.
+        // Do not print the result or any output. Just return the result via this function.
+        // Approach - 1
+        let map = new Map();
+        let count = 0, maxCount = 0;
+        for(let i=0;i<A.length;i++) {
+            count += A[i];
+            if(count == 0) {
+                maxCount = maxCount + i;
+            }
+            else if(map.has(count)) maxCount = Math.max(count, i-map.get(count));
+            else map.set(count, i);
+        }
+        return maxCount==0?0:1;
+
+        // Approach - 2
+        let pfArray = [];
+        pfArray[0] = A[0];
+        let N = A.length;
+        const arraySet = new Set([A[0]]);
+        let result = pfArray[0] == 0 ? 1 : 0;
+
+        for(let i=1;i<N;i++) {
+            pfArray[i] = pfArray[i-1] + A[i];
+            arraySet.add(pfArray[i]);
+            if(pfArray[i] == 0) {
+                result = 1;
+            }
+        }
+        return arraySet.size < N ? 1 : result;
+    }
+    };
+
+Ques-3 --> (Count distinct elements)
+
+# Problem Description -
+    Given an array A of N integers, return the number of unique elements in the array.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            let set = new Set();
+            let N = A.length;
+            let count = 0;
+
+            for(let i=0;i<N;i++) {
+                set.add(A[i]);
+            }
+            count = set.size;
+            return count;
+        }
+    };
+
+Ques-4 --> (First Repeating element)
+
+# Problem Description -
+    Given an integer array A of size N, find the first repeating element in it.
+    We need to find the element that occurs more than once and whose index of the first occurrence is the smallest.
+    If there is no repeating element, return -1.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            // Approach - 1(Brute Force)
+            let result  = [];
+            for(let i=0;i<A.length;i++) {
+                for(let j=i+1;j<A.length;j++) {
+                    if(A[i] == A[j]) {
+                        result.push(A[j]);
+                    }
+                }
+            }
+            return result[0]>0?result[0]:-1;
+
+            // Approach - 2
+            const firstRepeatingArraySet = new Set();
+            const N = A.length;
+            let minIndex = -1;
+
+            for(let i=N-1;i>=0;i--) {
+                if(firstRepeatingArraySet.has(A[i])) {
+                    minIndex = i;
+                } else {
+                    firstRepeatingArraySet.add(A[i]);
+                }
+            }
+            if(minIndex != -1) {
+                return A[minIndex]
+            } else {
+                return -1;
+            }
+        }
+    };
+
+Ques-5 --> (Time Complexity - 6 - II)
+
+What is the time complexity of the following:
+    HashSet < Integer > s = new HashSet < Integer > ();
+    for (int j = 0; j < n; j++)
+    s.add(j);
+
+# Solution - O(n)
+
+Ques-6 --> (Count Subarray Zero Sum)
+
+# Problem Description -
+    Given an array A of N integers.
+    Find the count of the subarrays in the array which sums to zero. Since the answer can be very large, return the remainder on dividing the result with 109+7
+
+# Problem Constraints -
+    1 <= N <= 105
+    -109 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            let N = A.length;
+            // let prefixSum = [];
+            // prefixSum[0] = A[0];
+            let count = 0, sum=0, mod = 1000000007;
+            let mapSum = new Map();
+            
+            // for(let i=1;i<N;i++) {
+            //     prefixSum[i] = prefixSum[i-1] + A[i];
+            // }
+            for(let i=0;i<N;i++) {
+                sum += A[i];
+                if(sum == 0) {
+                    count++;
+                }
+                if(mapSum.has(sum)) {
+                    count +=  mapSum.get(sum);
+                    mapSum.set(sum, mapSum.get(sum) + 1);
+                } else {
+                    mapSum.set(sum, 1);
+                }
+                count %= mod;
+            }
+            return count;
+        }
+    };
+
+Ques-7 --> (Common Elements)
+
+# Problem Description -
+    Given two integer arrays, A and B of size N and M, respectively. Your task is to find all the common elements in both the array.
+    NOTE:
+    Each element in the result should appear as many times as it appears in both arrays.
+    The result can be in any order.
+
+# Problem Constraints -
+    1 <= N, M <= 105
+    1 <= A[i] <= 109
+
+# Solution -
+    // Do not write code to include libraries, main() function or accept any input from the console.
+    // Initialization code is already written and hidden from you. Do not write code for it again.
+    module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //return a array of integers
+        solve : function(A, B){
+            // Just write your code below to complete the function. Required input is available to you as the function arguments.
+            // Do not print the result or any output. Just return the result via this function.
+            let N = A.length;
+            let M = B.length;
+            let result = [];
+
+            let arrayMapA = new Map();
+            let arrayMapB = new Map();
+
+            for(let i=0;i<N;i++) {
+                if(arrayMapA.has(A[i])) {
+                    arrayMapA.set(A[i], arrayMapA.get(A[i])+1);
+                } else {
+                    arrayMapA.set(A[i], 1);
+                }
+            }
+            for(let i=0;i<M;i++) {
+                if(arrayMapB.has(B[i])) {
+                    arrayMapB.set(B[i], arrayMapB.get(B[i])+1);
+                } else {
+                    arrayMapB.set(B[i], 1);
+                }
+            }
+
+            for(let [item, freq] of arrayMapA.entries()){
+                if(arrayMapB.has(item)) {
+                    let count = Math.min(freq, arrayMapB.get(item));
+                    for(let i=0;i<count;i++) {
+                        result.push(item)
+                    }
+                }
+            }
+            // for(let j=0;j<M;j++) {
+            //   if(B[j] == arrayMap.get(j)) {
+            //       count.push(B[j]);
+            //   }
+            // }
+            return result;       
+        }
+    };
+
+Ques-8 --> (Count unique elements)
+
+# Problem Description -
+    You are given an array A of N integers. Return the count of elements with frequncy 1 in the given array.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            // Approach - 1
+            const nonRepeatingArraySet = new Set();
+            const N = A.length;
+            let count = 0;
+
+            for(let i=N-1;i>=0;i--) {
+                if(nonRepeatingArraySet.has(A[i])) {
+                    count--;
+                } else {
+                    nonRepeatingArraySet.add(A[i]);
+                    count++; 
+                }
+            }
+            return count;
+
+            // Approach - 2
+            const nonRepeatingArraySet = new Map();
+            const N = A.length;
+            let count = 0;
+
+            for(let i=0;i<N;i++) {
+                if(nonRepeatingArraySet.has(A[i])) {
+                    nonRepeatingArraySet.set(A[i], nonRepeatingArraySet.get(A[i])+1);
+                } else {
+                    nonRepeatingArraySet.set(A[i], 1);
+                }
+            }
+            for(let i of nonRepeatingArraySet.entries()) {
+                if(i[1] == 1) {
+                    count++;
+                }
+            }
+            return Number(count);
+        }
+    };
