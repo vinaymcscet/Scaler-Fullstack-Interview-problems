@@ -1,0 +1,126 @@
+Ques-1 --> (Little Ponny and Palindromes!)
+
+# Problem Description - 
+    Given a string A  consisting only of lowercase characters.
+    You can swap any two characters of the string A  any number of times, you have to check whether it is possible to convert the string A  to a palindromic string.
+
+# Problem Constraints -
+    1 <= |A| <= 10
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //return an integer
+        solve : function(A){
+        
+        let B = A.split("");
+        let N = B.length;
+        const arrayMap = new Map();
+        let count = 0;
+        
+        for(let i=0;i<N;i++) {
+            if(arrayMap.has(A[i])) {
+                arrayMap.set(A[i], arrayMap.get(A[i])+1);
+            } else {
+                arrayMap.set(A[i], 1);
+            }
+        }
+        for(let item of arrayMap.entries()) {
+            if(item[1]%2 == 1) {
+                count += 1;
+            } 
+        }
+        if(count<=1) return 1;
+        else return 0;
+        }
+    };
+
+Ques-2 --> (Range divisibility)
+
+# Problem Description - 
+    Samantha is a teacher who is teaching a group of students about divisibility by 7. To make the lesson more interesting, she gives them an array.
+    A  of size  N  and asks them Q  queries given by B. In each query, she gives them a range from L to R given by B[i][0] and B[i][1] 
+     and asks them to find the count of numbers divisible by 7 in subarray A[L], A[L+1], ... A[R]. Since some students are struggling to solve the problem, Samantha asks for your help to come up with a solution.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= Q <= 105
+    1 <= A[i] <= 109
+    0 <= B[i][0], B[i][1] < N
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : array of array of integers
+    //return a array of integers
+        solve : function(A, B){
+            let prefixSum = [];
+            prefixSum[0] = A[0]%7 == 0? 1: 0;
+            let N = A.length;
+            let resultArray = [];
+            
+            for(let i=1;i<N;i++) {
+                if(A[i]%7 == 0) {
+                prefixSum[i] = prefixSum[i-1] + 1;   
+                } else {
+                    prefixSum[i] = prefixSum[i-1];
+                }
+            }
+            
+            let M = B.length;
+            for(let j=0;j<M;j++) {
+                let sum=0;
+                let L = B[j][0];
+                let R = B[j][1];
+                
+                if(L == 0) {
+                    sum = prefixSum[R];
+                } else {
+                    sum = prefixSum[R] - prefixSum[L-1] ;
+                }
+                resultArray.push(sum);
+            }
+            return resultArray;
+        }
+    };
+
+
+Ques-3 --> (Subarray with given sum and length)
+
+# Problem Description -
+    Given an array A of length N. Also given are integers B and C.
+    Return 1 if there exists a subarray with length B having sum C and 0 otherwise
+
+# Problem Constraints
+    1 <= N <= 105
+    1 <= A[i] <= 104
+    1 <= B <= N
+    1 <= C <= 109
+
+# Solution - 
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //param C : integer
+    //return an integer
+        solve : function(A, B, C) {
+            let answer = 0, i=0, j=B-1, sum=0;
+
+            for(let k=i;k<=j;k++) {
+                sum +=Number(A[k]);
+            }
+            i++;
+            j++;
+
+            while(j<A.length) {
+                if(B<=1) sum = A[i];
+                else sum += Number(A[j] - A[i-1]);
+
+                if(sum==C) answer = 1;
+                i++;
+                j++;
+            }
+            if(sum==C) answer = 1;
+            return answer;
+        }
+    };

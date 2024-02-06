@@ -1,0 +1,246 @@
+Ques-1 --> (Max Sum Contiguous Subarray)
+
+# Problem Description -
+    Find the maximum sum of contiguous non-empty subarray within an array A of length N.
+
+# Problem Constraints -
+    1 <= N <= 1e6
+    -1000 <= A[i] <= 1000
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        maxSubArray : function(A){
+            // Brute Force idea - Not work for bigger Array(hard test case failed)
+            let ans = -Infinity;
+            for(let  i=0;i<A.length;i++) {
+                let sum = 0;
+                for(let j=i;j<A.length;j++) {
+                    sum += A[j];
+                    ans = Math.max(ans, sum);
+                }
+            }
+            return ans;
+
+            // Kandane's Alogoritm 
+            let currentSum = 0, N = A.length, maxSum = -Infinity;
+            for(let i=0;i<N;i++) {
+                if(currentSum > 0) {
+                    currentSum += A[i];
+                } else {
+                    currentSum = A[i];
+                }
+                if(currentSum > maxSum) {
+                    maxSum = currentSum;
+                } else if(currentSum < 0) {
+                    currentSum = 0;
+                }
+            }
+            return maxSum;
+        }
+    };
+
+Ques-2 --> (Continuous Sum Query)
+
+# Problem Description -
+    There are A beggars sitting in a row outside a temple. Each beggar initially has an empty pot. When the devotees come to the temple, they donate some amount of coins to these beggars. Each devotee gives a fixed amount of coin(according to their faith and ability) to some K beggars sitting next to each other.
+    Given the amount P donated by each devotee to the beggars ranging from L to R index, where 1 <= L <= R <= A, find out the final amount of money in each beggar's pot at the end of the day, provided they don't fill their pots by any other means.
+    For ith devotee B[i][0] = L, B[i][1] = R, B[i][2] = P, given by the 2D array B.
+
+# Problem Constraints -
+    1 <= A <= 2 * 105
+    1 <= L <= R <= A
+    1 <= P <= 103
+    0 <= len(B) <= 105
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //param B : array of array of integers
+    //return a array of integers
+        solve : function(A, B){
+            let N = B.length;
+            //let arr = [];
+
+            let arr = Array(A).fill(0);
+
+            for(let i=0;i<N;i++) {
+                let startIndex = B[i][0];
+                let endIndex = B[i][1];
+                let value = B[i][2];
+
+                arr[startIndex-1] += value;
+                if(endIndex < A) {
+                    arr[endIndex] -= value;
+                } 
+            }
+            for(let j=1;j<A;j++) {
+                arr[j] = arr[j-1] + arr[j];
+            }
+            return arr;
+        }
+    };
+
+Ques-3 --> (Rain Water Trapped)
+
+# Problem Description -
+    Given a vector A of non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+
+# Problem Constraints -
+    1 <= |A| <= 100000
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        trap : function(A){
+            let  N = A.length;
+            let i=0;
+            let j=N-1;
+            let ans=0;
+            let lMax = A[0];
+            let rMax = A[N-1];
+            let water = 0;
+
+            while(i<=j) {
+                if(lMax < rMax) {
+                    i++;
+                    water = lMax - A[i];
+                    lMax = Math.max(lMax, A[i]);
+                } else {
+                    j--;
+                    water = rMax - A[i];
+                    rMax = Math.max(rMax, A[i]);
+                }
+                if(water>0) {
+                    ans += water;
+                }
+            }
+            return ans;
+
+            // Optimized approach with TC - O(N), SC - O(N)
+            let N = A.length;
+            let pfLeft = [A[0]];
+            let pfRight = [];
+            pfRight[N-1] = A[N-1];
+            let ans = 0;
+
+            for(let i=1;i<N;i++) {
+                pfLeft[i] = Math.max(A[i], pfLeft[i-1]);
+            }
+
+            for(let j=N-2;j>=0;j--) {
+                pfRight[j] = Math.max(A[j], pfRight[j+1])
+            }
+
+            for(let k=1;k<N-1;k++) {
+                ans += Math.max(Math.min(pfLeft[k], pfRight[k]) - A[k], 0)
+            }
+            return ans;
+
+            // Optimized approach with TC - O(N), SC - O(1)
+            let N = A.length;
+            let maxLeft = A[0];
+            let maxRight = A[N-1];
+            let answer = 0;
+            let left = 0, right = N-1;
+
+            while(left <= right) {
+                if(A[left] <= A[right]){
+                    if(A[left] >= maxLeft) maxLeft = A[left];
+                    else answer += maxLeft - A[left];
+                    left++;
+                } else {
+                    if(A[right] >= maxRight) maxRight = A[right];
+                    else answer += maxRight - A[right];
+                    right--;
+                }
+            }
+            return answer;
+        }
+    };
+
+Ques-4 --> (Add One To Number)
+
+# Problem Description -
+    Given a non-negative number represented as an array of digits, add 1 to the number ( increment the number represented by the digits ).
+    The digits are stored such that the most significant digit is at the head of the list.
+    NOTE: Certain things are intentionally left unclear in this question which you should practice asking the interviewer. For example: for this problem, the following are some good questions to ask :
+        Q: Can the input have 0's before the most significant digit. Or, in other words, is 0 1 2 3 a valid input?
+        A: For the purpose of this question, YES
+        Q: Can the output have 0's before the most significant digit? Or, in other words, is 0 1 2 4 a valid output?
+        A: For the purpose of this question, NO. Even if the input has zeroes before the most significant digit.
+
+# Problem Constraints - 
+    1 <= size of the array <= 1000000
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return a array of integers
+        plusOne : function(A){
+            // Approach - 1 (hard test case failed)
+            let B = A.join("");
+            let ans = Number(B)+1;
+            return ans.toString().split("");
+
+            // Approach - 2
+            for(let i=A.length-1;i>=0;i--) {
+                let value = A[i];
+                value += 1;
+
+                if(value === 10) {
+                    A[i] = 0;
+                    if(i === 0) {
+                        A.unshift(1);
+                    }
+                } else {
+                    A[i] = value;
+                    while(A[0] == 0) {
+                        A.shift();
+                    }
+                    return A;
+                }
+            }
+            return A;
+
+            // Approach - 3
+            let carry = 1;
+            let N = A.length;
+
+            // Start from the end of the array and move towards the beginning.
+            for (let i = N - 1; i >= 0; i--) {
+                let sum = A[i] + carry;
+                A[i] = sum % 10;  // Get the new digit at this position.
+                carry = Math.floor(sum / 10);  // Update the carry.
+            }
+
+            // If there is still a carry after processing the entire array, prepend 1 to the array.
+            if (carry) {
+                A.unshift(1);
+            }
+
+            // Remove leading zeros, if any.
+            while (A[0] === 0) {
+                A.shift();
+            }
+
+            return A;
+
+        }
+    };
+
+Ques-5 --> (Flip)
+
+# Problem Description -
+    You are given a binary string A(i.e., with characters 0 and 1) consisting of characters A1, A2, ..., AN. In a single operation, you can choose two indices, L and R, such that 1 ≤ L ≤ R ≤ N and flip the characters AL, AL+1, ..., AR. By flipping, we mean changing character 0 to 1 and vice-versa.
+    Your aim is to perform ATMOST one operation such that in the final string number of 1s is maximized.
+    If you don't want to perform the operation, return an empty array. Else, return an array consisting of two elements denoting L and R. If there are multiple solutions, return the lexicographically smallest pair of L and R.
+    NOTE: Pair (a, b) is lexicographically smaller than pair (c, d) if a < c or, if a == c and b < d.
+
+# Problem Constraints -
+    1 <= size of string <= 100000
+
+# Solution -
+    

@@ -1,0 +1,94 @@
+Ques-1 --> (Binary Addition)
+
+Given two binary numbers A = 1001011 and B = 11001001. What is their sum?
+
+# Solution - 100010100
+
+Ques-2 --> (Binary to Decimal - III)
+
+Which of the following is the correct conversion of 10101101(base 2) to decimal?
+
+# Solution - 173
+
+Ques-3 --> (Decimal to Binary - MCQ)
+
+Which of the following is a correct conversion of 76 (base 10) to binary?
+
+# Solution - 1001100
+
+Ques-4 --> (Bit Operations)
+
+Given a = 1010011 and b = 1001001, their OR, XOR and AND are
+
+# Solution - OR = 1011011 , XOR = 0011010 , AND = 1000001
+
+Ques-5 --> (Bit Operations - 1)
+
+If a&1 = 1, then a is?
+
+# Solution - odd
+
+Ques-6 --> (Bit Operations - 5)
+
+What are the values of a&a, a|a, a^a?
+
+# Solution - a&a = a , a|a = a , a^a = 0
+
+Ques-7 --> (Add Binary Strings)
+
+# Problem Description - 
+    Given two binary strings A and B. Return their sum (also a binary string).
+
+# Problem Constraints - 
+    1 <= length of A <= 105
+    1 <= length of B <= 105
+    A and B are binary strings
+
+# Solution - 
+    module.exports = { 
+    //param A : string
+    //param B : string
+    //return a strings
+        addBinary : function(A, B){
+            
+            let zerothString = "";
+            let i=A.length, j=B.length;
+            let diff = Math.abs(A.length - B.length);
+
+            for(let k=0;k<diff;k++) {
+                zerothString += '0';
+            }
+            
+            if(i<j) {
+            A = zerothString + A;
+            } else {
+                B = zerothString + B;
+            }
+            // result = parseInt(A, 2) + parseInt(B, 2);
+            // return result.toString(2);
+            let result = "";
+            let carry = 0;
+            for(let M=A.length-1;M>=0;M--) {
+                let sum = (+A[M]) + (+B[M]) + carry;
+                let binSum = sum % 2;
+                result += binSum;
+                carry = Math.floor(sum/2);
+            }
+            if(carry) {
+                result += carry;
+            }
+            return result.split("").reverse().join("");
+        }
+    };
+
+Ques-8 --> (Bit Operations - 2)
+
+Given a=10, what will be the 0-th bit in a|1 ?
+
+# Solution - 1
+
+Ques-9 --> (Bit Operations - 3)
+
+What happens to the 0-th bit in a when we perform a = a^1 ?
+
+# Solution - It gets toggled
