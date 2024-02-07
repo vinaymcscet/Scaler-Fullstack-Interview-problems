@@ -41,10 +41,10 @@ Ques-2 ->
     //return an integer
         solve : function(A, B){
             for(let i=0;i<=B;i++) {
-                if((A & (1 << B)) == 0) {
+                if((A & (1 << B)) == 0) { // 0 means the bit is already unset
                     return A;
                 } else {
-                    A = A ^ (1 << B)
+                    A = A ^ (1 << B) // toggle the bit
                 }
             }
             return A;
@@ -207,6 +207,15 @@ module.exports = {
  //param B : integer
  //return a long integers
 	solve : function(A, B){
+        // Approach - 1
+        for(let i=0;i<B;i++) {
+           if(( BigInt(A) | (BigInt(1) << BigInt(i))) == A) {
+                A = BigInt(A) ^ (BigInt(1) << BigInt(i));
+            }    
+        }
+        return Number(A);
+
+        // Approach - 2
         return A>>BigInt(B)<<BigInt(B);
 	}
 };
@@ -214,13 +223,9 @@ module.exports = {
 Ques - 8 ->
 # Problem Description
     Alex has a cat named Boomer. He decides to put his cat to the test for eternity.
-
     He starts on day 1 with one stash of food unit, every next day, the stash doubles.
-
     If Boomer is well behaved during a particular day, only then she receives food worth equal to the stash produced on that day.
-
     Boomer receives a net worth of A units of food. What is the number of days she received the stash?
-
 
 # Problem Constraints
     1 <= A <= 231-1
@@ -247,11 +252,8 @@ Ques - 8 ->
 Ques - 9 ->
 # Problem Description
     Given an integer A, find and return the Ath magic number.
-
     A magic number is defined as a number that can be expressed as a power of 5 or a sum of unique powers of 5.
-
     First few magic numbers are 5, 25, 30(5 + 25), 125, 130(125 + 5), ….
-
 
 # Problem Constraints
     1 <= A <= 5000
