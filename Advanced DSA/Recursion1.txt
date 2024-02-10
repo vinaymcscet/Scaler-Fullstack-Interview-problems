@@ -1,0 +1,190 @@
+Ques-1 -> (Find Fibonacci - II)
+
+# Problem Description -
+    The Fibonacci numbers are the numbers in the following integer sequence.
+    0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ……..
+    In mathematical terms, the sequence Fn of Fibonacci numbers is defined by the recurrence relation:
+    Fn = Fn-1 + Fn-2
+    Given a number A, find and return the Ath Fibonacci Number using recursion.
+    Given that F0 = 0 and F1 = 1.
+
+    
+# Problem Constraints -
+    0 <= A <= 20
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //return an integer
+        findAthFibonacci : function(A){
+            if(A == 0 || A == 1) return A;
+
+            return this.findAthFibonacci(A-1) + this.findAthFibonacci(A-2);
+        }
+    };
+
+
+Ques-2 -> (Find Factorial!)
+
+# Problem Description -
+    Write a program to find the factorial of the given number A using recursion.
+    Note: The factorial of a number N is defined as the product of the numbers from 1 to N.
+
+# Problem Constraints -
+    0 <= A <= 12
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //return an integer
+        solve : function(A){
+            // Approach - 1
+            if(A==0) return 1;
+            return this.solve(A-1) * A;
+
+            // Approach - 2
+            function fact(N) {
+                if(N==0) return 1;
+                return fact(N-1) * N;
+            }
+            return fact(A);
+        }
+    };
+
+Ques-3 -> (Check Palindrome)
+
+# Problem Description -
+    Write a recursive function that checks whether string A is a palindrome or Not.
+    Return 1 if the string A is a palindrome, else return 0.
+    Note: A palindrome is a string that's the same when read forward and backward.
+
+# Problem Constraints -
+    1 <= |A| <= 50000
+    String A consists only of lowercase letters.
+
+# Solution -
+    module.exports = { 
+    //param A : string
+    //return an integer
+        solve : function(A){
+            let N = A.length;
+            if(A.length == 1) return 1;
+            function checkPalindrome(item, start, end) {
+                if(start >= end) return 1;
+                if(A[start]==A[end]) return checkPalindrome(item, start+1, end-1);
+                return 0;
+            }
+            return checkPalindrome(A, 0, N-1);
+        }
+    };
+
+Ques-4 -> (Print 1 to A function)
+
+# Problem Description -
+    You are given an integer A, print 1 to A using using recursion.
+    Note :- After printing all the numbers from 1 to A, print a new line.
+
+# Problem Constraints - 
+    1 <= A <= 104
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+        solve : function(A){
+            function printNum(item) {
+                if(item == 0) return;
+                printNum(item - 1);
+                process.stdout.write(item.toString() + " ");
+            }
+            printNum(A);
+            console.log();
+        }
+    };
+
+Ques-5 -> (Simple Recursion)
+
+What will be the output of following program ?
+    public class solve {
+        static int bar(int x, int y){
+            if (y == 0)   return 0;
+            return (x + bar(x, y-1));
+        }
+
+        static int foo(int x, int y){
+            if (y == 0) return 1;
+            return bar(x, foo(x, y-1));
+        }
+        public static void main (String[] args)
+        {
+            System.out.println(foo(3,5));
+        }
+    }
+
+# Solution - 243
+
+Ques-6 -> (Sum of Digits!)
+
+# Problem Description -
+    Given a number A, we need to find the sum of its digits using recursion.
+
+# Problem Constraints -
+    1 <= A <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //return an integer
+        solve : function(A){
+            // Approach - 1
+            let result = 0;
+            if(A<0) A = -A;
+            while(A>0) {
+                result += A%10;
+                A = Math.floor(A/10);
+            }
+            return result;
+
+            // Approach - 2
+            function sumOfDigit(num) {
+                if(num == 0) return 0;
+                if(num < 0) num = -num;
+
+                let result = num%10;
+                return result + sumOfDigit(Math.floor(num/10));
+            }
+            return sumOfDigit(A);
+        }
+    };
+
+Ques-7 -> (Print A to 1 function)
+
+# Problem Description -
+    You are given an integer A, print A to 1 using using recursion.
+    Note :- After printing all the numbers from A to 1, print a new line.
+
+# Problem Constraints -
+    1 <= A <= 104
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+        solve : function(A){
+            // Approach - 1
+            function printNum(item) {
+                if(item == 0) return;
+                for(let i=item;i>0;i--) {
+                    process.stdout.write(i.toString() + " ");
+                }
+            }
+            printNum(A);
+            console.log();
+            // Approach - 2
+            function printNum(item) {
+                if(item == 0) return;
+                process.stdout.write(item.toString() + " ");
+                printNum(item-1);
+            }
+            printNum(A);
+            console.log();
+        }
+    };
