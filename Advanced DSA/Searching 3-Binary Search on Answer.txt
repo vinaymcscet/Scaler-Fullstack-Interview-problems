@@ -1,0 +1,213 @@
+Ques-1 -> (Painter's Partition Problem)
+
+# Problem Description -
+    Given 2 integers A and B and an array of integers C of size N. Element C[i] represents the length of ith board.
+    You have to paint all N boards [C0, C1, C2, C3 … CN-1]. There are A painters available and each of them takes B units of time to paint 1 unit of the board.
+    Calculate and return the minimum time required to paint all boards under the constraints that any painter will only paint contiguous sections of the board.
+    NOTE:
+    1. 2 painters cannot share a board to paint. That is to say, a board cannot be painted partially by one painter, and partially by another.
+    2. A painter will only paint contiguous boards. This means a configuration where painter 1 paints boards 1 and 3 but not 2 is invalid.
+    Return the ans % 10000003.
+
+# Problem Constraints -
+    1 <= A <= 1000
+    1 <= B <= 106
+    1 <= N <= 105
+    1 <= C[i] <= 106
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //param B : integer
+    //param C : array of integers
+    //return an integer
+        paint : function(A, B, C){
+            const check = (mid, C, A) => {
+                let start = 0;
+                let count = 1;
+
+                for(let i=0;i<C.length;i++) {
+                    start += C[i];
+                    if(start > mid) {
+                        count++;
+                        start = C[i];
+                        if(count > A) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            };
+            let low = Math.max.apply(null,C);
+            let high = C.reduce((a, b) => a+b);
+            let ans = 0, mod = 10000003;
+
+            while(low <= high) {
+                mid = Math.floor(low + (high-low)/2);
+
+                if(check(mid, C, A)) {
+                    ans = mid*B;
+                    high = mid - 1;
+                } 
+                else low = mid + 1;
+            }
+            return ans % mod;
+        }
+    };
+
+Ques-2 -> (Aggressive cows)
+
+# Problem Description -
+    Farmer John has built a new long barn with N stalls. Given an array of integers A of size N where each element of the array represents the location of the stall and an integer B which represents the number of cows.
+    His cows don't like this barn layout and become aggressive towards each other once put into a stall. To prevent the cows from hurting each other, John wants to assign the cows to the stalls, such that the minimum distance between any two of them is as large as possible. What is the largest minimum distance?
+
+# Problem Constraints -
+    2 <= N <= 100000
+    0 <= A[i] <= 109
+    2 <= B <= N
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let N = A.length, differArr = [];
+            A.sort((a, b) => a-b);
+            for(let i=0;i<N-1;i++) {
+                differArr.push(A[i+1] - A[i]);
+            }
+            
+            const check = (mid, A, B) => {
+                let last_placed = A[0];
+                let count = 1;
+                for(let i=1;i<N;i++) {
+                    if(A[i] - last_placed >= mid) {
+                        count++;
+                        last_placed = A[i];
+                        if(count == B) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
+            let low = Math.min(...differArr);
+            let high = A[N-1] - A[0];
+            let mid = 0, ans = 0;
+
+            while(low <= high) {
+                mid = Math.floor(low + (high-low)/2);
+                if(check(mid, A, B)) {
+                    ans = mid;
+                    low = mid + 1;
+                }
+                else high = mid - 1;
+            }
+            return ans;
+        }
+    };
+
+Ques-3 -> (Allocate Books)
+
+# Problem Description -
+    Given an array of integers A of size N and an integer B.
+    The College library has N books. The ith book has A[i] number of pages.
+    You have to allocate books to B number of students so that the maximum number of pages allocated to a student is minimum.
+    A book will be allocated to exactly one student.
+    Each student has to be allocated at least one book.
+    Allotment should be in contiguous order, for example: A student cannot be allocated book 1 and book 3, skipping book 2.
+    Calculate and return that minimum possible number.
+    NOTE: Return -1 if a valid assignment is not possible.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i], B <= 105
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        books : function(A, B){
+            let N = A.length;
+            if(B > N) return -1;
+        
+
+            const check = (mid, A, B) => {
+                let count = 1, sum = 0;
+                for(let i=0;i<N;i++) {
+                    sum += A[i];
+                    if(sum > mid) {
+                        count++;
+                        sum = A[i]
+                        if(count > B) return false;
+                    }
+                } 
+                return true;
+            };
+
+            let low = Math.max(...A); // The minimum possible pages is the max pages of a single book.
+            let high = A.reduce((a, b) => a+b, 0);  // The maximum possible pages is the sum of all books.
+            let mid = 0, ans = 0;
+
+            while(low <= high) {
+                mid = Math.floor(low + (high-low)/2);
+
+                if(check(mid, A, B)) {
+                    ans = mid;
+                    high = mid - 1;
+                } 
+                else low = mid + 1;
+            }
+            return ans;
+        }
+    };
+
+Ques-4 -> (Special Integer)
+
+# Problem Description -
+    Given an array of integers A and an integer B, find and return the maximum value K such that there is no subarray in A of size K with the sum of elements greater than B.
+
+# Problem Constraints -
+    1 <= |A| <= 100000
+    1 <= A[i] <= 10^9
+    1 <= B <= 10^9
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let N = A.length, ans = 0;
+            //A.sort((a, b) => a-b);
+
+            const check = (mid, A, B) => {
+                let sum = 0;
+                for(let i=0;i<mid;i++) {
+                    sum += A[i];
+                }
+                if(sum > B) return false;
+                for(let i=mid;i<N;i++) {
+                    sum = sum - A[i-mid] + A[i];
+                    if(sum > B) return false;
+                }
+                return true;
+            };
+
+            let low = 1;
+            let high = N;
+            let mid = 0;
+            while(low <= high) {
+                mid = Math.floor(low + (high-low)/2);
+                if(check(mid, A, B)) {
+                    ans = mid;
+                    low = mid + 1;
+                }
+                else high = mid - 1;
+            }
+            return ans;
+        }
+    };

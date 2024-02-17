@@ -1,0 +1,116 @@
+Ques-1 -> (Subset)
+
+# Problem Description -
+    Given a set of distinct integers A, return all possible subsets.
+    NOTE:
+    Elements in a subset must be in non-descending order.
+    The solution set must not contain duplicate subsets.
+    Also, the subsets should be sorted in ascending ( lexicographic ) order.
+    The initial list is not necessarily sorted.
+
+# Problem Constraints -
+    1 <= |A| <= 16
+    INTMIN <= A[i] <= INTMAX
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return a array of array of integers
+        subsets : function(A){
+            A.sort((a, b) => a-b);
+            let currentSet = [];
+            let result = [];
+            let N = A.length;
+            result.push([]);
+
+            const subset = (A, currentSet, index, N) => {
+                if(index == N) return;
+                result.push([...currentSet, A[index]]);
+                subset(A, [...currentSet, A[index]],index+1, N);
+                subset(A, [...currentSet], index+1, N);
+            };
+            subset(A, currentSet, 0, N);
+            return result;
+        }
+    };
+
+Ques-2 -> (Kth Symbol - Hard)
+
+# Problem Description -
+    On the first row, we write a 0. Now in every subsequent row, we look at the previous row and replace each occurrence of 0 with 01, and each occurrence of 1 with 10.
+    Given row number A and index B, return the Bth indexed symbol in row A. (The values of B are 0-indexed.).
+
+# Problem Constraints -
+    1 <= A <= 10^5
+    0 <= B <= min(2A - 1 - 1 , 1018)
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //param B : long
+    //return an integer
+        solve : function(A, B){
+            const findKthPlace = (A, B) => {
+                if(A==0 || B==0) return 0;
+                if(B%BigInt(2) == 0) return findKthPlace(A-1, B/BigInt(2));
+                else return 1-findKthPlace(A-1, B/BigInt(2));
+            }
+            return findKthPlace(A, B);
+        }
+    };
+
+
+Ques-3 -> (Kth Symbol - Easy)
+
+# Problem Description -
+    On the first row, we write a 0. Now in every subsequent row, we look at the previous row and replace each occurrence of 0 with 01, and each occurrence of 1 with 10.
+    Given row number A and index B, return the Bth indexed symbol in row A. (The values of B are 0-indexed.).
+
+# Problem Constraints -
+    1 <= A <= 20
+    0 <= B < 2^A - 1
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            // Approach - 1
+            let result;
+            const findKthPlaceValueA = (A) => {
+            if(A == 1) return [0];
+            let arr = findKthPlaceValueA(A-1);
+            
+            let current_arr = [];
+
+            for(let i=0;i<arr.length;i++){
+                if(arr[i] == 0) {
+                    current_arr.push(0);
+                    current_arr.push(1);
+                } else {
+                    current_arr.push(1);
+                    current_arr.push(0);
+                }
+            }
+            return current_arr;
+            }
+            result = findKthPlaceValueA(A);
+            return  result[B];
+
+            // Approach - 2
+            const findKthPlaceValueA = (A, B) => {
+                if(A == 1) return 0;
+
+                const mid = Math.pow(2, A-2);
+                if(B < mid) {
+                    return findKthPlaceValueA(A-1, B);
+                } else {
+                    return 1 - findKthPlaceValueA(A-1, B-mid);
+                }
+            }
+            return findKthPlaceValueA(A, B);
+
+
+        }
+    };

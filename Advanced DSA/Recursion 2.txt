@@ -1,0 +1,181 @@
+Ques-1 -> (Tower of Hanoi)
+
+# Problem Description -
+    In the classic problem of the Towers of Hanoi, you have 3 towers numbered from 1 to 3 (left to right) and A disks numbered from 1 to A (top to bottom) of different sizes which can slide onto any tower.
+    The puzzle starts with disks sorted in ascending order of size from top to bottom (i.e., each disk sits on top of an even larger one).
+    You have the following constraints:
+
+    Only one disk can be moved at a time.
+    A disk is slid off the top of one tower onto another tower.
+    A disk cannot be placed on top of a smaller disk.
+    You have to find the solution to the Tower of Hanoi problem.
+    You have to return a 2D array of dimensions M x 3, where M is the minimum number of moves needed to solve the problem.
+    In each row, there should be 3 integers (disk, start, end), where:
+
+    disk - number of the disk being moved
+    start - number of the tower from which the disk is being moved
+    end - number of the tower to which the disk is being moved
+
+# Problem Constraints -
+    1 <= A <= 18
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //return a array of array of integers
+        towerOfHanoi : function(A){
+            const moves = [];
+            function TOHProblem(A, source, helper, destination) {
+                if(A==0) return;
+
+                TOHProblem(A-1, source, destination, helper);
+                moves.push([A, source, destination]);
+                TOHProblem(A-1, helper, source, destination);
+
+            }
+            TOHProblem(A,1,2,3);
+            return moves;
+        }
+    };
+
+Ques-2 -> (Generate all Parentheses II)
+
+# Problem Description -
+    Given an integer A pairs of parentheses, write a function to generate all combinations of well-formed parentheses of length 2*A.
+
+# Problem Constraints -
+    1 <= A <= 10
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //return a array of strings
+        generateParenthesis : function(A){
+            let str = "";
+            let open_brc = 0, close_brc = 0;
+            let store = [];
+            const solve = (str, A, open_brc, close_brc) => {
+                if(open_brc < A) {
+                    solve((str + "("), A, open_brc+1, close_brc);
+                }
+                if(close_brc < open_brc) {
+                    solve((str + ")"), A, open_brc, close_brc+1);
+                }
+                if(str.length == 2*A) {
+                    store.push(str);
+                }
+                return store;
+            }
+            return solve(str, A, open_brc, close_brc);
+        }
+    };
+
+Ques-3 -> (Kth Symbol - Easy)
+
+# Problem Description -
+    On the first row, we write a 0. Now in every subsequent row, we look at the previous row and replace each occurrence of 0 with 01, and each occurrence of 1 with 10.
+    Given row number A and index B, return the Bth indexed symbol in row A. (The values of B are 0-indexed.).
+
+# Problem Constraints -
+    1 <= A <= 20
+    0 <= B < 2^A - 1
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            // Approach - 1
+            let result;
+            const findKthPlaceValueA = (A) => {
+            if(A == 1) return [0];
+            let arr = findKthPlaceValueA(A-1);
+            
+            let current_arr = [];
+
+            for(let i=0;i<arr.length;i++){
+                if(arr[i] == 0) {
+                    current_arr.push(0);
+                    current_arr.push(1);
+                } else {
+                    current_arr.push(1);
+                    current_arr.push(0);
+                }
+            }
+            return current_arr;
+            }
+            result = findKthPlaceValueA(A);
+            return  result[B];
+
+            // Approach - 2
+            const findKthPlaceValueA = (A, B) => {
+                if(A == 1) return 0;
+
+                const mid = Math.pow(2, A-2);
+                if(B < mid) {
+                    return findKthPlaceValueA(A-1, B);
+                } else {
+                    return 1 - findKthPlaceValueA(A-1, B-mid);
+                }
+            }
+            return findKthPlaceValueA(A, B);
+
+
+        }
+    };
+
+Ques-4 -> (Is magic?)
+
+# Problem Description -
+    Given a number A, check if it is a magic number or not.
+    A number is said to be a magic number if the sum of its digits is calculated till a single digit recursively by adding the sum of the digits after every addition. If the single digit comes out to be 1, then the number is a magic number.
+
+# Problem Constraints -
+    1 <= A <= 10^9
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //return an integer
+        solve : function(A){
+            const checkMagicNumber = (A) => {
+                while(A>9) {
+                    let sum = 0;
+                    while(A>0) {
+                        sum += A % 10;
+                        A = Math.floor(A/10);
+                    }
+                    A = sum;
+                }
+                return A;
+            }
+            if(checkMagicNumber(A) == 1) return 1;
+            else return 0;
+        }
+    };
+
+Ques-5 -> (Kth Symbol - Hard)
+
+# Problem Description -
+    On the first row, we write a 0. Now in every subsequent row, we look at the previous row and replace each occurrence of 0 with 01, and each occurrence of 1 with 10.
+    Given row number A and index B, return the Bth indexed symbol in row A. (The values of B are 0-indexed.).
+
+# Problem Constraints -
+    1 <= A <= 10^5
+    0 <= B <= min(2A - 1 - 1 , 1018)
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //param B : long
+    //return an integer
+        solve : function(A, B){
+            const findKthPlace = (A, B) => {
+                if(A==0 || B==0) return 0;
+                if(B%BigInt(2) == 0) return findKthPlace(A-1, B/BigInt(2));
+                else return 1-findKthPlace(A-1, B/BigInt(2));
+            }
+            return findKthPlace(A, B);
+        }
+    };

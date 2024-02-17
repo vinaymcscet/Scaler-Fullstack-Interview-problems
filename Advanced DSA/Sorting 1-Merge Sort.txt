@@ -1,0 +1,236 @@
+Ques-1 -> (Merge Two Sorted Arrays)
+
+#Problem Description -
+    Given two sorted integer arrays A and B, merge B and A as one sorted array and return it as an output.
+    Note: A linear time complexity is expected and you should avoid use of any library function.
+
+# Problem Constraints -
+    -2×109 <= A[i], B[i] <= 2×109
+    1 <= |A|, |B| <= 5×104
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //return a array of integers
+        solve : function(A, B){
+            // Brute Force Approach
+            // let copiedArrC = [...A, ...B];
+            // return copiedArrC.sort((a,b) => a-b);
+
+            // optimize Approach(using Merge Sort)
+            let p1=0, p2=0, p3=0;
+            let N = A.length;
+            let M = B.length;
+
+            const resultArr = new Array(N+M).fill(0);
+
+            while(p1<N && p2<M) {
+                if(A[p1] < B[p2]) {
+                    resultArr[p3] = A[p1];
+                    p1 = p1+1;
+                    p3 = p3+1;
+                } else {
+                    resultArr[p3] = B[p2];
+                    p2 = p2+1;
+                    p3 = p3+1;
+                }
+            }
+            while(p1<N) {
+                resultArr[p3] = A[p1];
+                p1=p1+1;
+                p3=p3+1;
+            }
+            while(p2<M) {
+                resultArr[p3] = B[p2];
+                p2 = p2+1;
+                p3 = p3+1;
+            }
+            return resultArr;
+        }
+    };
+
+Ques-2 -> (Unique Elements)
+
+Problem Description
+You are given an array A of N elements. You have to make all elements unique. To do so, in one step you can increase any number by one.
+
+Find the minimum number of steps.
+
+
+
+# Problem Constraints -
+    1 <= N <= 10^5
+    1 <= A[i] <= 10^9
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+        let N = A.length; 
+        let count = 0;
+        
+        A.sort((a,b) => a-b); 
+        for(let i=1;i<N;i++) {
+            if(A[i] == A[i-1]) {
+                count += 1;
+                A[i] = A[i] + 1;
+            }
+            if(A[i] < A[i-1]) {
+                count += (A[i-1] + 1) - A[i]; 
+                A[i] = A[i-1] + 1;
+            }
+        }
+        return count;
+        }
+    };
+
+Ques-3 -> (Count Inversions)
+
+# Problem Description -
+    Given an array of integers. Find the Inversion Count in the array.
+    Inversion Count: For an array, inversion count indicates how far (or close) the array is from being sorted. If array is already sorted then the inversion count is 0. If an array is sorted in the reverse order then the inversion count is the maximum. Formally, two elements a[i] and a[j] form an inversion if a[i] > a[j] and i < j.
+
+# Input Format -
+    Size of the array
+    Sparated values for elements of array
+
+# Solution -
+    function getInvCount(arr, n) {
+        let inv_count = 0;
+        for (let i = 0; i < n - 1; i++)
+            for (let j = i + 1; j < n; j++)
+                if (arr[i] > arr[j]) inv_count++;
+
+        return inv_count;
+    }
+
+Ques-4 -> (Inversion count in an array)
+
+# Problem Description -
+    Given an array of integers A. If i < j and A[i] > A[j], then the pair (i, j) is called an inversion of A. Find the total number of inversions of A modulo (109 + 7).
+
+# Problem Constraints -
+    1 <= length of the array <= 105
+    1 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            let mod = 10 ** 9 + 7;
+
+            let mergedArray = (start, mid, end) => {
+                let p1 = start, p2 = mid + 1, p3 = 0;
+                let temp = new Array(end - start + 1).fill(0);
+
+                let tempCount = 0;
+                let count = 0;
+
+                while (p1 <= mid && p2 <= end) {
+                    if (A[p1] <= A[p2]) {
+                        temp[p3] = A[p1];
+                        p1 = p1 + 1;
+                        p3 = p3 + 1;
+                        count = (count + tempCount) % mod;
+                    } else {
+                        temp[p3] = A[p2];
+                        p2 = p2 + 1;
+                        p3 = p3 + 1;
+                        tempCount = tempCount + 1;
+                    }
+                }
+                while (p1 <= mid) {
+                    temp[p3] = A[p1];
+                    p1 = p1 + 1;
+                    p3 = p3 + 1;
+                    count = (count + tempCount) % mod;
+                }
+                while (p2 <= end) {
+                    temp[p3] = A[p2];
+                    p2 = p2 + 1;
+                    p3 = p3 + 1;
+                }
+                for (let i = 0; i < end - start + 1; i++) {
+                    A[start + i] = temp[i];
+                }
+
+                return count;
+            }
+
+            let merge_sort = (start, end) => {
+                if (start < end) {
+                    let mid = Math.floor((start + end) / 2);
+                    let left = merge_sort(start, mid) % mod;
+                    let right = merge_sort(mid + 1, end) % mod;
+                    let mergedFinalArray = mergedArray(start, mid, end) % mod;
+
+                    return (left + right + mergedFinalArray) % mod;
+                }
+                return 0;
+            }
+            return merge_sort(0, A.length - 1) % mod;
+        }
+    };
+
+Ques-5 -> (Minimum Absolute Difference)
+
+# Problem Description -
+    Given an array of integers A, find and return the minimum value of | A [ i ] - A [ j ] | where i != j and |x| denotes the absolute value of x.
+
+# Problem Constraints -
+    2 <= length of the array <= 100000
+    -109 <= A[i] <= 10^9
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            // brute force approach - hard test case failed
+            let min_index_arr = [];
+            for(let i=0;i<A.length;i++) { 
+                for(let j=i+1;j<A.length;j++) {            
+                    min_index_arr.push(Math.abs(A[j]-A[i]));
+                }
+            }
+            return Math.min(...min_index_arr);
+
+            // Optimized approach
+            let min_value = Infinity;
+            A.sort((a, b) => a-b);
+            for(let i=1;i<A.length;i++) {
+                min_value = Math.min(min_value, Math.abs(A[i-1] - A[i]));
+            }
+            return min_value;
+        }
+    };
+
+Ques-6 -> (Max Chunks To Make Sorted)
+
+# Problem Description -
+    Given an array of integers A of size N that is a permutation of [0, 1, 2, ..., (N-1)], if we split the array into some number of "chunks" (partitions), and individually sort each chunk. After concatenating them in order of splitting, the result equals the sorted array.
+    What is the most number of chunks we could have made?
+
+# Problem Constraints -
+    1 <= N <= 100000
+    0 <= A[i] < N
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            let count=0, max=0, i=0;
+            for(let item of A ) {
+                max = Math.max(max, item);
+                if(max == i) {
+                    count += 1;
+                }
+                i += 1;
+            }
+            return count;
+        }
+    };

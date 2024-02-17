@@ -1,0 +1,310 @@
+Ques-1 -> (Check Pair Sum)
+
+# Problem Description -
+    Given an Array of integers B, and a target sum A.
+    Check if there exists a pair (i,j) such that Bi + Bj = A and i!=j.
+
+# Problem Constraints -
+    1 <= Length of array B <= 105
+    0 <= Bi <= 109
+    0 <= A <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //param B : array of integers
+    //return an integer
+        solve : function(A, B){
+            // brute force approach
+            let N = B.length;
+            for(let i=0;i<N;i++) {
+                for(let j=i+1;j<N;j++) {
+                    if(B[i] + B[j] === A) {
+                    return 1;   
+                    }
+                }
+            }
+            return 0;
+
+            // using Hashset approach (easy test case passed)
+            let N = B.length;
+            const hashSet = new Set(B);
+            for(let i=0;i<N;i++) {
+                let otherElem = A - B[i];
+                if(hashSet.has(otherElem)) {
+                    return 1;
+                }
+            }
+            return 0;
+
+            // using Hashset with optimization approach
+            let N = B.length;
+            const hashSet = new Set();
+            for(let i=0;i<N;i++) {
+                let otherElem = A - B[i];
+                if(hashSet.has(otherElem)) {
+                    return 1;
+                }
+                hashSet.add(B[i]);
+            }
+            return 0;
+        }
+    };
+
+Ques-2 -> (Count Pair Difference)
+
+# Problem Description -
+    You are given an array A of N integers and an integer B.
+    Count the number of pairs (i,j) such that A[i] - A[j] = B and i ≠ j.
+    Since the answer can be very large, return the remainder after dividing the count with 109+7.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 109
+    1 <= B <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            // brute force approach
+            let N = A.length, count = 0, mod = 1000000007;
+            for(let i=0;i<N;i++) {
+                for(let j=i+1;j<N;j++) {
+                    if(A[i] - A[j] == B) {
+                    count = (count + 1)% mod;   
+                    }
+                }
+            }
+            return Number(count);
+
+            let N = A.length;
+            let ans = 0;
+            let mod = Math.pow(10,9) + 7;
+
+            const hashMap = new Map();
+            for(let i=0;i<N;i++) {
+                let other1 = A[i] - BigInt(B); 
+                let other2 = A[i] + BigInt(B); 
+                if(hashMap.has(other1)) {
+                    ans = ans + hashMap.get(other1);
+                }
+                if(hashMap.has(other2)) {
+                    ans = ans + hashMap.get(other2);
+                }
+                if(hashMap.has(A[i])) {
+                    hashMap.set(A[i], hashMap.get(A[i])+1);
+                } else {
+                    hashMap.set(A[i], 1);
+                }
+            }
+            return ans % mod;
+        }
+    };
+
+Ques-3 -> (Subarray Sum Equals K)
+
+# Problem Description -
+    Given an array of integers A and an integer B.
+    Find the total number of subarrays having sum equals to B.
+
+Problem Constraints -
+    1 <= length of the array <= 50000
+    -1000 <= A[i] <= 1000
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let sum = 0, N = A.length, ans = 0;
+        
+            const map = new Map();
+            if(B==0) map.set(0, 1);
+            for(let i=0;i<N;i++) {
+                sum = sum + A[i];
+                let value = sum - B;
+
+                if(sum == B) ans++;
+                if(map.has(value)) {
+                    ans = ans + map.get(value);
+                }
+                map.set(sum, (map.get(sum) + 1 || 1));
+            }
+            return ans;
+        }
+    };
+
+Ques-4 -> (Distinct Numbers in Window)
+
+# Problem Description -
+    You are given an array of N integers, A1, A2 ,..., AN and an integer B. Return the of count of distinct numbers in all windows of size B.
+    Formally, return an array of size N-B+1 where i'th element in this array contains number of distinct elements in sequence Ai, Ai+1 ,..., Ai+B-1.
+    NOTE: if B > N, return an empty array.
+
+# Problem Constraints -
+    1 <= N <= 106
+    1 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return a array of integers
+        dNums : function(A, B){
+            let N = A.length, ans = [];
+            if(B>N) {
+                return ans;
+            }
+            const hashMap = new Map();
+            // Initialize the map for the first window - [0 B] length window
+            for(let i=0;i<B;i++) {
+            if(hashMap.has(A[i])) {
+                hashMap.set(A[i], hashMap.get(A[i]) + 1);
+            } else {
+                hashMap.set(A[i], 1);
+            }
+            }
+            ans.push(hashMap.size);
+            // taking next window
+            let start = 1;
+            let end = B;
+            
+            while(end<N) {
+                // hashMap[A[start-1]] -= 1;
+                hashMap.set(A[start-1], hashMap.get(A[start-1]) - 1);
+                if(hashMap.get(A[start-1]) == 0) {
+                    hashMap.delete(A[start-1]);
+                }
+                if(hashMap.has(A[end])) {
+                    hashMap.set(A[end], hashMap.get(A[end]) + 1);
+                } else {
+                    hashMap.set(A[end], 1);
+                }
+                start++;
+                end++;
+                ans.push(hashMap.size);
+            }  
+            return ans;
+        }
+    };
+
+Ques-5 -> (Count Pair Sum)
+
+# Problem Description -
+    You are given an array A of N integers and an integer B. Count the number of pairs (i,j) such that A[i] + A[j] = B and i ≠ j.
+    Since the answer can be very large, return the remainder after dividing the count with 109+7.
+    Note - The pair (i,j) is same as the pair (j,i) and we need to count it only once.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let N = A.length, count = 0, mod = Math.pow(10,9) + 7;
+            const map = new Map();
+            for(let i=0;i<N;i++) {
+                let otherElem = BigInt(B) - BigInt(A[i]);
+                if(map.has(otherElem)) {
+                    count += map.get(otherElem);
+                }
+                if(map.has(A[i])) {
+                    map.set(A[i], map.get(A[i]) + 1);
+                } else {
+                    map.set(A[i], 1);
+                }
+            }
+            return count % mod;
+        }
+    };
+
+Ques-6 -> (Longest Subarray Zero Sum)
+
+# Problem Description -
+    Given an array A of N integers.
+    Find the length of the longest subarray in the array which sums to zero.
+    If there is no subarray which sums to zero then return 0.
+
+# Problem Constraints -
+    1 <= N <= 105
+    -109 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            let N = A.length;
+            let sum = 0, ans = 0;
+            let map = new Map();
+            
+            for(let i=0;i<N;i++) {
+                sum = sum + Number(A[i]);
+                if(sum == 0) {
+                    ans = i+1;
+                }
+                if(map.has(sum)) {
+                    ans = Math.max(ans, i - map.get(sum));
+                } else {
+                    map.set(sum, i);
+                }
+            
+            }
+            return ans;
+        }
+    };
+
+Ques-7 -> (Subarray with given sum)
+
+# Problem Description -
+    Given an array of positive integers A and an integer B, find and return first continuous subarray which adds to B.
+    If the answer does not exist return an array with a single integer "-1".
+    First sub-array means the sub-array for which starting index in minimum.
+
+# Problem Constraints -
+    1 <= length of the array <= 100000
+    1 <= A[i] <= 109
+    1 <= B <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return a array of integers
+        solve : function(A, B){
+            let N = A.length, sum = 0, start = -1, end = -1;
+            const map = new Map();
+            map.set(0, -1);
+
+            for(let i=0;i<N;i++) {
+                sum += A[i];
+                let otherValue = sum - B;
+                
+                if(map.has(otherValue)) {
+                    start = map.get(otherValue) + 1;
+                    end = i;
+                    break;
+                }
+                map.set(sum, i); 
+            }
+            
+            if(start == -1) {
+                return [-1];
+            }
+            let k=0;
+            let ans = new Array(end-start+1).fill(0);
+            for(let i=start;i<=end;i++) {
+                ans[k] = A[i];
+                k++;
+            }
+            return ans;
+        }
+    };
