@@ -1,0 +1,247 @@
+Ques-1 -> (Ref vs Instance 1 (OOPs Basics))
+
+Consider the following class Student
+    public class Student {
+        int age;
+        String name;
+
+        void display(){
+            System.out.println("My name is " + this.name + ". I am "  + this.age + " years old");
+        }
+
+        void sayHello(String name){
+            System.out.println(this.name + " says hello to " + name);
+        }
+    }
+And the following code in Client class
+
+    public class Client {
+        public static void main(String[] args) {
+            Student s1 = new Student();
+            s1.age = 10;
+            s1.name = "A";
+            s1.display();
+
+            Student s2 = s1;
+            s2.age = 20;
+            s2.name = "B";
+
+            s2.display();
+
+            s1.display();
+        }
+    }
+What is the output of the final call to display function i.e. s1.display()?
+
+# Solution - My name is B. I am 20 years old.
+
+Ques-2 -> (Ref vs Instance 2 (OOPs Basics))
+
+Consider the following class Student.
+    public class Student {
+        int age;
+        String name;
+
+        void display(){
+            System.out.println("My name is " + this.name + ". I am "  + this.age + " years old");
+        }
+
+        void sayHello(String name){
+            System.out.println(this.name + " says hello to " + name);
+        }
+    }
+And the following code in Client class
+    public class Client {
+        public static void main(String[] args) {
+            Student s1 = new Student();
+            s1.age = 10;
+            s1.name = "A";
+
+            Student s2 = new Student();
+
+            Student temp = s1;
+            s1 = s2;
+            s2 = temp;
+
+            s2.display();
+
+        }
+    }
+What is the output of the final call to display function?
+
+# Solution - My name is A. I am 10 years old.
+
+Ques-3 -> (Ref vs Instance 3 (OOPs Basics))
+
+Consider the following class Student
+    public class Student {
+        int age;
+        String name;
+
+        void display(){
+            System.out.println("My name is " + this.name + ". I am "  + this.age + " years old");
+        }
+
+        void sayHello(String name){
+            System.out.println(this.name + " says hello to " + name);
+        }
+    }
+And the following code in Client class
+    public class Client {
+        public static void main(String[] args) {
+            Student s1 = new Student();
+            s1.age = 10;
+            s1.name = "A";
+
+            Student s2 = new Student();
+
+            int tempAge = s1.age;
+            s1.age = s2.age;
+            s2.age = tempAge;
+
+            s2.display();
+
+        }
+    }
+What is the output of the final call to display function?
+
+# Solution - My name is null. I am 10 years old.
+
+Ques-4 -> (Zensar - 3)
+
+What keyword is used to make class level data members
+
+# Solution - static
+
+Ques-5 -> (Ref vs Instance 4 (OOPs Basics))
+
+Consider the following class Student
+    public class Student {
+        int age;
+        String name;
+
+        void display(){
+            System.out.println("My name is " + this.name + ". I am "  + this.age + " years old");
+        }
+
+        void sayHello(String name){
+            System.out.println(this.name + " says hello to " + name);
+        }
+    }
+And the following code in Client class
+    public class Client {
+        public static void main(String[] args) {
+            Student s1 = new Student();
+            s1.age = 10;
+            s1.name = "A";
+
+            Student s2 = new Student();
+
+            String tempName = s1.name;
+            s1.name = s2.name;
+            s2.name = tempName;
+
+            s1.display();
+
+        }
+    }
+What is the output of the final call to display function?
+
+# Solution - My name is null. I am 10 years old.
+
+Ques-6 -> (Ref vs Instance 5 (OOPs Basics))
+
+Consider the following class Student
+    public class Student {
+        int age;
+        String name;
+
+        void display(){
+            System.out.println("My name is " + this.name + ". I am "  + this.age + " years old");
+        }
+
+        void sayHello(String name){
+            System.out.println(this.name + " says hello to " + name);
+        }
+    }
+And the following code in Client class
+    public class Client {
+        public static void main(String[] args) {
+            Student s1 = new Student();
+            s1.age = 10;
+            s1.name = "A";
+
+            Student s2 = new Student();
+            s2.age = 20;
+            s2.name = "B";
+
+            swap(s1, s2);
+
+            s1.display();
+        }
+
+        private static void swap(Student s1, Student s2) {
+            int tage = s1.age;
+            s1.age = s2.age;
+            s2.age = tage;
+
+            String tname = s1.name;
+            s1.name = s2.name;
+            s2.name = tname;
+        }
+    }
+What is the output of the final call to display function?
+
+# Solution - My name is B. I am 20 years old.
+
+Ques-7 -> (Ref vs Instance 6 (OOPs Basics))
+
+Consider the following class Student
+    public class Student {
+        int age;
+        String name;
+
+        void display(){
+            System.out.println("My name is " + this.name + ". I am "  + this.age + " years old");
+        }
+
+        void sayHello(String name){
+            System.out.println(this.name + " says hello to " + name);
+        }
+    }
+And the following code in Client class
+    public class Client {
+        public static void main(String[] args) {
+            Student s1 = new Student();
+            s1.age = 10;
+            s1.name = "A";
+
+            Student s2 = new Student();
+            s2.age = 20;
+            s2.name = "B";
+
+            swap(s1, s2);
+
+            s1.display();
+        }
+
+        private static void swap(Student s1, Student s2) {
+                Student temp = s1;
+                s1 = s2;
+                s2 = temp;
+        }
+    }
+What is the output of the final call to display function?
+
+# Solution - My name is A. I am 10 years old.
+
+Ques-8 -> (Zensar - 4)
+
+Consider the following two statements
+
+    i. Non-Static Methods can use static data members also
+    ii. Static data members can be accessed only via Class name
+
+    Which of the following is true
+
+# Solution - i is true and ii is false

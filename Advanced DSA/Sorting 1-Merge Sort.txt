@@ -57,8 +57,6 @@ You are given an array A of N elements. You have to make all elements unique. To
 
 Find the minimum number of steps.
 
-
-
 # Problem Constraints -
     1 <= N <= 10^5
     1 <= A[i] <= 10^9
@@ -109,7 +107,8 @@ Ques-3 -> (Count Inversions)
 Ques-4 -> (Inversion count in an array)
 
 # Problem Description -
-    Given an array of integers A. If i < j and A[i] > A[j], then the pair (i, j) is called an inversion of A. Find the total number of inversions of A modulo (109 + 7).
+    Given an array of integers A. If i < j and A[i] > A[j], then the pair (i, j) is called an inversion of A. 
+    Find the total number of inversions of A modulo (109 + 7).
 
 # Problem Constraints -
     1 <= length of the array <= 105
@@ -119,6 +118,7 @@ Ques-4 -> (Inversion count in an array)
     module.exports = { 
     //param A : array of integers
     //return an integer
+    // solution using complete merge sort
         solve : function(A){
             let mod = 10 ** 9 + 7;
 
@@ -234,3 +234,48 @@ Ques-6 -> (Max Chunks To Make Sorted)
             return count;
         }
     };
+
+
+Ques-7 -> sort an below array using merge sort
+
+const arr = [5, 3, 7, 2, 8, 4, 1]; debugger;
+// merge_sort
+function mergedArray(start, mid, end) {
+    let p1 = start, p2=mid+1, p3=0;
+    let temp =  new Array(end-start+1).fill(0);
+    while(p1<=mid && p2<=end) {
+        if(arr[p1] <= arr[p2]) {
+            temp[p3] = arr[p1];
+            p1=p1+1;
+            p3=p3+1;
+        }
+        else {
+            temp[p3] = arr[p2];
+            p2=p2+1;
+            p3=p3+1;
+        }
+    }
+    while(p1<=mid) {
+        temp[p3] = arr[p1];
+        p1=p1+1;
+        p3=p3+1;
+    }
+    while(p2<=end) {
+        temp[p3] = arr[p2];
+        p2=p2+1;
+        p3=p3+1;
+    }
+    for (let i = 0; i < end - start + 1; i++) {
+        arr[start + i] = temp[i];
+    }
+}
+function merge_sort(arr, start, end) {
+    if(start < end) {
+        let mid = Math.floor(start + (end-start)/2);
+        merge_sort(arr, start, mid);
+        merge_sort(arr, mid+1, end);
+        mergedArray(start, mid, end);
+    }
+    return arr;
+}
+console.log(merge_sort(arr, 0 , arr.length-1));

@@ -1,0 +1,110 @@
+Ques-1 -> (Search for a Range)
+
+# Problem Description -
+    Given a sorted array of integers A (0-indexed) of size N, find the left most and the right most index of a given integer B in the array A.
+    Return an array of size 2, such that First element = Left most index of B in A Second element = Right most index of B in A.
+    If B is not found in A, return [-1, -1].
+    Note : Your algorithm's runtime complexity must be in the order of O(log n).
+
+# Problem Constraints -
+    1 <= N <= 10^6
+    1 <= A[i], B <= 10^9
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return a array of integers
+        searchRange : function(A, B){
+            let N = A.length;
+            let low = 0;
+            let high = N-1;
+            let ans = [];
+            ans[0] = ans[1] = -1;
+            if(N <= 2) {
+                ans[0] = ans[1] = 0;
+                return ans;
+            }
+            while(low<=high) {
+                let mid = Math.floor(low + (high-low)/2);
+                if(A[mid] == B) {
+                    let newMid = mid;
+                    while(A[mid] == B) {
+                        ans[0] = mid;
+                        mid = mid-1;
+                    }
+                    while(A[newMid] == B) {
+                        ans[1] = newMid;
+                        newMid = newMid + 1;
+                    }
+                    return ans;
+                } else if(A[mid] > B) high = mid-1;
+                else  low = mid+1;
+            }
+            return ans;
+        }
+    };
+
+Ques-2 -> (Max Product of 3 Elements)
+
+# Problem Description  -
+    Given an array of integers A of size N, return the maximum product of any three numbers from the array.
+
+# Problem Constraints -
+    3 <= N <= 10^5
+    -1000<= A[i] <= 1000
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            let N = A.length;
+            A.sort((a, b) => a-b);
+            
+            let option1 = A[N-1] * A[N-2] * A[N-3];
+            let option2 = A[0] * A[1] * A[N-1];
+            
+            return Math.max(option1, option2);
+        }
+    };
+
+Ques-3 -> (Children and Rides)
+
+# Problem Description -
+    In an amusement park, there are rides being constructed for N children. Each ride has a maximum capacity limit of B for the total weight of the children on board. 
+    You are given an array of weights of children, where A[i] is the weight of the i-th child, and an infinite number of rides. Each ride can carry at most two
+    children at the same time, provided the sum of their weights is at most the ride's capacity limit. 
+    Find the minimum number of rides to accommodate all the children.
+
+# Problem Constraints -
+    1 <= N <= 10^5
+    0<= B <= 10^9
+    0 <= A[i] <= B
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let N = A.length;
+            A.sort((a, b) => a-b);
+            let i=0, j=N-1, count = 0;
+            
+            while(i<j) {
+                let sum = A[i] + A[j];
+                if(sum <= B) {
+                    count++;
+                    i++;
+                    j--;
+                }
+                else {
+                    count++;
+                    j--;
+                }
+            }
+            if(i == j) count++;
+            return count;
+        }
+    };

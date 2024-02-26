@@ -1,0 +1,253 @@
+Ques-1 -> (OOPs in Java (Inheritance and polymorphism - Method Overloading and Overriding) -4)
+
+Consider the following statements
+    i. Calling of overloaded methods is decided at compile time
+    ii. Calling of overridden methods is decided at runtime.
+    Which of the following is correct?
+
+# Solution - Both are correct
+
+Ques-2 -> (OOPs in Java (Inheritance and polymorphism - Method Overloading and Overriding) -5)
+
+Consider the following Code - 
+
+P class
+
+public class P {
+   protected int d1 = 10;
+   protected int d = 100;
+
+   protected void fun1(){
+       System.out.println("P's fun1");
+   }
+
+   protected void fun(){
+       System.out.println("P's fun");
+   }
+
+   static protected void sfun(){
+       System.out.println("P's sfun");
+   }
+}
+C class
+
+public class C extends P{
+   protected int d2 = 20;
+   protected int d = 200;
+
+   protected void fun2(){
+       System.out.println("C's fun2");
+   }
+
+   protected void fun(){
+       System.out.println("C's fun");
+   }
+
+   static protected void sfun(){
+       System.out.println("C's sfun");
+   }
+}
+Client class
+
+public class Client {
+    public static void main(String[] args) {
+        P obj = new P();
+        System.out.println(obj.d1);
+        System.out.println(obj.d);
+        obj.fun1();
+        obj.fun();
+        obj.sfun();
+    }
+}
+What is the output?
+
+# Solution - 10 100 P's fun1 P's fun P's sfun
+
+Ques-3 -> (OOPs in Java (Inheritance and polymorphism - Method Overloading and Overriding) -6)
+
+Consider the following Code
+
+P class
+
+public class P {
+   protected int d1 = 10;
+   protected int d = 100;
+
+   protected void fun1(){
+       System.out.println("P's fun1");
+   }
+
+   protected void fun(){
+       System.out.println("P's fun");
+   }
+
+   static protected void sfun(){
+       System.out.println("P's sfun");
+   }
+}
+C class
+
+public class C extends P{
+   protected int d2 = 20;
+   protected int d = 200;
+
+   protected void fun2(){
+       System.out.println("C's fun2");
+   }
+
+   protected void fun(){
+       System.out.println("C's fun");
+   }
+
+   static protected void sfun(){
+       System.out.println("C's sfun");
+   }
+}
+Client class
+
+public class Client {
+    public static void main(String[] args) {
+        P obj = new C();
+        System.out.println(obj.d1);
+        System.out.println(obj.d);
+        obj.fun1();
+        obj.fun();
+        obj.sfun();
+    }
+}
+What is the output?
+
+# Solution - 10 100 P's fun1 C's fun P's sfun
+
+Ques-4 -> (OOPs in Java (Inheritance and polymorphism - Method Overloading and Overriding) -7)
+
+Consider the following Code
+
+P class
+
+public class P {
+   protected int d1 = 10;
+   protected int d = 100;
+
+   protected void fun1(){
+       System.out.println("P's fun1");
+   }
+
+   protected void fun(){
+       System.out.println("P's fun");
+   }
+
+   static protected void sfun(){
+       System.out.println("P's sfun");
+   }
+}
+C class
+
+public class C extends P{
+   protected int d2 = 20;
+   protected int d = 200;
+
+   protected void fun2(){
+       System.out.println("C's fun2");
+   }
+
+   protected void fun(){
+       System.out.println("C's fun");
+   }
+
+   static protected void sfun(){
+       System.out.println("C's sfun");
+   }
+}
+Client class
+
+public class Client {
+    public static void main(String[] args) {
+        C obj = new P();
+        System.out.println(obj.d1);
+        System.out.println(obj.d);
+        obj.fun1();
+        obj.fun();
+        obj.sfun();
+    }
+}
+What is the output?
+
+# Solution - Compile Time Error
+
+Ques-5 -> (OOPs in Java (Inheritance and polymorphism - Method Overloading and Overriding) -8)
+
+Consider the following Code
+
+P class
+
+public class P {
+   protected int d1 = 10;
+   protected int d = 100;
+
+   protected void fun1(){
+       System.out.println("P's fun1");
+   }
+
+   protected void fun(){
+       System.out.println("P's fun");
+   }
+
+   static protected void sfun(){
+       System.out.println("P's sfun");
+   }
+}
+C class
+
+public class C extends P{
+   protected int d2 = 20;
+   protected int d = 200;
+
+   protected void fun2(){
+       System.out.println("C's fun2");
+   }
+
+   protected void fun(){
+       System.out.println("C's fun");
+   }
+
+   static protected void sfun(){
+       System.out.println("C's sfun");
+   }
+}
+Client class
+
+public class Client {
+    public static void main(String[] args) {
+        C obj = new C();
+        System.out.println(obj.d1);
+        System.out.println(obj.d);
+        obj.fun1();
+        obj.fun();
+        obj.sfun();
+    }
+}
+What is the output?
+
+# Solution -10 200 P's fun 1C's fun C's sfun
+
+Ques-6 -> (OOPs in Java (Constructors and Static) 1
+
+Which module in JVM is responsible for memory cleanup
+
+# Solution - Garbage Collector
+
+Ques-7 -> ( OOPs in Java (Inheritance and polymorphism - Method Overloading and Overriding) -1)
+
+Which of the following does Java not support
+
+# Solution - Operator overloading
+
+Ques-8 -> (OOPs in Java (Inheritance and polymorphism - Method Overloading and Overriding) -3)
+
+What is true about static methods?
+    i. They can be overloaded
+    ii. They can be overridden
+Which of the following is correct?
+
+# Solution - i is correct, ii is incorrect

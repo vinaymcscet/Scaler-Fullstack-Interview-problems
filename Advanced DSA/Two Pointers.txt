@@ -1,0 +1,505 @@
+Ques-1 -> (Subarray with given sum)
+
+# Problem Description -
+    Given an array of positive integers A and an integer B, find and return first continuous subarray which adds to B.
+    If the answer does not exist return an array with a single integer "-1".
+    First sub-array means the sub-array for which starting index in minimum.
+
+# Problem Constraints -
+    1 <= length of the array <= 100000
+    1 <= A[i] <= 109
+    1 <= B <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return a array of integers
+        solve : function(A, B){
+            // Approach - 1(Hard test case failed)
+            let ans = [];
+            if(A.length == 2) {
+                if(A[0] + A[1] == B)ans.push(A[0], A[1]);
+                else if(A[0] == B) ans.push(A[0]);
+                else if(A[1] == B) ans.push(A[1]);
+            }
+            for(let i=0;i<A.length;i++) {
+                let currentSum = A[i];
+                for(let j=i+1;j<A.length;j++) {
+                    currentSum += A[j];
+                    if(currentSum > B) break;
+                    else if(currentSum == B) {
+                        for(let k=i;k<=j;k++) {
+                            ans.push(A[k]);    
+                        }
+                        break;
+                    }
+                }
+            }
+            if(ans.length == 0) ans.push(-1);
+            return ans;
+
+            // for HashMap
+            let N = A.length, sum=0, start=-1, end=-1;
+            const map = new Map();
+            map.set(0, -1);
+
+            for(let i=0;i<N;i++) {
+                sum += A[i];
+                let otherElem = sum - B;
+
+                if(map.has(otherElem)) {
+                    start = map.get(otherElem) + 1;
+                    end = i;
+                    break;
+                }
+                map.set(sum, i);
+            }
+            if(start == -1) return [-1];
+            let k=0;
+            let ans = new Array(end-start+1).fill(0);
+            for(let i=start;i<=end;i++) {
+                ans[k] = A[i];
+                k++;
+            }
+            return ans;
+
+        // using 2-pointers approach
+            let n = A.length
+            let i=0, j=0;
+            let sum = A[i];
+            while(j<n && i<=j) {
+                if(sum == B) {
+                    // current window sum = B
+                    return A.slice(i, j+1);
+                }
+                else if(sum < B) {
+                    // current window sum < B
+                    j++;
+                    if(j<n) {
+                        sum += A[j];
+                    }
+                }
+                else {
+                    // current window sum > B
+                    sum -= A[i];
+                    i++;
+                    if(i>j && i<n-1) {
+                        j++;
+                        sum += A[j];
+                    }
+                }
+            }
+            return [-1];
+        }
+    };
+
+Ques-2 -> (Pairs with Given Difference)
+
+# Problem Description -
+    Given an one-dimensional integer array A of size N and an integer B.
+    Count all distinct pairs with difference equal to B.
+    Here a pair is defined as an integer pair (x, y), where x and y are both numbers in the array and their absolute difference is B.
+
+# Problem Constraints -
+    1 <= N <= 104
+    0 <= A[i], B <= 105
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            // using hashmap
+            let N = A.length;
+            let ans = 0;
+            A.sort((a, b) => a-b);
+
+            const hashMap = new Map();
+            for(let i=0;i<N;i++) {
+                if(hashMap.has(A[i])) {
+                    hashMap.set(A[i], hashMap.get(A[i])+1);
+                } else {
+                    hashMap.set(A[i], 1);
+                }
+            }
+            for(let i=0;i<N;i++) {
+                let other1 = A[i] - B; 
+                if(hashMap.has(other1) && (B>0 || hashMap.get(other1)>1)) {
+                    ans++;
+                    hashMap.delete(other1);
+                }
+            }
+            return ans;
+
+            // using 2-pointers
+            A.sort((a, b) => a-b);
+            let i=0, j=1, ans=0, count1=0, count2=0;
+            let n = A.length;
+
+            while(i<n && j<n) {
+                if(i==j) {
+                    j++;
+                    continue;
+                }
+                let diff = A[j] - A[i];
+                if(diff < B) j++;
+                else if(diff > B) i++;
+                else {
+                    let ii = i;
+                    while(ii < n && A[ii]==A[i]) {
+                        count1++;
+                        ii++;
+                    }
+                    count1 = 1;
+                    i = ii;
+
+                    let jj = j;
+                    while(jj < n && A[jj]==A[j]) {
+                        count2++;
+                        jj++;
+                    }
+                    count2 = 1;
+                    j = jj;
+                    ans += count1*count2;
+                }
+            }
+            return ans;
+        }
+    };
+
+Ques-3 -> (Container With Most Water)
+
+# Problem Description -
+    Given N non-negative integers A[0], A[1], ..., A[N-1] , where each represents a point at coordinate (i, A[i]).
+    N vertical lines are drawn such that the two endpoints of line i is at (i, A[i]) and (i, 0).
+    Find two lines, which together with x-axis forms a container, such that the container contains the most water. You need to return this maximum area.
+    Note: You may not slant the container. It is guaranteed that the answer will fit in integer limits.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 105
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        maxArea : function(A){
+            // Brute Force - Easy test case passed
+            let N = A.length, ans = 0;
+            for(let i=0;i<N;i++) {
+                for(let j=i+1;j<N;j++) {
+                    ans = Math.max(ans, Math.min(A[i], A[j])* (j-i));
+                }
+            }
+            return ans;
+
+            let N = A.length;
+            let i=0, j=N-1, area=0;
+
+            while(i<j) {
+                area = Math.max(area, Math.min(A[i], A[j]) * (j-i));
+                if(A[i] < A[j]) i++;
+                else  j--;
+            }
+            return area;
+        }
+    };
+
+Ques-4 -> (Pairs with given sum II)
+
+# Problem Description -
+    Given a sorted array of integers (not necessarily distinct) A and an integer B, find and return how many pair of integers ( A[i], A[j] ) such that i != j have sum equal to B.
+    Since the number of such pairs can be very large, return number of such pairs modulo (10^9 + 7).
+
+# Problem Constraints -
+    1 <= |A| <= 100000
+    1 <= A[i] <= 10^9
+    1 <= B <= 10^9
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            //Brute Force - small testcase passed only.
+            let N = A.length, count = 0;
+            let mod = Math.pow(10,9) + 7;
+
+            for(let i=0;i<N;i++) {
+                for(let j=i+1;j<N;j++) {
+                    if(A[i] + A[j] == B) {
+                        count++;
+                    }
+                }
+            }
+            return count%mod;
+            let n = A.length;
+            let i=0, j=n-1, count1=0, count2=0, count3=0, ans=0;
+            let mod = Math.pow(10,9) + 7;
+
+            while(i<j) {
+                let sum = A[i] + A[j];
+                if(sum < B) i++;
+                else if(sum > B) j--;
+                else {
+                let ii = i;
+                let jj = j;
+                if(A[i]==A[j]) {
+                    count1 = j-i+1;
+                    ans +=  (count1*(count1-1)/2)%mod;
+                    break;
+                }
+                while(A[i] == A[ii]) ii++;
+                count2 = ii-i;
+                i = ii;
+                while(A[j] == A[jj]) jj--;
+                    count3 = j-jj;
+                    j=jj;
+                    ans = (ans + (count2*count3)%mod)%mod;
+                }
+            }
+            return ans;
+            
+        }
+    };
+
+Ques-5 -> (3 Sum)
+
+# Problem Description -
+    Given an array A of N integers, find three integers in A such that the sum is closest to a given number B. Return the sum of those three integers.
+    Assume that there will only be one solution.
+
+# Problem Constraints -
+    -108 <= B <= 108
+    1 <= N <= 104
+    -108 <= A[i] <= 108
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        threeSumClosest : function(A, B){
+            // Brute Force - Only Small testcases passed.
+            let N = A.length;
+            if(N < 3) return -1;
+            let minDiff = Math.abs(A[0] + A[1] + A[2] - B);
+            let actDiff = A[0] + A[1] + A[2];
+            let newDiff = 0;
+
+            for(let i=0;i<N;i++) {
+                for(let j=i+1;j<N;j++) {
+                    for(let k=j+1;k<N;k++) {
+                        newDiff = Math.abs(A[i] + A[j] + A[k] - B);
+                        if(newDiff < minDiff) {
+                            minDiff = newDiff;
+                            actDiff = A[i] + A[j] + A[k];
+                        }
+                    }
+                }
+            }
+            return actDiff;
+
+            let N = A.length;
+            let current = Infinity, sum = 0, ans = 0;
+            A.sort((a,b) => a-b);
+            
+            for(let i=0;i<N;i++) {
+                let a = i;
+                let b = i+1;
+                let c = N-1;
+                while(b < c) {
+                    sum = A[a] + A[b] + A[c];
+                    const diff = Math.abs(B - sum);
+                    if(diff < current) {
+                        current = diff;
+                        ans = sum;
+                    }
+                    if(sum > B) c--;
+                    if(sum < B) b++;
+                    if(sum == B) return B;
+                }
+            }
+            return ans;
+        }
+    };
+
+Ques-6 -> (Closest pair from sorted arrays)
+
+# Problem Description -
+    Given two sorted arrays of distinct integers, A and B, and an integer C, find and return the pair whose sum is closest to C and the pair has one element from each array.
+    More formally, find A[i] and B[j] such that abs((A[i] + B[j]) - C) has minimum value.
+    If there are multiple solutions find the one with minimum i and even if there are multiple values of j for the same i then return the one with minimum j.
+    Return an array with two elements {A[i], B[j]}.
+
+# Problem Constraints -
+    1 <= length of both the arrays <= 105
+    1 <= A[i], B[i] <= 109
+    1 <= C <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //param C : integer
+    //return a array of integers
+        solve : function(A, B, C){
+        let current = Infinity, sum = 0, ans = new Array(2).fill(0);
+                let M = A.length;
+                let N = B.length;
+                let a = 0;
+                let b = N-1;
+                let res_left = 0;
+                let res_right = 0;
+                while(a < M && b>= 0) {
+                    sum = A[a] + B[b];
+                    const diff = Math.abs(sum - C);
+                    if(diff < current) {
+                        current = diff;
+                        res_left = a;
+                        res_right = b;
+                    } 
+                    else if(diff == current && a <= res_left && b <= res_right) {
+                            res_left = a;
+                            res_right = b;
+                        }
+                    if(sum > C) b--; 
+                    else a++;
+                }
+                    ans[0] = A[res_left];
+                    ans[1] = B[res_right];
+                    return ans;
+        }
+    };
+
+Ques-7 -> (Another Count Rectangles)
+
+# Problem Description -
+    Given a sorted array of distinct integers A and an integer B, find and return how many rectangles with distinct configurations can be created using elements of this array as length and breadth whose area is lesser than B.
+    (Note that a rectangle of 2 x 3 is different from 3 x 2 if we take configuration into view)
+
+# Problem Constraints -
+    1 <= |A| <= 100000
+    1 <= A[i] <= 109
+    1 <= B <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            // Brute Force - Easy testcase passed only
+
+            let count = 0, N = A.length;
+            let mod = Math.pow(10, 9) + 7;
+            for(let i=0;i<N;i++) {
+                for(let j=0;j<N;j++){
+                    if(A[i]*A[j] < B) count++;
+                }
+            }
+            return count%mod;
+            let N = A.length;
+            let i=0;
+            let j=N-1, area = 0, count = 0;
+            let mod = Math.pow(10, 9) + 7;
+
+            while(i<N && j>=0) {
+                area = A[i] * A[j];
+                if(area < B) {
+                    count = (count + j+1)%mod;
+                    i++;
+                }
+                else j--;
+            }
+            return count%mod;
+        }
+    };
+
+Ques-8 -> (Max Continuous Series of 1s)
+
+# Problem Description -
+    Given a binary array A, find the maximum sequence of continuous 1's that can be formed by replacing at-most B zeroes.
+    For this problem, return the indices of maximum continuous series of 1s in order.
+    If there are multiple possible solutions, return the sequence which has the minimum start index.
+
+# Problem Constraints -
+    0 <= B <= 105
+    1 <= size(A) <= 105
+    0 <= A[i] <= 1
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return a array of integers
+        maxone : function(A, B){
+            let N = A.length;
+            let p1=0, p2=0;
+            let countZero = 0, ans = [], maxWindowLength = 0, maxWindowStart = 0;
+
+            while(p2 < N) {
+                if(A[p2] == 0) countZero++;
+
+                while(countZero > B) {
+                    if(A[p1] == 0) countZero--;
+                    p1++;
+                }
+
+                if(p2-p1+1 > maxWindowLength) {
+                    maxWindowLength = p2-p1+1;
+                    maxWindowStart = p1;
+                }
+                p2++;
+            }
+            for(let i=0;i<maxWindowLength;i++) {
+                ans.push(maxWindowStart+i);
+            }
+            return ans;
+        }
+    };
+
+Ques-9 -> (Array 3 Pointers)
+
+# Problem Description -
+    You are given 3 sorted arrays A, B and C.
+    Find i, j, k such that : max(abs(A[i] - B[j]), abs(B[j] - C[k]), abs(C[k] - A[i])) is minimized.
+    Return the minimum max(abs(A[i] - B[j]), abs(B[j] - C[k]), abs(C[k] - A[i])).
+
+# Problem Constraints -
+    1 <= len(A), len(B), len(c) <= 106
+    0 <= A[i], B[i], C[i] <= 107
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //param C : array of integers
+    //return an integer
+        minimize : function(A, B, C){
+            //Sliding window Approach
+            
+            let M = A.length;
+            let N = B.length;
+            let O = C.length;
+            let ans = Infinity;
+
+            let i=0, j=0, k=0;
+            while(i < M && j < N && k < O) {
+                let current = Math.max(Math.abs(A[i] - B[j]), Math.abs(B[j] - C[k]), Math.abs(C[k] - A[i]));
+                ans = Math.min(ans, current);
+            
+                if(A[i] <= B[j] && A[i] <= C[k]) {
+                    i++;
+                } else if(B[j] <= A[i] && B[j] <= C[k]) {
+                    j++;
+                } else {
+                    k++;
+                }
+            }
+            return ans;
+        }
+    };

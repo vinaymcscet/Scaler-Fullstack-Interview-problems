@@ -1,0 +1,35 @@
+Ques-1 -> (Java Collections MCQ 1)
+
+Which of the following is the root interface of the JAVA Collection Framework.
+
+# Solution - Collection
+
+Ques-2 -> (Java Collections MCQ 2)
+
+Which collection allows you to retrieve elements in the order they were inserted?
+
+# Solution - LinkedHashMap
+
+Ques-3 -> (Java Collections MCQ 3)
+
+What are the implementation classes of the List interface?
+
+# Solution - ArrayList, LinkedList, Vector
+
+Ques-4 -> (Java Collections MCQ 4)
+
+Which of the following collections is sorted by its natural ordering?
+
+# Solution - TreeMap
+
+Ques-5 -> (Java Collections MCQ 5)
+
+Which of this interface is not a part of Java’s collection framework?
+
+# Solution - SortedList
+
+Ques-6 -> (Java Collections MCQ 6)
+
+Which of these is not a method in the Collection interface?
+
+# Solution - get()
