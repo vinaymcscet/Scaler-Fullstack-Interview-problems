@@ -67,6 +67,7 @@ Ques-3 -> (Check Palindrome)
     //param A : string
     //return an integer
         solve : function(A){
+            // Approach - 1
             let N = A.length;
             if(A.length == 1) return 1;
             function checkPalindrome(item, start, end) {
@@ -75,6 +76,18 @@ Ques-3 -> (Check Palindrome)
                 return 0;
             }
             return checkPalindrome(A, 0, N-1);
+
+            // Approach - 2
+            if(A.length == 1) return 1;
+            function checkPalindrome(item, start, end) {
+                while(start < end) {
+                    if(A[start] != A[end]) return 0;
+                    start++;
+                    end--;
+                }
+                return 1;
+            }
+            return checkPalindrome(A, 0, A.length-1);
         }
     };
 
@@ -188,3 +201,31 @@ Ques-7 -> (Print A to 1 function)
             console.log();
         }
     };
+
+Ques-8 -> (Find longest palindromic string) 
+
+solution - 
+    A = "naman";
+    // Find longest palindromic string
+    function findPalindrome(A) {
+        if(A == null || A.length <= 1) return;
+        let start = end = 0;
+        for(let i=0;i<A.length;i++) {
+            const len1 = expandCenter(A, i, i);
+            const len2 = expandCenter(A, i, i+1);
+            const len = Math.max(len1, len2);
+            if(len > end-start) {
+                start = i-Math.floor((len-1)/2);
+                end = i+ Math.floor(len/2);
+            }
+        }
+        return A.slice(start, end+1);
+    }
+    function expandCenter(A, left, right) {
+        while(left >= 0 && right < A.length && A[left] == A[right]) {
+            left--;
+            right++;
+        }
+        return right-left-1;
+    }
+    console.log(findPalindrome(A));

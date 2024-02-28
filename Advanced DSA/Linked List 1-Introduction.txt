@@ -1,0 +1,555 @@
+# Create Linked List node - 
+class List { // create a Linked list class name List.
+    constructor(data) {
+        this.head = { // head of a linked list 
+            value: data,
+            next: null
+        };
+        this.tail = this.head; // assign head node to tail node(it works as a swallow copy, anything change in tail node, also change in head node)
+        this.size=1;
+    }
+    appendNode(nodeData) { 
+        let newNode = { // create a new node and add it to the before tail(last) node.
+            value: nodeData,
+            next: null
+        } 
+        this.tail.next = newNode;
+        this.tail = newNode;
+        this.size  +=1;
+    }
+    insertNode(index, value) { // create a new node and insert at any index of linked list.
+        let counter = 1;
+        let currentNode = this.head;
+        while(counter > index) {
+            counter++;
+            currentNode = currentNode.next;
+        }
+        let nextNode = currentNode.next;
+        currentNode.next = {
+            value: value,
+            next: nextNode
+        }
+    }
+    traversing(node, value1) { // traverse a linked list
+        let counter = 0;
+        let currentNode = this.head;
+        while(counter < this.size) {
+            //if(counter == node) { // update any particular node value while traversing.
+              //  currentNode.value = value1;
+            //}
+            //console.warn(currentNode);
+            currentNode = currentNode.next;
+            counter++;
+        }
+    }
+    deleteNode(index) { // delete a particular node from linked list
+        let counter = 1;
+        let temp = this.head;
+        if(index == 1) this.head = this.head.next;
+        else {
+            while(counter < index-1) {
+                temp = temp.next;
+                counter++;
+            }
+            let nextNode = temp.next.next;
+            temp.next = nextNode;
+            console.warn(temp);
+        }
+    }
+    searchNode(data) { // search node at any specific index
+        let result = undefined;
+        let temp = this.head;
+        let loop = true;
+        while(loop) {
+            temp = temp.next;
+            loop = !!temp;
+            if(loop && temp.value == data) {
+                loop = false;
+                result = temp;
+            }
+        }
+        console.warn(result);
+    }
+}
+let list = new List(200);
+list.appendNode(300);
+list.appendNode(400);
+list.appendNode(500);
+list.appendNode(600);
+list.appendNode(700);
+list.insertNode(2, 4000);
+list.traversing();
+//list.deleteNode(1);
+list.searchNode(400);
+console.warn(list);
+
+
+Ques-1 -> (Palindrome List)
+
+# Problem Description -
+    Given a singly linked list A, determine if it's a palindrome. Return 1 or 0, denoting if it's a palindrome or not, respectively.
+
+# Problem Constraints -
+    1 <= |A| <= 105
+
+# Solution -
+    // Definition for singly-linked list.
+    //    function Node(data){
+    //      this.data = data
+    //      this.next = null
+    //    }
+
+    const reverse = (data) => {
+        let temp = data;
+        let newNode = null;
+        while(temp != null) {
+            let next = temp.next;
+            temp.next = newNode;
+            newNode = temp;
+            temp = next;
+        }
+        data = newNode;
+        return data;
+    }
+
+    function getMiddleOfLinkedList(head) {
+        let fast  = head.next;
+        let slow = head;
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    module.exports = { 
+    //param A : head node of linked list
+    //return an integer
+
+        lPalin : function(A){
+
+            // Approach - 1
+            //1. Find length of Linked List(total Nodes in Linked List).
+            let N = 0;
+            let temp = A;
+            while(temp != null) {
+                N++;
+                temp = temp.next;
+            }
+
+            //2. Find Middle of Linked List
+            let midLen = Math.ceil(N/2);
+
+            temp = A;
+            for(let i=0;i<midLen-1;i++) {
+                temp = temp.next;
+            }
+            let head2 = temp.next;
+            temp.next = null;
+
+            // reverse the 2nd half of LL
+            head2 = reverse(head2);
+            
+            let t1 = A;
+            let t2 = head2;
+            while(t1 != null && t2 != null) {
+                if(t1.data != t2.data) {
+                    return 0;
+                }
+                t1 = t1.next;
+                t2 = t2.next;
+            }
+            return 1;
+
+            // Approach - 2
+            // Find the middle element of linked list
+            let middle = getMiddleOfLinkedList(A);
+            // for reversing a from middle to last of linked list
+            
+            let head2 = middle.next;
+            middle.next = null;
+            head2 = reverse(head2);
+
+            let t1 = A;
+            let t2 = head2;
+            while(t1 != null && t2 != null) {
+                if(t1.data != t2.data) {
+                    return 0;
+                }
+                t1 = t1.next;
+                t2 = t2.next;
+            }
+            return 1;
+        }
+    };
+
+
+Ques-2 -> (Reverse Linked-List) 
+
+# Problem Description -
+    You are given a singly linked list having head node A. You have to reverse the linked list and return the head node of that reversed list.
+    NOTE: You have to do it in-place and in one-pass.
+
+# Problem Constraints -
+    1 <= Length of linked list <= 105
+    Value of each node is within the range of a 32-bit integer.
+
+# Solution -
+    // Definition for singly-linked list.
+    //    function Node(data){
+    //      this.data = data
+    //      this.next = null
+    //    }
+
+    module.exports = { 
+    //param A : head node of linked list
+    //return the head node in the linked list
+        reverseList : function(A){
+            let temp = A;
+            let prev = null;
+            while(temp != null) {
+                let next = temp.next;
+                temp.next = prev;
+                prev = temp;
+                temp = next;
+            }
+            A = prev;
+            return A;
+
+            // recursive approach
+            function reverse(head) {
+                if(head == null || head.next == null) return head;
+                let newHead = reverse(head.next);
+                let headNext = head.next;
+                headNext.next = head;
+                head.next = null;
+                return newHead;
+            }
+            A = reverse(A);
+            return A;
+        }
+    };
+
+
+Ques-3 -> (Linked-List)
+
+# Problem Description -
+    Design and implement a Linked List data structure.
+    A node in a linked list should have the following attributes - an integer value and a pointer to the next node.
+    It should support the following operations:
+    insert_node(position, value) - To insert the input value at the given position in the linked list.
+    delete_node(position) - Delete the value at the given position from the linked list.
+    print_ll() - Print the entire linked list, such that each element is followed by a single space (no trailing spaces).
+    Note:
+        If an input position does not satisfy the constraint, no action is required.
+        Each print query has to be executed in a new line.
+
+# Problem Constraints -
+    1 <= value <= 105
+    1 <= position <= n where, n is the size of the linked-list.
+
+# Solution -
+    // YOUR CODE GOES HERE
+    // Please take input and print output to standard input/output (stdin/stdout)
+    // DO NOT USE ARGUMENTS FOR INPUTS
+    class ListNode {
+        constructor(value) {
+            this.val = value;
+            this.next = null;
+        }
+    }
+
+    class LinkedList {
+        constructor() {
+            this.head = new ListNode("");
+            this.size = 1;
+        }   
+
+        insert_node(pos, no) {
+            // edge cases
+            if(this.size < pos || pos < 1) {
+                return;
+            }
+            // create new node
+            let newNode = new ListNode(no);
+            // traverse till previous node
+            let temp = this.head;
+            while(temp.next != null && pos > 1) {
+                pos--;
+                temp = temp.next;
+            }
+            // append node in between
+            newNode.next = temp.next;
+            temp.next = newNode;
+            this.size++;
+        }
+
+        delete_node(pos) {
+            if(this.size <= pos || pos < 1) {
+                return;
+            }
+            let temp = this.head;
+            while(temp.next != null && pos > 1) {
+                pos--;
+                temp = temp.next;
+            }   
+            // delete next element from ll
+            let x = temp.next;
+            temp.next = x.next;
+            x.next = null;
+            this.size--;
+        }
+
+        print_ll() {
+            let str = new String();
+            let temp = this.head.next;
+            while(temp != null) {
+                str += (temp.val + " ");
+                temp = temp.next;
+            }
+            str = str.trimEnd();
+            console.log(str.toString());
+        }
+    }
+
+
+Ques-4 -> (Longest Palindromic List)
+
+# Problem Description -
+    Given a linked list of integers. Find and return the length of the longest palindrome list that exists in that linked list.
+    A palindrome list is a list that reads the same backward and forward.
+    Expected memory complexity : O(1)
+
+# Problem Constraints -
+    1 <= length of the linked list <= 2000
+    1 <= Node value <= 100
+
+# Solution -
+    // Definition for singly-linked list.
+    //    function Node(data){
+    //      this.data = data
+    //      this.next = null
+    //    }
+    function getReverse(head) {
+        let current = head;
+        let prev = null;
+        let ans = 0;
+        while(current != null) {
+            let next = current.next;
+            current.next = prev;
+            // Check for even len palindrome
+            ans = Math.max(ans, 2 * getCount(current,next));
+            // Check for odd len palindrome
+            ans = Math.max(ans, 2 * getCount(prev,next) +1);
+            prev = current;
+            current = next;
+        }
+        return ans;
+    }
+    function getCount(count1, count2) {
+        let count = 0;
+        while(count1 && count2) {
+            if(count1.data != count2.data) break;
+            count++;
+            count1 = count1.next;
+            count2 = count2.next;
+        }
+        return count;
+    }
+    module.exports = { 
+    //param A : head node of linked list
+    //return an integer
+        solve : function(A){
+            
+            // Reverse the linked list
+            let num = getReverse(A);
+
+            return num;
+        }
+    };
+
+
+Ques-5 -> (Reverse Link List II)
+
+# Problem Description -
+    Reverse a linked list A from position B to C.
+    NOTE: Do it in-place and in one-pass.
+
+# Problem Constraints -
+    1 <= |A| <= 106
+    1 <= B <= C <= |A|
+
+# Solution -
+    // Definition for singly-linked list.
+    //    function Node(data){
+    //      this.data = data
+    //      this.next = null
+    //    }
+        function reverse(head, B) {
+            let prev = null;
+            let current = head;
+            let next = null;
+            let count = 0;
+            while(current != null && count <= B) {
+                next = current.next;
+                current.next = prev;
+                prev = current;
+                current = next;
+                count++;
+            }
+            head.next = next;
+            return prev;
+        }
+
+    module.exports = { 
+    //param A : head node of linked list
+    //param B : integer
+    //param C : integer
+    //return the head node in the linked list
+        reverseBetween : function(A, B, C){
+            let current = A;
+            for(let i=1;i<B-1;i++) {
+                current = current.next;
+            }
+            if(B==1) return reverse(A, C-B);
+            else {
+                current.next = reverse(current.next, C-B);
+                return A;
+            }
+        }
+    };
+
+
+Ques-6 -> (K reverse linked list)
+
+# Problem Description -
+    Given a singly linked list A and an integer B, reverse the nodes of the list B at a time and return the modified linked list.
+
+# Problem Constraints -
+    1 <= |A| <= 103
+    B always divides A
+
+# Solution -
+    // Definition for singly-linked list.
+    function Node(data){
+        this.data = data
+        this.next = null
+    }
+    function reverse(head, K) {
+        let prev = null;
+        let current = head;
+        for(let i=0;i<K;i++) {
+            let next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+            return prev;
+    }
+    module.exports = { 
+    //param A : head node of linked list
+    //param B : integer
+    //return the head node in the linked list
+        reverseList : function(A, B){
+            if(!A) return;
+            let dummyHead = new Node();
+            let newList = dummyHead;
+            let current = A;
+            while(current != null) {
+                let start = current;
+                for(let i=1;i<B;i++) {
+                    current = current.next;
+                    if(!current) return dummyHead.next;
+                }
+                let next = current.next;
+                newList.next = reverse(start, B);
+                start.next = next;
+                newList = start;
+                current = next;
+            }
+            return dummyHead.next;
+        }
+    };
+
+
+Ques-7 -> (Remove Nth Node from List End)
+
+# Problem Description -
+    Given a linked list A, remove the B-th node from the end of the list and return its head.
+    For example, given linked list: 1->2->3->4->5, and B = 2.
+    After removing the second node from the end, the linked list becomes 1->2->3->5.
+    NOTE: If B is greater than the size of the list, remove the first node of the list.
+    Try doing it using constant additional space.
+
+# Problem Constraints -
+    1 <= |A| <= 106
+
+# Solution -
+    // Definition for singly-linked list.
+    //    function Node(data){
+    //      this.data = data
+    //      this.next = null
+    //    }
+
+    module.exports = { 
+    //param A : head node of linked list
+    //param B : integer
+    //return the head node in the linked list
+        removeNthFromEnd : function(A, B){
+            let N=0, temp = A;
+            while(temp != null) {
+                N++;
+                temp = temp.next;
+            }
+            let deletedNode = N-B+1; 
+            if(deletedNode <= 0 || deletedNode > N) return A.next;
+            if(deletedNode == 1) return A.next;
+            
+            let current = A;
+            let prev = null;
+            // Traverse to the node before the one to be deleted
+            for(let i=1;i<deletedNode;i++) {
+                prev = current;
+                current = current.next;
+            }
+            // Remove the node by adjusting the 'next' pointer of the previous node
+            prev.next = current.next;
+            return A;
+        }
+    };
+
+
+Ques-8 -> (Remove Duplicates from Sorted List)
+
+# Problem Description -
+    Given a sorted linked list, delete all duplicates such that each element appears only once.
+
+# Problem Constraints -
+    0 <= length of linked list <= 106
+
+# Solution -
+    // Definition for singly-linked list.
+    //    function Node(data){
+    //      this.data = data
+    //      this.next = null
+    //    }
+
+    module.exports = { 
+    //param A : head node of linked list
+    //return the head node in the linked list
+        deleteDuplicates : function(A){
+            if(!A || A.next == null) return A;
+            let temp = A;
+            let prev = null;
+            let set = new Set();
+            while(temp) {
+                if(set.has(temp.data)) prev.next = temp.next;
+                else {
+                    set.add(temp.data);
+                    prev = temp;
+                }
+                temp = temp.next;
+            }
+            return A;
+        }
+    };
