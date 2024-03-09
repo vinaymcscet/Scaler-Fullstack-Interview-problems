@@ -106,7 +106,7 @@ Ques-2 -> (Merge Two Sorted Lists)
 Ques-3 -> (Sort List)
 
 # Problem Description -
-    Sort a linked list, A in O(n log n) time.
+    Sort a linked list, A in O(n logn) time.
 
 # Problem Constraints -
     0 <= |A| = 105
@@ -133,32 +133,32 @@ Ques-3 -> (Sort List)
 
     const merge = (A, B) => {
         if(A == null) return B;
-            if(B == null) return A;
+        if(B == null) return A;
 
-            let head, temp;
-            if(A.data < B.data) {
-                head = A;
-                temp = A;
+        let head, temp;
+        if(A.data < B.data) {
+            head = A;
+            temp = A;
+            A = A.next;
+        } else {
+            head = B;
+            temp = B;
+            B = B.next;
+        }
+        while(A != null && B != null) {
+            if(A.data < B.data){
+                temp.next = A;
                 A = A.next;
+                temp = temp.next;
             } else {
-                head = B;
-                temp = B;
+                temp.next = B;
                 B = B.next;
+                temp = temp.next;
             }
-            while(A != null && B != null) {
-                if(A.data < B.data){
-                    temp.next = A;
-                    A = A.next;
-                    temp = temp.next;
-                } else {
-                    temp.next = B;
-                    B = B.next;
-                    temp = temp.next;
-                }
-            }
-            if(A == null) temp.next = B;
-            if(B == null) temp.next = A;
-            return head;
+        }
+        if(A == null) temp.next = B;
+        if(B == null) temp.next = A;
+        return head;
     }
 
     module.exports = { 
