@@ -1,0 +1,279 @@
+Ques-1 -> (Search in BST)
+
+# Problem Description -
+    Given a Binary Search Tree A. Check whether there exists a node with value B in the BST.
+
+# Problem Constraints -
+    1 <= Number of nodes in binary tree <= 105
+    0 <= B <= 106
+
+# Solution -
+    // Definition for a  binary tree node
+    //    function TreeNode(data){
+    //      this.data = data
+    //      this.left = null
+    //      this.right = null
+    //    }
+
+    module.exports = { 
+    //param A : root node of tree
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            if(A == null) return 0;
+            if(A.data == B) return 1;
+            else if(A.data > B) return this.solve(A.left, B);
+            else return this.solve(A.right, B);
+
+        }
+    };
+
+Ques-2 -> (Delete a node in BST)
+
+# Problem Description -
+    Given a Binary Search Tree(BST) A. If there is a node with value B present in the tree delete it and return the tree.
+    Note - If there are multiple options, always replace a node by its in-order predecessor
+
+# Problem Constraints -
+    2 <= No. of nodes in BST <= 105
+    1 <= value of nodes <= 109
+    Each node has a unique value
+
+# Solution - 
+    // Definition for a  binary tree node
+    //    function TreeNode(data){
+    //      this.data = data
+    //      this.left = null
+    //      this.right = null
+    //    }
+
+    module.exports = { 
+    //param A : root node of tree
+    //param B : integer
+    //return the root node in the tree
+        largestElementInLeftSubTree: function(root) {
+            if(root.right == null) return root;
+            return this.largestElementInLeftSubTree(root.right);
+        },
+        solve : function(A, B){
+        if (A === null) return null;
+
+        if(A.data > B) A.left = this.solve(A.left, B);
+        else if(A.data < B) A.right = this.solve(A.right, B);
+        else {
+            if(A.left == null && A.right == null) return null;
+            else if(A.left == null) return A.right;
+            else if(A.right == null) return A.left;
+            else {
+                let max = this.largestElementInLeftSubTree(A.left);
+                    A.data = max.data;
+                    A.left = this.solve(A.left, max.data);
+            }  
+        } 
+            return A; 
+        }
+    };
+
+Ques-3 -> ( Sorted Array To Balanced BST)
+
+# Problem Description -
+    Given an array where elements are sorted in ascending order, convert it to a height Balanced Binary Search Tree (BBST).
+    Balanced tree : a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+
+# Problem Constraints -
+    1 <= length of array <= 100000
+
+# Solution -
+    // Definition for a binary tree node 
+    // function TreeNode(data){ 
+    //       this.data = data 
+    //       this.left = null 
+    //       this.right = null 
+    // } 
+    module.exports = { 
+        /*** param A: list of integer 
+        ***  return: root node of balanced BST 
+        ***/ 
+        sortedArrayToBST: function (nums) { 
+            return buildBST(nums, 0, nums.length - 1);
+            function buildBST(nums, low, high) {
+                if (low < 0 || high > nums.length - 1){
+                    return null;
+                }
+                if (nums.length == 0 || low > high){
+                    return null;
+                }
+                let mid = low + Math.floor((high - low) / 2);
+                let root = new TreeNode(nums[mid]);
+                root.left = buildBST(nums, low, mid - 1);
+                root.right = buildBST(nums, mid + 1, high);
+                return root;
+            }
+        }, 
+    };
+
+Ques-4 -> (Valid Binary Search Tree)
+
+# Problem Description -
+    You are given a binary tree represented by root A. You need to check if it is a Binary Search Tree or not.
+    Assume a BST is defined as follows:
+    1) The left subtree of a node contains only nodes with keys less than the node's key.
+    2) The right subtree of a node contains only nodes with keys greater than the node's key.
+    3) Both the left and right subtrees must also be binary search trees.
+
+# Problem Constraints -
+    1 <= Number of nodes in binary tree <= 105
+    0 <= node values <= 232-1
+
+# Solution -
+    // Definition for a  binary tree node
+    //    function TreeNode(data){
+    //      this.data = data
+    //      this.left = null
+    //      this.right = null
+    //    }
+
+    module.exports = { 
+    //param A : root node of tree
+    //return an integer
+        isValidBST : function(A){
+            return this.helperIsBST(A, -Infinity, Infinity);
+        },
+        helperIsBST: function(A, start, end) {
+            if(A == null) return 1;
+            if(start <= A.data && A.data <= end) {
+                let L = this.helperIsBST(A.left, start, A.data-1);
+                if(L == 0) return 0;
+                let R = this.helperIsBST(A.right, A.data+1, end);
+                if(R == 0) return 0;
+                return 1; 
+            }
+            return 0;
+        }
+    };
+
+Ques-5 -> (Check for BST with One Child)
+
+# Problem Description -
+    Given preorder traversal of a binary tree, check if it is possible that it is also a preorder traversal of a Binary Search Tree (BST), where each internal node (non-leaf nodes) have exactly one child.
+
+# Problem Constraints -
+    1 <= number of nodes <= 100000
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return a strings
+        solve : function(A){
+            let left = Number.MIN_SAFE_INTEGER;
+            let right = Number.MAX_SAFE_INTEGER;
+
+            let root = A[0];
+            for(let i=1;i<A.length;i++) {
+                if(A[i] > root) left = root;
+                else right = root;
+
+                if(A[i] < left || A[i] > right) return 'NO';
+                root = A[i];
+            }
+            return 'YES';
+        }
+    };
+
+Ques-6 -> (BST nodes in a range)
+
+# Problem Description -
+    Given a binary search tree of integers. You are given a range B and C.
+    Return the count of the number of nodes that lie in the given range.
+
+# Problem Constraints -
+    1 <= Number of nodes in binary tree <= 100000
+    0 <= B < = C <= 109
+
+# Solution -
+    // Definition for a  binary tree node
+    //    function TreeNode(data){
+    //      this.data = data
+    //      this.left = null
+    //      this.right = null
+    //    }
+
+    module.exports = { 
+    //param A : root node of tree
+    //param B : integer
+    //param C : integer
+    //return an integer
+        solve : function(A, B, C){
+            let count = 0;
+            checkrange(A);
+            return count;
+            
+            function checkrange(A) {
+                if(!A) return;
+                if(A.data < B) checkrange(A.right);
+                else if(A.data > C) checkrange(A.left);
+                else {
+                    count += 1;
+                    checkrange(A.right);
+                    checkrange(A.left);
+                }
+            }
+        },
+    };
+
+Ques-7 -> (Two Sum BST)
+
+# Problem Description -
+    Given a binary search tree A, where each node contains a positive integer, and an integer B, you have to find whether or not there exist two different nodes X and Y such that X.value + Y.value = B.
+    Return 1 to denote that two such nodes exist. Return 0, otherwise.
+
+# Problem Constraints -
+    1 <= size of tree <= 100000
+    1 <= B <= 109
+
+# Solution -
+    // Definition for a  binary tree node
+    //    function TreeNode(data){
+    //      this.data = data
+    //      this.left = null
+    //      this.right = null
+    //    }
+
+    module.exports = { 
+    //param A : root node of tree
+    //param B : integer
+    //return an integer
+        t2Sum : function(A, B){        
+                const stack1 = [], stack2 = [];
+                let current1 = A, current2 = A;
+
+                while((current1 || (stack1.length > 0)) || (current2 || (stack2.length > 0))) {
+                    if(current1 || current2) {
+                        if(current1) {
+                            stack1.push(current1);
+                            current1 = current1.left;
+                        }
+                        if(current2) {
+                            stack2.push(current2);
+                            current2 = current2.right;
+                        }
+                    } else {
+                        if(stack1.length == 0 || stack2.length == 0) break;
+                        let node1 = stack1[stack1.length-1];
+                        let node2 = stack2[stack2.length-1];
+
+                        let sum = node1.data + node2.data;
+                        if(node1.data == node2.data) return 0;
+                        else if(sum == B) return 1;
+                        else if(sum < B) {
+                            stack1.pop();
+                            current1 = node1.right;
+                        } else {
+                            stack2.pop();
+                            current2 = node2.left;
+                        }
+                    }
+                }
+                return 0;
+        }
+    };

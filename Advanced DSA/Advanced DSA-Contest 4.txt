@@ -1,0 +1,167 @@
+Ques-1 -> (Alice and even values)
+
+# Problem Description -
+    Alice is a librarian who is working on a project to organize a list of books. 
+    She has a linked list of books A, where each node represents a book with an integer value that 
+    indicates the number of pages in the book. She wants to remove all the books that have an odd number of pages from the linked list.
+    Help her by writing a function to remove all the nodes of the linked list with odd values and return the head of the updated linked list.
+
+# Problem Constraints-
+    1 <= A.size() <= 10^5
+    1 <= Values of Linked list <= 10^9
+
+# Solution - 
+    // Definition for singly-linked list.
+    //    function Node(data){
+    //      this.data = data
+    //      this.next = null
+    //    }
+    module.exports = { 
+    //param A : head node of linked list
+    //return the head node in the linked list
+        solve : function(A){
+        if (A == null  || A.next == null) return A;
+        let temp = A;
+        while(temp && temp.data % 2 != 0) {
+            A = temp.next;
+            temp = A;
+        }
+        while (temp != null && temp.next != null) {
+            if (temp.next.data % 2 === 1) {
+            temp.next = temp.next.next;
+            } else {
+            temp = temp.next;
+            }
+        }
+        return A;
+        }
+    };
+
+Ques-2 -> (Alex and treasures)
+
+# Problem Description -
+    Once upon a time, there was a great explorer named Alex who had traveled the world in search of treasure and adventure. On one of his journeys, he came across an ancient map that led to a hidden cave deep in the mountains.
+    When Alex arrived at the cave, he found that it was filled with treasures of all kinds. However, he also found a problem. The treasures were scattered all over the cave, and he needed to find the B farthest ones from the cave's entrance.
+    Moreover, Given an array A of points where A[i] = [xi, yi] represents a point on the X-Y plane and an integer B, return the Balanced farthest points to the origin (0, 0). 
+    The distance between two points on the X-Y plane is the Euclidean distance (i.e. sqrt((x1 - x2)^2 + (y1 - y2)^2)).
+    Note: It is guranteed that no two points will have same distance from the origin. Return the answer in sorted order.
+
+# Problem Constraints -
+    1 <= A.size() <= 10^5
+    -10^4 <= xi, yi <= 10^4
+    1 <= B <= A.size()-
+
+# Solution -
+    class Pair {
+        constructor(first, second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    module.exports = { 
+    //param A : array of array of integers
+    //param B : integer
+    //return a array of array of integers
+        solve : function(A, B){
+            // Approach - 1
+                A.sort((a, b) => {
+                    let x1 = a[0];
+                    let x2 = a[1];
+                    let y1 = b[0];
+                    let y2 = b[1];
+
+                    let dist1 = x1*x1 + x2*x2;
+                    let dist2 = y1*y1 + y2*y2;
+                    return dist2 - dist1;
+                });
+                let ans = [];
+                for(let i=0;i<B;i++) {
+                    ans.push(A[i]);
+                }
+                return ans;
+                // Approach - 2
+                let N = A.length, pairsObj;
+                let pairs = [];
+                for(let i=0;i<N;i++) {
+                    pairsObj = new Pair(A[i][0], A[i][1]);
+                    pairs.push(pairsObj);
+                }
+                pairs.sort((a, b) => {
+                    let dist1 = a.first * a.first + a.second * a.second;
+                    let dist2 = b.first * b.first + b.second * b.second;
+                    return dist2 - dist1;
+                });
+                
+                let ans = [];
+                for(let i=0;i<B;i++) {
+                    ans.push([pairs[i].first, pairs[i].second]);
+                }
+                return ans;
+        }
+    };
+
+Ques-3 -> (Nearest Smaller Element)
+
+# Problem Description -
+    Given an array A, find the nearest smaller element G[i] for every element A[i] in the array such that the element has an index smaller than i.
+    More formally,G[i] for an element A[i] = an element A[j] such that j is maximum possible AND j < i AND
+    A[j] < A[i]
+    Elements for which no smaller element exist, consider the next smaller element as -1.
+
+# Problem Constraints -
+    1 <= |A| <= 100000
+    -10^9 <= A[i] <= 10^9
+
+# Solution -
+    class Stack {
+        constructor() {
+            this.items = [];
+        }
+        push(element) {
+            this.items.push(element);
+        }
+        pop() {
+            if(this.items.length == 0) return 'underflow';
+            this.items.pop();
+        }
+        peek() {
+            return this.items[this.items.length-1];
+        }
+        isEmpty() {
+            return this.items.length === 0
+        }
+        printStack() {
+            let str = '';
+            let i=0;
+            while(i<this.items.length) {
+                str += this.items[i] + ' ';
+                i++;
+            }
+            return str;
+        }
+    }
+
+    module.exports = { 
+    //param A : array of integers
+    //return a array of integers
+        prevSmaller : function(A){
+            const st = new Stack(A);
+            let result = [];
+            let N = A.length;
+            
+            if(A.length == 1) return [-1];
+            let i=0;
+            while(i<N) {
+                while(!st.isEmpty() && st.peek() >= A[i]) {
+                    st.pop();
+                }
+                if(st.isEmpty()) result[i] = -1;
+                else result[i] = st.peek();
+                
+                st.push(A[i]);
+                i++;
+            }
+            return result;
+        }
+    };
