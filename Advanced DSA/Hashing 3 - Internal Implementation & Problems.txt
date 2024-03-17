@@ -1,0 +1,399 @@
+Ques-1 -> (Shaggy and distances)
+
+# Problem Description -
+    Shaggy has an array A consisting of N elements. We call a pair of distinct indices in that array a special if elements at those indices in the array are equal.
+    Shaggy wants you to find a special pair such that the distance between that pair is minimum. Distance between two indices is defined as |i-j|. If there is no special pair in the array, then return -1.
+
+# Problem Constraints -
+    1 <= |A| <= 105
+
+# Solution -
+    class HashMap {
+    constructor() {
+        this.bucket = {};
+    }
+
+    set(key, value) {
+        this.bucket[key] = value;
+    }
+
+    get(key) {
+        return this.bucket[key];
+    }
+
+    has(key) {
+        return key in this.bucket;
+    }
+    }
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            // Brute Force Approach - Time=O(n^2), space = O(1), 
+            // Hard test case failed on this way
+            let minDistance = Infinity;
+            for(let i=0;i<A.length;i++) {
+                for(let j=i+1;j<A.length;j++) {
+                    if(A[i] == A[j]) minDistance = Math.min(minDistance, Math.abs(j-i));
+                }
+            }
+            return minDistance === Infinity ? -1: minDistance;
+
+            // Approach - 2, using predefined Map Method, Time - O(n), space - O(n)
+            let n = A.length;
+            let minLength = n;
+            let map = new Map();
+
+            for(let i=0;i<n;i++) {
+                if(map.has(A[i])) {
+                    let prevIndex = i-map.get(A[i]);
+                    minLength = Math.min(minLength, prevIndex);
+                }
+                else map.set(A[i], i);
+            }
+
+            return (minLength == n) ? -1 : minLength;
+
+            //  Approach - 3, solved using custom hashmap class, Time - O(n), space - O(n)
+            const N = A.length;
+            let minLength = N;
+            const map = new HashMap();
+
+            for(let i=0;i<N;i++) {
+                if(map.has(A[i])) {
+                    let prevIndex = i-map.get(A[i]);
+                    minLength = Math.min(minLength, prevIndex);
+                }
+                else map.set(A[i], i);
+            }
+            return (minLength == N) ? -1 : minLength;
+
+            //Approach - 4, using two pointers with HashMap, Time - O(n), space - O(n)
+            let minLength = Infinity;
+            const map = new HashMap();
+            let start = 0;
+
+            for(let end=0;end<A.length;end++) {
+                if(map.has(A[end])) {
+                    let prevIndex = map.get(A[end]);
+                    minLength = Math.min(minLength, end - prevIndex);
+                    start = Math.max(start, prevIndex + 1);
+                }
+                map.set(A[end], end);
+            }
+            return minLength === Infinity ? -1 : minLength;
+        }
+
+Ques-2 -> (Longest Subarray Zero Sum)
+
+# Problem Description -
+    Given an array A of N integers.
+    Find the length of the longest subarray in the array which sums to zero.
+    If there is no subarray which sums to zero then return 0.
+
+# Problem Constraints -
+    1 <= N <= 105
+    -109 <= A[i] <= 109
+
+# Solution -
+    class HashMap {
+        constructor() {
+            this.bucket = {};
+        }
+
+        set(key, value) {
+            this.bucket[key] = value;
+        }
+
+        get(key) {
+            return this.bucket[key];
+        }
+
+        has(key) {
+            return key in this.bucket;
+        }
+    }
+        module.exports = { 
+        //param A : array of integers
+        //return an integer
+            solve : function(A){
+                // Approach -1, Brute Forch Approach, Easy test case passed only, time = O(N^3), space = O(1)
+
+                let maxLength = 0;
+                for(let i=0;i<A.length;i++) {
+                    for(let j=0;j<i;j++) {
+                        let sum = BigInt(0);
+                        for(let k=j;k<=i;k++) {
+                            sum += BigInt(A[k]);
+                        }
+                        if(sum == BigInt(0)) {
+                            maxLength = Math.max(maxLength, i-j+1);
+                        }
+                    }
+                }
+                return maxLength;
+
+                // Approach -2, using javascript Map object
+                let sum=0, maxSum = 0;
+                let map = new Map();
+
+                for(let i=0;i<A.length;i++) {
+                    sum += Number(A[i]);
+
+                    if(sum == 0) {
+                        maxSum = i+1;
+                    }
+                    if(map.has(sum)) maxSum = Math.max(maxSum, i-map.get(sum));
+                    else map.set(sum, i);
+                }
+                return maxSum;
+
+                // Approach -3, using own custom Hashmap class
+                let sum=0, maxSum = 0;
+                let map = new HashMap();
+
+                for(let i=0;i<A.length;i++) {
+                    sum += Number(A[i]);
+
+                    if(sum == 0) {
+                        maxSum = i+1;
+                    }
+                    if(map.has(sum)) maxSum = Math.max(maxSum, i-map.get(sum));
+                    else map.set(sum, i);
+                }
+                return maxSum;
+            }
+        };
+
+Ques-3 -> ( Sort Array in given Order)
+
+# Problem Description -
+    Given two arrays of integers A and B, Sort A in such a way that the relative order among the elements will be the same as those are in B.
+    For the elements not present in B, append them at last in sorted order.
+    Return the array A after sorting from the above method.
+    NOTE: Elements of B are unique.
+
+Problem Constraints -
+    1 <= length of the array A <= 100000
+    1 <= length of the array B <= 100000
+    -10^9 <= A[i] <= 10^9
+
+# Solution -
+    class HashMap {
+        constructor() {
+            this.bucket = {};
+        }
+
+        set(key, value) {
+            this.bucket[key] = value;
+        }
+
+        get(key) {
+            return this.bucket[key];
+        }
+
+        has(key) {
+            return key in this.bucket;
+        }
+        delete(key) {
+            if(this.has(key)) {
+                delete this.bucket[key];
+                return true;
+            }
+            else return false;
+        }
+    }
+        module.exports = { 
+        //param A : array of integers
+        //param B : array of integers
+        //return a array of integers
+            solve : function(A, B){
+                let uncommonElements = [];
+                let commonElements = [];
+                let result = [];
+
+                for(let item of A) {
+                    if(!B.includes(item)) uncommonElements.push(item);
+                    else commonElements.push(item);
+                }
+                uncommonElements.sort((a,b) => a-b);
+
+                let i=0;
+                while(i<B.length) {
+                    for(let item of commonElements) {
+                        if(item == B[i]) result.push(item);
+                    }
+                    i++;
+                }
+                return result.concat(uncommonElements);
+            }
+        };
+
+Ques-4 -> (Colorful Number)
+
+# Problem Description -
+    Given a number A, find if it is COLORFUL number or not.
+    If number A is a COLORFUL number return 1 else, return 0.
+    What is a COLORFUL Number:
+    A number can be broken into different consecutive sequence of digits. 
+    The number 3245 can be broken into sequences like 3, 2, 4, 5, 32, 24, 45, 324, 245 and 3245. 
+    This number is a COLORFUL number, since the product of every consecutive sequence of digits is different
+
+# Problem Constraints -
+    1 <= A <= 2 * 109
+
+# Solution -
+    class HashSet {
+        constructor() {
+            this.set = {};
+        }
+        add(value) {
+            this.set[value] = true;
+        }
+        has(value) {
+            return this.set.hasOwnProperty(value);
+        }
+        delete(value) {
+            delete this.set[value];
+        }
+        toArray() {
+            return Object.keys(this.set);
+        }
+    }
+        module.exports = { 
+        //param A : integer
+        //return an integer
+            colorful : function(A){
+                let digitsArray = [];
+
+                while(A>0) {
+                    digitsArray.unshift(A%10);
+                    A = Math.floor(A/10);
+                }
+
+                // let set = new Set();
+                let set = new HashSet();
+                for(let i=0;i<digitsArray.length;i++) {
+                    let productValue = 1;
+                    for(let j=i;j<digitsArray.length;j++) {
+                        productValue *= digitsArray[j];
+                        if(set.has(productValue)) return 0;
+                        else set.add(productValue);
+                    }
+                }
+                return 1;
+            }
+        };
+
+Ques-5 -> (Count Subarrays)
+
+# Problem Description -
+    Misha likes finding all Subarrays of an Array. Now she gives you an array A of N elements and told you to find the number of subarrays of A, that have unique elements.
+    Since the number of subarrays could be large, return value % 109 +7.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 106
+
+# Solution -
+    class HashSet {
+        constructor() {
+            this.set = {};
+        }
+        add(value) {
+            this.set[value] = true;
+        }
+        has(value) {
+            return this.set.hasOwnProperty(value);
+        }
+        delete(value) {
+            delete this.set[value];
+        }
+        toArray() {
+            return Object.keys(this.set);
+        }
+    }
+        module.exports = { 
+        //param A : array of integers
+        //return an integer
+            solve : function(A){
+                let N = A.length;
+                let count = 0;
+                let mod = Math.pow(10,9) +7
+                // let set = new Set();
+                let set = new HashSet();
+
+                let i = j = 0;
+                while(i<N && j<N) {
+                    if(!set.has(A[j])) {
+                        set.add(A[j]);
+                        j++;
+                        count += j-i;
+                        count = count % mod;
+                    }
+                    else {
+                    set.delete(A[i]);
+                    i++; 
+                    }
+                }
+                return count;
+            }
+        };
+
+Ques-6 -> (Longest Substring Without Repeat)
+
+# Problem Description -
+    Determine the "GOOD"ness of a given string A, where the "GOOD"ness is defined by the length of the longest substring that contains no repeating characters. The greater the length of this unique-character substring, the higher the "GOOD"ness of the string.
+    Your task is to return an integer representing the "GOOD"ness of string A.
+    Note: The solution should be achieved in O(N) time complexity, where N is the length of the string.
+
+# Problem Constraints -
+    1 <= size(A) <= 106
+    String consists of lowerCase,upperCase characters and digits are also present in the string A.
+
+# Solution -
+    class HashSet {
+        constructor() {
+            this.set = {};
+        }
+        add(value) {
+            this.set[value] = true;
+        }
+        has(value) {
+            return this.set.hasOwnProperty(value);
+        }
+        delete(value) {
+            delete this.set[value];
+        }
+        toArray() {
+            return Object.keys(this.set);
+        }
+    }
+        module.exports = { 
+        //param A : string
+        //return an integer
+            lengthOfLongestSubstring : function(A){
+                let N = A.length;
+                let i = j = 0;
+                let index = 0;
+                let ans = 0;
+                let map = new Map(); 
+
+                while(i<N && j<N) {
+                    if(!map.has(A[j])) {
+                        map.set(A[j], index);
+                        ans = Math.max(ans, j-i+1);
+                        j++;
+                        index++;
+                    }
+                    else {
+                        let duplicateIndex = map.get(A[j]);
+                        for(let k=i;k<=duplicateIndex;k++) {
+                            map.delete(A[i]);
+                        }
+                        i++;
+                    }
+                }
+                return ans;
+            }
+        };
