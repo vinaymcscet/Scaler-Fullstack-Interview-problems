@@ -1,0 +1,494 @@
+Ques-1 -> (K Places Apart)
+
+# Problem Description -
+    N people having different priorities are standing in a queue.
+    The queue follows the property that each person is standing at most B places away from its position in the sorted queue.
+    Your task is to sort the queue in the increasing order of priorities.
+    NOTE:
+        No two persons can have the same priority.
+        Use the property of the queue to sort the queue with complexity O(NlogB).
+
+# Problem Constraints -
+    1 <= N <= 100000
+    0 <= B <= N
+
+# Solution -
+    function build_max_heapify(A, i, N) {
+        let largest = i;
+        let left = 2 * i + 1;
+        let right = 2 * i + 2;
+        if (left < N && A[left] > A[largest]) {
+            largest = left;
+        }
+        if (right < N && A[right] > A[largest]) {
+            largest = right;
+        }
+        if (largest !== i) {
+            [A[i], A[largest]] = [A[largest], A[i]];
+            build_max_heapify(A, largest, N);
+        }
+        return A;
+    }
+    function heapify(A, i) {
+            while(2*i+1 < A.length) {
+                let left = 2 * i + 1;
+                let right = 2 * i + 2;
+                let smallest = i;
+
+                if(left < A.length && A[left] < A[smallest]) smallest = left;
+                if(right < A.length && A[right] < A[smallest]) smallest = right;
+
+                if(smallest == i) break;
+                let temp = A[i];
+                A[i] = A[smallest];
+                A[smallest] = temp;
+                i = smallest;
+            }
+            return A;
+    }
+    function delete_min(A) {
+        if(A.length == 0) return -1;
+        let temp = A[0];
+        A[0] = A[A.length-1];
+        A[A.length-1] = temp;
+        A.pop();
+        heapify(A, 0);
+        return temp;
+    }
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return a array of integers
+        solve : function(A, B){
+            // Approach - 1
+            return A.sort((a, b) => a-b);
+
+            // Approach - 2
+            // 1. build a heap(heapify)
+            // 2. get_min() from heap
+            // 3. delete min from heap and push it on ans array.
+            let ans = [];
+            let lastNonLeafNode = Math.floor((A.length-2)/2);
+            for(let i=lastNonLeafNode;i>=0;i--) {
+                heapify(A, i);
+            }
+            while(A.length > 0) {
+                let X = delete_min(A);
+                ans.push(X);
+            }
+            return ans;
+
+            // Approach - 3
+            // 1. convert a array into max-heap.
+            let lastNonLeafNode = Math.floor((A.length-2)/2);
+            let N = A.length;
+            for(let i=lastNonLeafNode;i>=0;i--) {
+                build_max_heapify(A, i, N);
+            }
+            let J = N;
+            while(J>0) {
+                let temp = A[0];
+                A[0] = A[J-1];
+                A[J-1] = temp;
+                J--;
+                build_max_heapify(A, 0, J);
+            }
+            return A;
+        }
+    };
+
+Ques-2 -> (Ath largest element)
+
+# Problem Description -
+    Given an integer array B of size N.
+    You need to find the Ath largest element in the subarray [1 to i], where i varies from 1 to N. In other words, find the Ath largest element in the sub-arrays [1 : 1], [1 : 2], [1 : 3], ...., [1 : N].
+    NOTE: If any subarray [1 : i] has less than A elements, then the output should be -1 at the ith index.
+
+# Problem Constraints -
+    1 <= N <= 100000
+    1 <= A <= N
+    1 <= B[i] <= INT_MAX
+
+# Solution -
+    class PriorityQueue {
+    constructor() {
+        this.heap = [];
+    }
+    top() {
+        if (this.heap.length == 0) return -1;
+        return this.heap[0];
+    }
+    enqueue(val) { // add inside heap array
+        this.heap.push(val);
+        this.heapifyUp();
+    }
+    dequeue() {
+        let topElem = this.heap[0];
+        this.heap[0] = this.heap[this.heap.length-1];
+        this.heap.pop();
+        this.heapifyDown(0);
+        return topElem;
+    }
+    heapifyDown(i) {
+        let left = 2*i+1;
+        let right = 2*i+2;
+        let current = i;
+        
+        if(left < this.heap.length && this.heap[left] < this.heap[current]) current = left;
+        if(right < this.heap.length && this.heap[right] < this.heap[current]) current = right;
+        if(current != i) {
+            [this.heap[i], this.heap[current]] = [this.heap[current], this.heap[i]];
+            this.heapifyDown(current);
+        }
+    }
+    heapifyUp() {
+        let id = this.heap.length-1;
+        let parentIndex = Math.floor((id-1)/2);
+        while(id>0 && this.heap[id] < this.heap[parentIndex]) {
+            [this.heap[id], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[id]];
+            id = parentIndex;
+            parentIndex = Math.floor((id-1)/2);
+        }
+    }
+}
+
+module.exports = { 
+ //param A : integer
+ //param B : array of integers
+ //return a array of integers
+	solve : function(A, B){
+        let pq = new PriorityQueue();
+        let N = B.length;
+        let ans = new Array(N).fill(0);
+        for(let i=0;i<A;i++) {
+            pq.enqueue(B[i]);
+            if(i != A-1) ans[i] = -1;
+            else ans[i] = pq.top();
+        }
+        for(let i=A;i<N;i++) {
+            if(B[i] <= pq.top()) ans[i] = pq.top();
+            else {
+                pq.dequeue();
+                pq.enqueue(B[i]);
+                ans[i] = pq.top();
+            }
+        }
+        return ans;
+	}
+};
+
+Ques-3 -> (Running Median)
+
+# Problem Description -
+    Flipkart is currently dealing with the difficulty of precisely estimating and displaying the expected delivery time for orders to a specific pin code. The existing method relies on historical delivery time data for that pin code, using the median value as the expected delivery time. As the order history expands with new entries, Flipkart aims to enhance this process by dynamically updating the expected delivery time whenever a new delivery time is added. The objective is to find the expected delivery time after each new element is incorporated into the list of delivery times. End Goal: With every addition of new delivery time, requirement is to find the median value.
+    Why Median ? The median is calculated because it provides a more robust measure of the expected delivery time The median is less sensitive to outliers or extreme values than the mean. In the context of delivery times, this is crucial because occasional delays or unusually fast deliveries (outliers) can skew the mean significantly, leading to inaccurate estimations.
+    Given an array of integers, A denoting the delivery times for each order. New arrays of integer B and C are formed, each time a new delivery data is encountered, append it at the end of B and append the median of array B at the end of C. Your task is to find and return the array C.
+    NOTE:
+
+        If the number of elements is N in B and N is odd, then consider the median as B[N/2] ( B must be in sorted order).
+        If the number of elements is N in B and N is even, then consider the median as B[N/2-1]. ( B must be in sorted order).
+
+
+# Problem Constraints -
+    1 <= length of the array <= 100000
+    1 <= A[i] <= 109
+
+# Solution -
+    class PriorityQueue {
+    constructor(data) {
+        this.heap = [];
+        this.data = data;
+    }
+    peek() {
+        if(this.heap.length == 0) return undefined;
+        return this.heap[0] * this.data;
+    }
+    enqueue(value) {
+        this.heap.push(value * this.data);
+        let id = this.heap.length-1;
+        let parentIndex = Math.floor((id-1)/2);
+        while(id > 0 && this.heap[id] < this.heap[parentIndex]) {
+            [this.heap[id], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[id]];
+            id = Math.floor((id-1)/2);
+            parentIndex = Math.floor((id-1)/2);
+        }
+    }
+    dequeue() {
+        let temp = this.heap[0];
+        this.heap[0] = this.heap[this.heap.length-1];
+        this.heap.pop();
+        this.heapifyDown(0);
+        return temp * this.data;
+    }
+    heapifyDown(i) {
+        let left = 2*i+1;
+        let right = 2*i+2;
+        let smallest = i;
+        if(left < this.heap.length && this.heap[smallest] > this.heap[left]) smallest = left;
+        if(right < this.heap.length && this.heap[smallest] > this.heap[right]) smallest = right;
+        if(smallest != i) {
+            [this.heap[i], this.heap[smallest]] = [this.heap[smallest], this.heap[i]];
+            this.heapifyDown(smallest);
+        }
+    }
+    size() {
+        return this.heap.length;
+    }
+    empty() {
+        return this.heap.length == 0;
+    }
+}
+let min_heap = new PriorityQueue(1);
+let max_heap = new PriorityQueue(-1);
+
+function add_heap(A) {
+    if(max_heap.size() && A >= max_heap.peek()) min_heap.enqueue(A);
+    else max_heap.enqueue(A);
+
+    if(Math.abs(max_heap.size() - min_heap.size()) > 1) {
+        if(max_heap.size() > min_heap.size()) {
+            let temp = max_heap.dequeue();
+            min_heap.enqueue(temp);
+        }
+        else {
+            let temp = min_heap.dequeue();
+            max_heap.enqueue(temp);
+        }
+    }
+}
+function getMedian() {
+    let total = min_heap.size() + max_heap.size();
+    let temp;
+
+    if(total % 2 == 1) {
+        if(max_heap.size() > min_heap.size()) temp = max_heap.peek();
+        else temp = min_heap.peek();
+    } else {
+        temp = Number.MAX_SAFE_INTEGER;
+        if(max_heap.empty() == false) temp = Math.min(temp, max_heap.peek());
+        if(min_heap.empty() == false) temp = Math.min(temp, min_heap.peek());
+    }
+    return temp;
+}
+function runningMedian(A) {
+    let N = A.length;
+    let ans = [];
+
+    while(!min_heap.empty()) min_heap.dequeue();
+    while(!max_heap.empty()) max_heap.dequeue();
+
+    for(let i=0;i<N;i++) {
+        add_heap(A[i]);
+        ans.push(getMedian());
+    }
+    return ans;
+}
+module.exports = { 
+ //param A : array of integers
+ //return a array of integers
+	solve : function(A){
+        return runningMedian(A);
+	}
+}
+
+
+Ques-4 -> (Ways to form Max Heap)
+
+# Problem Description -
+    Max Heap is a special kind of complete binary tree in which, for every node, the value present in that node is greater than the value present in its children nodes.
+    Find the number of distinct Max Heap that can be made from A distinct integers.
+    In short, you have to ensure the following properties for the max heap :
+    Heap has to be a complete binary tree ( A complete binary tree is a binary tree in which every level, except possibly the last, is completely filled, and all nodes are as far left as possible.)
+    Every node is greater than all its children.
+    NOTE: If you want to know more about Heaps, please visit this link. Return your answer modulo 109 + 7.
+
+# Problem Constraints -
+    1 <= A <= 100
+
+# Solution -
+    let mod = Math.pow(10, 9) + 7;
+module.exports = { 
+ //param A : integer
+ //return an integer
+	solve : function(A){
+        return this.ways(A) % mod;
+	},
+    ways: function(N) {
+        if(N == 0) return 0;
+        if(N == 1 || N==2) return 1;
+
+        //x represents the nodes till second last level
+        let left = 0 , right = 0 ; 
+        // lets go level by level and add number of children on that level to left and right 
+        let rem = N-1;
+
+        for(let i=1;rem>0;i*=2) { // on first level 1 child in left tree 1 in right 
+            left += Math.min(rem, i);
+            rem -= Math.min(rem, i);
+
+            right += Math.min(rem, i);
+            rem -= Math.min(rem, i);
+        }
+        // let x = (2*height)-1;
+        // let left = Math.floor((x-1)/2) + Math.min((N-x), Math.floor((x+1)/2));
+        // let right = N-left-1;
+
+        let a = this.ncrFunction(N-1, left);
+        let b = this.ways(left);
+        let c = this.ways(right);
+
+        let result = this.multi(this.multi(a, b), c);
+        return result;
+    },
+    ncrFunction: function(A, B) {
+        //pre compute factorial values for each number till A
+        let factArr = new Array(A+1);
+        factArr[0] = 1;
+        for(let i=1;i<=A;i++) {
+            factArr[i] = this.multi(i, factArr[i-1]);
+        }
+        //nCr = n! / (n-r)! r!
+        // n!
+        let nFact = factArr[A];
+        let divisor = this.multi(factArr[A-B], factArr[B]);
+        let inversionOfDenom = this.power(divisor, (mod-2));//inversion denominator
+        return this.multi(nFact, inversionOfDenom);
+    },
+    multi: function(A, B) {
+        let value = A * B;
+        if(value < Number.MAX_SAFE_INTEGER && value > Number.MIN_SAFE_INTEGER) return value % mod;
+        return Number((BigInt(A)*BigInt(B)) % BigInt(mod))
+    },
+    power: function(A, B) {
+        let result = 1;
+        while(B>0) {
+            if(B & 1) result = this.multi(result, A);
+            A = this.multi(A, A);
+            B >>= 1;
+        }
+        return result;
+    }
+};
+
+Ques-5 -> (Product of 3)
+
+# Problem Description -
+    Given an integer array A of size N.
+    You have to find the product of the three largest integers in array A from range 1 to i, where i goes from 1 to N.
+    Return an array B where B[i] is the product of the largest 3 integers in range 1 to i in array A. If i < 3, then the integer at index i in B should be -1.
+
+# Problem Constraints -
+    1 <= N <= 105
+    0 <= A[i] <= 103
+
+# Solution -
+    
+class PriorityQueue {
+    constructor() {
+        this.heap = [];
+    }
+    top() {
+        if (this.heap.length == 0) return -1;
+        return this.heap[0];
+    }
+    enqueue(val) { // add inside heap array
+        this.heap.push(val);
+        this.heapifyUp();
+    }
+    dequeue() {
+        let topElem = this.heap[0];
+        this.heap[0] = this.heap[this.heap.length-1];
+        this.heap.pop();
+        this.heapifyDown(0);
+        return topElem;
+    }
+    heapifyDown(i) {
+        let left = 2*i+1;
+        let right = 2*i+2;
+        let current = i;
+        
+        if(left < this.heap.length && this.heap[left] > this.heap[current]) current = left;
+        if(right < this.heap.length && this.heap[right] > this.heap[current]) current = right;
+        if(current != i) {
+            [this.heap[i], this.heap[current]] = [this.heap[current], this.heap[i]];
+            this.heapifyDown(current);
+        }
+    }
+    heapifyUp() {
+        let id = this.heap.length-1;
+        let parentIndex = Math.floor((id-1)/2);
+        while(id>0 && this.heap[id] > this.heap[parentIndex]) {
+            [this.heap[id], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[id]];
+            id = parentIndex;
+            parentIndex = Math.floor((id-1)/2);
+        }
+    }
+    isEmpty() {
+        return this.heap.length === 0;
+    }
+
+}
+module.exports = { 
+ //param A : array of integers
+ //return a array of integers
+	solve : function(A){
+        // Approach - 1(easy test case passed)
+        let B = [];
+        for(let i=0;i<A.length;i++) {
+            if(i<2) B.push(-1);
+            else {
+                let sorted = A.slice(0, i + 1).sort((a, b) => b - a);
+                let product = sorted[0] * sorted[1] * sorted[2];
+                B.push(product);
+            }
+        }
+        return B;
+
+        // Approach - 2(using max-heap)
+        let B = [];
+        let pq = new PriorityQueue();
+        for(let i=0;i<A.length;i++){
+            pq.enqueue(A[i]);
+            if(i<2) {
+                B.push(-1);
+            }
+            else {
+                let a = pq.dequeue();
+                let b = pq.dequeue();
+                let c = pq.dequeue();
+                B.push(a*b*c);
+                
+                pq.enqueue(a);
+                pq.enqueue(b);
+                pq.enqueue(c);
+            }
+        }
+        return B;
+	}
+};
+
+Ques-6 -> (Kth Smallest Element in a Sorted Matrix)
+
+# Problem Description -
+    Given a sorted matrix of integers A of size N x M and an integer B.
+    Each of the rows and columns of matrix A is sorted in ascending order, find the Bth smallest element in the matrix.
+    NOTE: Return The Bth smallest element in the sorted order, not the Bth distinct element.
+
+# Problem Constraints -
+    1 <= N, M <= 500
+    1 <= A[i] <= 109
+    1 <= B <= N * M
+
+
+# Solution -
+    module.exports = { 
+    //param A : array of array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            // Approach - 1(Brute Force)
+            let flatArray = A.reduce((acc, row) => acc.concat(row), []);
+            flatArray.sort((a, b) => a-b);
+            return flatArray[B-1];
+        }
+    };

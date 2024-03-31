@@ -1,0 +1,527 @@
+Ques-1 -> (Connect ropes)
+
+# Problem Description -
+    You are given an array A of integers that represent the lengths of ropes.
+    You need to connect these ropes into one rope. The cost of joining two ropes equals the sum of their lengths.
+    Find and return the minimum cost to connect these ropes into one rope.
+
+# Problem Constraints -
+    1 <= length of the array <= 100000
+    1 <= A[i] <= 1000
+
+# Solution -
+    //heapify function or build heap
+    function build_heap(A, i) { // heapify function
+        while((2*i)+1<A.length){
+            let l = (2*i)+1;
+            let r = (2*i)+2;
+            let x = Math.min()
+            if(r>A.length-1){
+                x = Math.min(A[i], A[l]);
+            }else{
+                x = Math.min(A[i], A[l], A[r]);
+            }
+            if(A[i]==x){
+                break;
+            }else if(A[l]==x){
+                let temp = A[i];
+                A[i] = A[l];
+                A[l] = temp; 
+                i = l;
+            }else{
+                let temp = A[i];
+                A[i] = A[r];
+                A[r] = temp; 
+                i = r;
+            }
+        }
+        return A;
+    }
+    function delete_heap(A, i) {
+        let temp = A[0];
+        A[0] = A[A.length-1];
+        A[A.length-1] = temp;
+        A.pop();
+        return build_heap(A, i);
+    }
+    function insert_heap(A, i) {
+        while(i>0){
+            let pi = Math.floor((i-1)/2);
+            if(A[pi]>A[i]){
+                let temp = A[i];
+                A[i] = A[pi];
+                A[pi] = temp; 
+                i = pi;
+            }else{
+                break
+            }
+        }
+        return A;
+    }
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        solve : function(A){
+            let n = A.length;
+            for(let i = Math.floor((n-1)/2); i>=0; i--){
+                A = build_heap(A, i);
+            }
+            if(A.length == 1){
+                return A[0]
+            }else if(A.length == 2){
+                return A[0]+A[1]
+            }
+            let ans = 0;
+            while(A.length-1>0){
+                let x = A[0];
+                A = delete_heap(A, 0);
+                let y = A[0];
+                A = delete_heap(A, 0);
+                let sum = x + y;
+                ans +=sum
+                A.push(sum)
+                A = insert_heap(A, A.length-1);
+            }
+            return ans;
+        }
+    };
+
+Ques-2 -> (Merge K Sorted Lists)
+
+# Problem Description -
+    Given a list containing head pointers of N sorted linked lists.
+    Merge these given sorted linked lists and return them as one sorted list.
+
+# Problem Constraints -
+    1 <= total number of elements in given linked lists <= 100000
+
+# Solution -
+    // Definition for singly-linked list.
+    //			function Node(data){
+    //				this.data = data
+    //				this.next = null
+    //			}
+
+    module.exports = {
+    //param A : array of integers
+    //return the head node in the linked list
+    mergeKLists: function (A) {
+        let resultNode = [];
+        A.forEach(node => {
+            while(node) {
+                resultNode.push(node);
+                node = node.next;
+            }
+        });
+        resultNode.sort((a, b) => a.data - b.data);
+        let root = resultNode[0];
+        let temp = resultNode[0];
+
+        for(let i=1;i<resultNode.length;i++) {
+            temp.next = resultNode[i];
+            temp = temp.next;
+        }
+        temp.next = null;
+        return root;
+    },
+    };
+
+Ques-3 -> (Build a Heap)
+
+# Problem Description -
+    Given an array A of N integers, convert that array into a min heap and return the array.
+    NOTE: A min heap is a binary tree where every node has a value less than or equal to its children.
+
+Problem Constraints -
+    1 ≤ N ≤ 105
+    0 ≤ A[i] ≤ 109
+
+# Solution -
+    function heapify(A, i) {
+        while(2*i+1 < A.length) {
+            let left = 2*i+1;
+            let right = 2*i+2;
+            let x = Math.min();
+
+            if(right > A.length-1) x = Math.min(A[i], A[left]);
+            else x = Math.min(A[i], A[left], A[right]);
+
+            if(x == A[i]) break;
+            else if(x == A[left]){
+                // swap to left node
+                let temp = A[i];
+                A[i] = A[left];
+                A[left] = temp;
+                i = left;
+            } else {
+                // swap to right node
+                let temp = A[i];
+                A[i] = A[right];
+                A[right] = temp;
+                i = right;
+            }
+        }
+        return A;
+    }
+    class Solution {
+        buildHeap(A) {
+            // code here
+            // Approach - 1(simply sort an array)
+            return A.sort((a, b) => a-b);
+
+            // Approach - 2
+            let N = A.length;
+            let lastNonLeafNode = Math.floor(N-2/2);
+            let Y;
+            for(let i=lastNonLeafNode;i>=0;i--) {
+                Y = heapify(A, i);
+            }
+            return Y;
+        }
+    }
+
+Ques-4 -> (Heap Queries)
+
+# Problem Description -
+    You have an empty min heap. You are given an array A consisting of N queries. Let P denote A[i][0] and Q denote A[i][1]. There are two types of queries:
+    P = 1, Q = -1 : Pop the minimum element from the heap.
+    P = 2, 1 <= Q <= 109 : Insert Q into the heap.
+    Return an integer array containing the answer for all the extract min operation. If the size of heap is 0, then extract min should return -1.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i][0] <= 2
+    1 <= A[i][1] <= 109 or A[i][1] = -1
+
+# Solution -
+    function heapify(A, i) { // heapify function
+        while((2*i)+1<A.length){
+            let left = (2*i)+1;
+            let right = (2*i)+2;
+            let smallest = i;
+            if(left < A.length && A[left] < A[smallest]) smallest = left;
+            if(right < A.length && A[right] < A[smallest]) smallest = right;
+            if(smallest != i){
+                let temp = A[i];
+                A[i] = A[smallest];
+                A[smallest] = temp; 
+                i = smallest;
+            }else{
+                break;
+            }
+        }
+        return A;
+    }
+    function delete_heap(A) {
+        if(A.length == 0) return -1 
+        let temp = A[0];
+        A[0] = A[A.length-1];
+        A[A.length-1] = temp;
+        A.pop();
+        heapify(A, 0);
+        return temp;
+    }
+    function insert_heap(A, val) {
+        A.push(val);
+        let i = A.length-1;
+        while(i>0){
+            let pi = Math.floor((i-1)/2);
+            if(A[pi]>A[i]){
+                let temp = A[i];
+                A[i] = A[pi];
+                A[pi] = temp; 
+                i = pi;
+            }else{
+                break
+            }
+        }
+        return A;
+    }
+    module.exports = { 
+    //param A : array of array of integers
+    //return a array of integers
+        solve : function(A){
+            let ans = [];
+            let heap = [];
+            for(let i=0;i<A.length;i++) {
+                let P = A[i][0];
+                let Q = A[i][1];
+                if(P == 2) insert_heap(heap, Q);
+                else {
+                    let x = delete_heap(heap)
+                    ans.push(x);
+                }
+            }
+            return ans;
+        }
+    };
+
+Ques-5 -> (Maximum array sum after B negations)
+
+# Problem Description -
+    Given an array of integers A and an integer B. You must modify the array exactly B number of times. In a single modification, we can replace any one array element A[i] by -A[i].
+    You need to perform these modifications in such a way that after exactly B modifications, sum of the array must be maximum.
+    NOTE: You can perform the modification on the same element multiple times.
+
+# Problem Constraints -
+    1 <= length of the array <= 5*105
+    1 <= B <= 5 * 106
+    -100 <= A[i] <= 100
+
+# Solution -
+    function heapify(A, i) {
+        while((2*i)+1<A.length){
+            let left = (2*i)+1;
+            let right = (2*i)+2;
+            let smallest = i;
+            if(left < A.length && A[left] < A[smallest]) smallest = left;
+            if(right < A.length && A[right] < A[smallest]) smallest = right;
+            if(smallest != i){
+                let temp = A[i];
+                A[i] = A[smallest];
+                A[smallest] = temp; 
+                i = smallest;
+            }else{
+                break;
+            }
+        }
+        return A;
+    }
+    function insert_heap(heap, val) {
+        heap.push(val);
+        let i = heap.length-1;
+        while(i>0) {
+            let pi = Math.floor((i-1)/2);
+            if(heap[pi] > heap[i]) {
+                let temp = heap[i];
+                heap[i] = heap[pi];
+                heap[pi] = temp;
+                i = pi;
+            }
+            else break;
+        }
+        return heap;
+    }
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let heap = [];
+            for(let i=0;i<A.length;i++) {
+                // insert_heap(heap, A[i]);
+                insert_heap(heap, A[i]);
+            }
+            for (let i = 0; i < B; i++) {
+                let min_elem = heap[0];
+                if(min_elem < 0) {
+                    min_elem = -(min_elem);
+                    heap[0] = min_elem;
+                    heapify(heap, 0);
+                }
+                else if(min_elem >= 0) {
+                    if((B-i)%2 == 0) break;
+                    else {
+                        min_elem = -(min_elem);
+                        heap[0] = min_elem;
+                        heapify(heap, 0);
+                        break;
+                    }
+                }
+            }
+            return heap.reduce((acc, val) => acc + val, 0);
+        }
+    };
+
+Ques-6 -> (Misha and Candies)
+
+# Problem Description -
+    Misha loves eating candies. She has been given N boxes of Candies.
+    She decides that every time she will choose a box having the minimum number of candies, eat half of the candies and put the remaining candies in the other box that has the minimum number of candies.
+    Misha does not like a box if it has the number of candies greater than B so she won't eat from that box. Can you find how many candies she will eat?
+    NOTE 1: If a box has an odd number of candies then Misha will eat the floor(odd / 2).
+    NOTE 2: The same box will not be chosen again.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 105
+    1 <= B <= 106
+
+
+# Solution -
+    class PriorityQueue {
+        constructor() {
+            this.heap = [];
+        }
+        enqueue(val) { // add inside heap array
+            this.heap.push(val);
+            this.heapifyUp();
+        }
+        dequeue() { // remove element from heap array
+            if (this.isEmpty()) return null;
+            const root = this.heap[0];
+            const last = this.heap.pop();
+            if (!this.isEmpty()) {
+                this.heap[0] = last;
+                this.heapifyDown();
+            }
+            return root;
+        }
+        heapifyUp() {
+            let index = this.heap.length - 1;
+            while (index > 0) {
+                const parentIndex = Math.floor((index - 1) / 2);
+                if (this.heap[parentIndex] > this.heap[index]) {
+                    [this.heap[parentIndex], this.heap[index]] = [this.heap[index], this.heap[parentIndex]];
+                    index = parentIndex;
+                } else {
+                    break;
+                }
+            }
+        }
+        heapifyDown() {
+            let index = 0;
+            const length = this.heap.length;
+            const element = this.heap[0];
+            while (true) {
+                let leftChildIdx = 2 * index + 1;
+                let rightChildIdx = 2 * index + 2;
+                let leftChild, rightChild;
+                let swap = null;
+                if (leftChildIdx < length) {
+                    leftChild = this.heap[leftChildIdx];
+                    if (leftChild < element) {
+                        swap = leftChildIdx;
+                    }
+                }
+                if (rightChildIdx < length) {
+                    rightChild = this.heap[rightChildIdx];
+                    if ((swap === null && rightChild < element) || (swap !== null && rightChild < leftChild)) {
+                        swap = rightChildIdx;
+                    }
+                }
+                if (swap === null) break;
+                [this.heap[index], this.heap[swap]] = [this.heap[swap], this.heap[index]];
+                index = swap;
+            }
+        }
+        isEmpty() {
+            return this.heap.length === 0;
+        }
+    }
+    module.exports = {
+        solve: function (A, B) {
+            const pq = new PriorityQueue();
+            for (let i = 0; i < A.length; i++) {
+                pq.enqueue(A[i]);
+            }
+            let totalEatenCandy = 0;
+            while (!pq.isEmpty()) {
+                let minCandy = pq.dequeue();
+                if (minCandy > B) {
+                    break;
+                }
+                totalEatenCandy += Math.floor(minCandy / 2);
+                if (!pq.isEmpty()) {
+                    let nextBox = pq.dequeue() + minCandy - Math.floor(minCandy / 2);
+                    pq.enqueue(nextBox);
+                }
+            }
+            return totalEatenCandy;
+        }
+    };
+
+Ques-7 -> (Minimum largest element)
+
+# Problem Description -
+    Given an array A of N numbers, you have to perform B operations. In each operation, you have to pick any one of the N elements and add the original value(value stored at the index before we did any operations) to its current value. You can choose any of the N elements in each operation.
+    Perform B operations in such a way that the largest element of the modified array(after B operations) is minimized.
+    Find the minimum possible largest element after B operations.
+
+# Problem Constraints -
+    1 <= N <= 106
+    0 <= B <= 105
+    -104 <= A[i] <= 104
+
+# Solution -
+    class PriorityQueue {          
+        constructor() {
+            this.heap = [];
+        }
+        enqueue(val) { // add inside heap array
+            this.heap.push(val);
+            this.heapifyUp();
+        }
+        dequeue() { // remove element from heap array
+            if (this.isEmpty()) return null;
+            const root = this.heap[0];
+            const last = this.heap.pop();
+            if (!this.isEmpty()) {
+                this.heap[0] = last;
+                this.heapifyDown();
+            }
+            return root;
+        }
+        heapifyUp() {
+            let index = this.heap.length - 1;
+            while (index > 0) {
+                const parentIndex = Math.floor((index - 1) / 2);
+                if (this.heap[parentIndex].value > this.heap[index].value) {
+                    [this.heap[parentIndex], this.heap[index]] = [this.heap[index], this.heap[parentIndex]];
+                    index = parentIndex;
+                } else {
+                    break;
+                }
+            }
+        }
+        heapifyDown() {
+            let index = 0;
+            const length = this.heap.length;
+            const element = this.heap[0].value;
+            while (true) {
+                let leftChildIdx = 2 * index + 1;
+                let rightChildIdx = 2 * index + 2;
+                let leftChild, rightChild;
+                let swap = null;
+                if (leftChildIdx < length) {
+                    leftChild = this.heap[leftChildIdx].value;
+                    if (leftChild < element) {
+                        swap = leftChildIdx;
+                    }
+                }
+                if (rightChildIdx < length) {
+                    rightChild = this.heap[rightChildIdx].value;
+                    if ((swap === null && rightChild < element) || (swap !== null && rightChild < leftChild)) {
+                        swap = rightChildIdx;
+                    }
+                }
+                if (swap === null) break;
+                [this.heap[index], this.heap[swap]] = [this.heap[swap], this.heap[index]];
+                index = swap;
+            }
+        }
+        isEmpty() {
+            return this.heap.length === 0;
+        }
+    }
+    module.exports = { 
+    //param A : array of integers
+    //param B : integer
+    //return an integer
+        solve : function(A, B){
+            let queue = new PriorityQueue();
+            for(let i=0;i<A.length;i++) {
+                queue.enqueue({id: i, value: 2 * A[i]});
+            }
+            while(B--) {
+                let min = queue.dequeue();
+                queue.enqueue({ id: min.id, value: min.value + A[min.id] })
+            }
+            let maxValue = Number.MIN_SAFE_INTEGER;
+            while(!queue.isEmpty()){
+                let top = queue.dequeue();
+                maxValue = Math.max(maxValue, top.value - A[top.id]);
+            }
+            return maxValue;
+        }
+    };
