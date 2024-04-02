@@ -1,0 +1,292 @@
+Ques-1 -> (Flipkart's Challenge in Effective Inventory Management)
+
+# Problem Description -
+    In the recent expansion into grocery delivery, Flipkart faces a crucial challenge in effective inventory management. Each grocery item on the platform carries its own expiration date and profit margin, represented by two arrays, A and B of size N. A[i] denotes the time left before expiration date for the ith item, and B[i] denotes profit margin for the ith item. To mitigate potential losses due to expiring items, Flipkart is seeking a strategic solution.
+    The objective is to identify a method to strategically buy certain items, ensuring they are sold before their expiration date, thereby maximizing overall profit. Can you assist Flipkart in developing an innovative approach to optimize their grocery inventory and enhance profitability?
+    Your task is to find the maximum profit one can earn by buying groceries considering that you can only buy one grocery item at a time.
+    NOTE:
+    You can assume that it takes 1 minute to buy a grocery item, so you can only buy the ith grocery item when the current time <= A[i] - 1.
+    You can start buying from day = 0.
+    Return your answer modulo 109 + 7.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] <= 109
+    0 <= B[i] <= 109
+
+# Solution -
+    class PriorityQueue {
+    constructor(data) {
+        this.heap = [];
+        this.data = data;
+    }
+    top() {
+        if(this.heap.length == 0) return undefined;
+        return this.heap[0] * this.data;
+    }
+    size() {
+        return this.heap.length;
+    }
+    empty() {
+        return this.heap.length === 0;
+    }
+    enqeue(val) {
+        this.heap.push(val * this.data);
+        this.heapifyUp();
+    }
+    dequeue() {
+        let temp = this.heap[0];
+        this.heap[0] = this.heap[this.heap.length-1];
+        this.heap.pop();
+        this.heapifyDown(0);
+        return temp * this.data;
+    }
+    heapifyUp() {
+        let id = this.heap.length-1;
+        let parentIndex = Math.floor((id-1)/2);
+        while(id>0 && this.heap[id] < this.heap[parentIndex]) {
+            [this.heap[id], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[id]];
+            id = Math.floor((id-1)/2);
+            parentIndex = Math.floor((id-1)/2);
+        }
+    }
+    heapifyDown(i) {
+        let left = 2*i+1;
+        let right = 2*i+2;
+        let current = i;
+
+        while(left < this.heap.length && this.heap[left] < this.heap[current]) current = left;
+        while(right < this.heap.length && this.heap[right] < this.heap[current]) current = right;
+        if(current != i) {
+            [this.heap[i], this.heap[current]] = [this.heap[current], this.heap[i]];
+            this.heapifyDown(current);
+        }
+    }
+}
+module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //return an integer
+        solve : function(A, B){
+            let pq = new PriorityQueue(1);
+            let arr = [];
+        let time = 0;
+        let ans = 0;
+        let Mod = 1000000007;
+        for(let i=0;i<A.length;i++) {
+            arr.push([A[i], B[i]]);
+        }
+        arr.sort((a, b) => {
+            if(a[0] == b[0]) return a[1]-b[1];
+            return a[0]-b[0];
+        });
+
+        for(let i=0;i<A.length;i++) {
+                if(time < arr[i][0]) {
+                    pq.enqeue(arr[i][1]);
+                    time++;
+                } 
+                else {
+                    if(!pq.empty() && arr[i][1] > pq.top())  {
+                        pq.dequeue();
+                        pq.enqeue(arr[i][1]);
+                    }
+                }
+        } 
+        while(!pq.empty()) {
+            ans+= pq.dequeue();
+            ans %= Mod;
+        }
+        return ans;
+        }
+    };
+
+
+Ques-2 -> (Finish Maximum Jobs)
+
+# Problem Description -
+    There are N jobs to be done, but you can do only one job at a time.
+    Given an array A denoting the start time of the jobs and an array B denoting the finish time of the jobs.
+    Your aim is to select jobs in such a way so that you can finish the maximum number of jobs.
+    Return the maximum number of jobs you can finish.
+
+# Problem Constraints -
+    1 <= N <= 105
+    1 <= A[i] < B[i] <= 109
+
+# Solution -
+    class Pair {
+    constructor(start, end) {
+        this.start = start;
+        this.end = end;
+    }
+}
+module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //return an integer
+        solve : function(A, B){
+            let N = A.length;
+            let a = new Array(N).fill(0);
+            for(let i=0;i<N;i++) {
+                a[i] = new Pair(A[i], B[i]);
+            }
+
+            a.sort((a, b) => a.end-b.end);
+            let prevJobEnded = a[0].end;
+            let ans = 1;
+            for(let i=1;i<N;i++) {
+                if(a[i].start >= prevJobEnded) {
+                    ans++;
+                    prevJobEnded = a[i].end;
+                }
+            }
+            return ans;
+        }
+    };
+
+Ques-3 -> (Distribute Candy)
+
+# Problem Description -
+    N children are standing in a line. Each child is assigned a rating value.
+    You are giving candies to these children subjected to the following requirements:
+    Each child must have at least one candy.
+    Children with a higher rating get more candies than their neighbors.
+    What is the minimum number of candies you must give?
+
+# Problem Constraints -
+    1 <= N <= 105
+    -109 <= A[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //return an integer
+        candy : function(A){
+            let C = new Array(A.length).fill(1);
+            for(let i=1;i<A.length;i++) {
+                if(A[i] > A[i-1]) C[i] = C[i-1] + 1;
+            }
+            for(let i=A.length-2;i>=0;i--) {
+                if(A[i] > A[i+1]) {
+                    if(C[i] < C[i+1] + 1) C[i] = C[i+1] + 1;
+                }
+            }
+            return C.reduce((a, b) => a + b);
+        }
+    };
+
+Ques-4 -> (Another Coin Problem)
+
+# Problem Description -
+The monetary system in DarkLand is really simple and systematic. The locals-only use coins. The coins come in different values. The values used are:
+ 1, 5, 25, 125, 625, 3125, 15625, ...
+Formally, for each K >= 0 there are coins worth 5K.
+Given an integer A denoting the cost of an item, find and return the smallest number of coins necessary to pay exactly the cost of the item (assuming you have a sufficient supply of coins of each of the types you will need).
+
+# Problem Constraints -
+    1 <= A <= 2×109
+
+# Solution -
+    module.exports = { 
+    //param A : integer
+    //return an integer
+        solve : function(A){
+            let i=0;
+            let coinsValue = [];
+            let count = 0;
+            while(Math.pow(5, i)<=A) {
+                if(A >=  Math.pow(5, i)) {
+                    coinsValue.push(Math.pow(5, i));
+                }
+                i++;
+            }
+            // assume for A = 47, coinsValue = [1, 5, 25]
+            let N = coinsValue.length;
+            for(let j=N-1;j>=0;j--) {
+                while(A >= coinsValue[j]) {
+                    A -= coinsValue[j];
+                    count++;
+                }
+            }
+            return count;
+        }
+    };
+
+Ques-5 -> (Seats)
+
+# Problem Description -
+    There is a row of seats represented by string A. Assume that it contains N seats adjacent to each other.
+    There is a group of people who are already seated in that row randomly. i.e. some are sitting together & some are scattered.
+    An occupied seat is marked with a character 'x' and an unoccupied seat is marked with a dot ('.')
+    Now your target is to make the whole group sit together i.e. next to each other, without having any vacant seat between them in such a way that the total number of hops or jumps to move them should be minimum.
+    In one jump a person can move to the adjacent seat (if available).
+    NOTE: 1. Return your answer modulo 107 + 3.
+
+# Problem Constraints -
+    1 <= N <= 1000000
+    A[i] = 'x' or '.'
+
+# Solution -
+    module.exports = { 
+    //param A : string
+    //return an integer
+        seats : function(A){
+            let N = A.length;
+            let ans = Number(0);
+            let mod = Math.pow(10, 7) + 3;
+
+            let pos = [];
+            for(let i=0;i<N;i++) {
+                if(A[i] == 'x') {
+                    pos.push(i);
+                }
+            }
+            let mid = Math.floor((pos.length-1)/2);
+
+            for(let i=mid-1;i>=0;i--) {
+                if(pos[i+1] - pos[i] > 1) {
+                    ans += Number(pos[i+1]-pos[i]-1);
+                    pos[i] = pos[i+1] - 1;
+                }
+            }
+
+            for(let i=mid+1;i<pos.length;i++) {
+                if(pos[i] - pos[i-1] > 1) {
+                    ans += Number(pos[i] - pos[i-1]-1);
+                    pos[i] = pos[i-1] + 1;
+                }
+            }
+
+            return Number(ans)%mod;
+        }
+    };
+
+Ques-6 -> (Assign Mice to Holes)
+
+# Problem Description -
+    N Mice and N holes are placed in a straight line. Each hole can accommodate only one mouse.
+    The positions of Mice are denoted by array A, and the position of holes is denoted by array B.
+    A mouse can stay at his position, move one step right from x to x + 1, or move one step left from x to x − 1. Any of these moves consume 1 minute.
+    Assign mice to holes so that the time when the last mouse gets inside a hole is minimized.
+
+# Problem Constraints -
+    1 <= N <= 105
+    -109 <= A[i], B[i] <= 109
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //return an integer
+        mice : function(A, B){
+        A.sort((a,b) => a-b);
+        B.sort((a,b) => a-b);
+        let ans = 0;
+
+        for(let i=0;i<A.length;i++) {
+            ans = Math.max(ans, Math.abs(A[i]-B[i]));
+        }
+        return ans;
+        }
+    };

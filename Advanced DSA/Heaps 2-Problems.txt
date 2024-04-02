@@ -481,6 +481,51 @@ Ques-6 -> (Kth Smallest Element in a Sorted Matrix)
 
 
 # Solution -
+    class PriorityQueue {
+        constructor() {
+            this.heap = [];
+        }
+        size() {
+            return this.heap.length;
+        }
+        peek() {
+            if(this.heap.length == 0) return undefined;
+            return this.heap[0];
+        }
+        empty() {
+            return this.heap.length === 0;
+        }
+        enqueue(val) {
+            this.heap.push(val);
+            let id = this.heap.length-1;
+            let parentIndex = Math.floor((id-1)/2);
+            while(id > 0 && this.heap[id].val > this.heap[parentIndex].val) {
+                [this.heap[id], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[id]];
+                id = parentIndex;
+                parentIndex = Math.floor((id-1)/2);
+            }
+        }
+        dequeue() {
+        if (this.heap.length === 0) return undefined;
+        let temp = this.heap[0];
+        this.heap[0] = this.heap[this.heap.length-1];
+        this.heap.pop();
+        this.heapifyDown(0);
+        return temp;  
+        }
+        heapifyDown(i) {
+            let left = 2*i+1;
+            let right = 2*i+2;
+            let current = i;
+
+            while(left < this.heap.length && this.heap[current].val < this.heap[left].val) current = left;
+            while(right < this.heap.length && this.heap[current].val < this.heap[right].val) current = right;
+            if(current != i) {
+                [this.heap[current], this.heap[i]] = [this.heap[i], this.heap[current]];
+                this.heapifyDown(current);
+            }
+        }
+    }
     module.exports = { 
     //param A : array of array of integers
     //param B : integer
@@ -490,5 +535,24 @@ Ques-6 -> (Kth Smallest Element in a Sorted Matrix)
             let flatArray = A.reduce((acc, row) => acc.concat(row), []);
             flatArray.sort((a, b) => a-b);
             return flatArray[B-1];
+
+            // Approach - 2(Using Priority Queue)
+            const N = A.length;
+            const M = A[0].length;
+            let low = A[0][0];
+            let high = A[N-1][M-1];
+            while(low < high) {
+                let mid = Math.floor(low + (high-low)/2);
+                let count = 0;
+                for(let i=0;i<N;i++) {
+                    for(let j=0;j<M;j++) {
+                        if(A[i][j] <= mid) count++;
+                    }
+                }
+                if(count < B) low = mid + 1;
+                else high = mid;
+            }
+            return low;
         }
     };
+
