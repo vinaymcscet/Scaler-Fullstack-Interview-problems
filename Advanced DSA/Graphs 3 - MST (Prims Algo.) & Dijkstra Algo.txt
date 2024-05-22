@@ -1,0 +1,538 @@
+Ques-1 -> (Commutable Islands)
+
+# Problem Description -
+    There are A islands and there are M bridges connecting them. Each bridge has some cost attached to it.
+    We need to find bridges with minimal cost such that all islands are connected.
+    It is guaranteed that input data will contain at least one possible scenario in which all islands are connected with each other.
+
+# Problem Constraints -
+    1 <= A, M <= 6*104
+    1 <= B[i][0], B[i][1] <= A
+    1 <= B[i][2] <= 103
+
+# Solution -
+    class PriorityQueue {
+        constructor() {
+            this.heap = [];
+        }
+
+        getParentIndex(index) {
+            return Math.floor((index - 1) / 2);
+        }
+
+        getLeftChildIndex(index) {
+            return 2 * index + 1;
+        }
+
+        getRightChildIndex(index) {
+            return 2 * index + 2;
+        }
+
+        swap(index1, index2) {
+            [this.heap[index1], this.heap[index2]] = [this.heap[index2], this.heap[index1]];
+        }
+
+        enqueue(node, priority) {
+            this.heap.push({ node, priority });
+            this.heapifyUp(this.heap.length - 1);
+        }
+
+        heapifyUp(index) {
+            while (index > 0) {
+                let parentIndex = this.getParentIndex(index);
+                if (this.heap[parentIndex].priority > this.heap[index].priority) {
+                    this.swap(parentIndex, index);
+                    index = parentIndex;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        dequeue() {
+            if (this.heap.length === 1) return this.heap.pop();
+            let root = this.heap[0];
+            this.heap[0] = this.heap.pop();
+            this.heapifyDown(0);
+            return root;
+        }
+
+        heapifyDown(index) {
+            let leftChildIndex = this.getLeftChildIndex(index);
+            let rightChildIndex = this.getRightChildIndex(index);
+            let smallest = index;
+
+            if (leftChildIndex < this.heap.length && this.heap[leftChildIndex].priority < this.heap[smallest].priority) {
+                smallest = leftChildIndex;
+            }
+
+            if (rightChildIndex < this.heap.length && this.heap[rightChildIndex].priority < this.heap[smallest].priority) {
+                smallest = rightChildIndex;
+            }
+
+            if (smallest !== index) {
+                this.swap(smallest, index);
+                this.heapifyDown(smallest);
+            }
+        }
+
+        isEmpty() {
+            return this.heap.length === 0;
+        }
+    }
+    module.exports = { 
+    //param A : integer
+    //param B : array of array of integers
+    //return an integer
+        solve : function(A, B){
+            let adjancencyList = Array.from({ length: A+1 }, () => []);
+            let visitedArr = new Array(A+1).fill(false);
+            let totalCost = 0;
+
+            for(let i=0;i<B.length;i++) {
+                let source      = B[i][0];
+                let destination = B[i][1];
+                let weight      = B[i][2];
+                adjancencyList[source].push([destination, weight]);
+                adjancencyList[destination].push([source, weight]);
+            }
+            let pq = new PriorityQueue();
+            pq.enqueue(1, 0);
+
+            while(!pq.isEmpty()) {
+                let {node: currentNode, priority: currentCost} = pq.dequeue();
+                if(visitedArr[currentNode]) continue;
+                visitedArr[currentNode] = true;
+                totalCost += currentCost;
+
+                for(let [neighbour, weight] of adjancencyList[currentNode]) {
+                    if(!visitedArr[neighbour]) {
+                        pq.enqueue(neighbour, weight);
+                    }
+                }
+            }
+            return totalCost;
+        }
+    };
+
+Ques-2 -> (Dijkstra)
+
+# Problem Description -
+    Given a weighted undirected graph having A nodes and M weighted edges, and a source node C.
+
+    You have to find an integer array D of size A such that:
+
+    D[i]: Shortest distance from the C node to node i.
+    If node i is not reachable from C then -1.
+    Note:
+
+    There are no self-loops in the graph.
+    There are no multiple edges between two pairs of vertices.
+    The graph may or may not be connected.
+    Nodes are numbered from 0 to A-1.
+    Your solution will run on multiple test cases. If you are using global variables, make sure to clear them.
+
+# Problem Constraints -
+    1 <= A <= 1e5
+    0 <= B[i][0],B[i][1] < A
+    0 <= B[i][2] <= 1e3
+    0 <= C < A
+
+# Solution -
+    class PriorityQueue {
+        constructor() {
+            this.heap = [];
+        }
+
+        getParentIndex(index) {
+            return Math.floor((index - 1) / 2);
+        }
+
+        getLeftChildIndex(index) {
+            return 2 * index + 1;
+        }
+
+        getRightChildIndex(index) {
+            return 2 * index + 2;
+        }
+
+        swap(index1, index2) {
+            [this.heap[index1], this.heap[index2]] = [this.heap[index2], this.heap[index1]];
+        }
+
+        enqueue(node, priority) {
+            this.heap.push({ node, priority });
+            this.heapifyUp(this.heap.length - 1);
+        }
+
+        heapifyUp(index) {
+            while (index > 0) {
+                let parentIndex = this.getParentIndex(index);
+                if (this.heap[parentIndex].priority > this.heap[index].priority) {
+                    this.swap(parentIndex, index);
+                    index = parentIndex;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        dequeue() {
+            if (this.heap.length === 1) return this.heap.pop();
+            let root = this.heap[0];
+            this.heap[0] = this.heap.pop();
+            this.heapifyDown(0);
+            return root;
+        }
+
+        heapifyDown(index) {
+            let leftChildIndex = this.getLeftChildIndex(index);
+            let rightChildIndex = this.getRightChildIndex(index);
+            let smallest = index;
+
+            if (leftChildIndex < this.heap.length && this.heap[leftChildIndex].priority < this.heap[smallest].priority) {
+                smallest = leftChildIndex;
+            }
+
+            if (rightChildIndex < this.heap.length && this.heap[rightChildIndex].priority < this.heap[smallest].priority) {
+                smallest = rightChildIndex;
+            }
+
+            if (smallest !== index) {
+                this.swap(smallest, index);
+                this.heapifyDown(smallest);
+            }
+        }
+
+        isEmpty() {
+            return this.heap.length === 0;
+        }
+    }
+    module.exports = { 
+    //param A : integer
+    //param B : array of array of integers
+    //param C : integer
+    //return a array of integers
+        solve : function(A, B, C){
+            let adjancencyList = new Array(A).fill(null).map(() => []);
+            let visitedArr = new Array(A).fill(false);
+            let D = new Array(A).fill(Infinity);
+
+            for(let i=0;i<B.length;i++) {
+                let node = B[i][0];
+                let edge = B[i][1];
+                let weight = B[i][2];
+
+                adjancencyList[node].push([edge, weight]);
+                adjancencyList[edge].push([node, weight]);
+            }
+            //visitedArr[C] = true;
+            D[C] = 0;
+            let pq = new PriorityQueue();
+            pq.enqueue(C, 0);
+
+            while(!pq.isEmpty()) {
+                let {node, weight} = pq.dequeue();
+                if(visitedArr[node]) continue;
+                visitedArr[node] = true;
+                for(let [neighbour, weight] of adjancencyList[node]) {
+                    if(!visitedArr[neighbour] && D[node] + weight < D[neighbour]) {
+                        //visitedArr[neighbour] = true;
+                        D[neighbour] = D[node] + weight;
+                        pq.enqueue(neighbour, D[neighbour]);
+                    } 
+                }
+            }
+            for(let i=0;i<A;i++) {
+                if(D[i] == Infinity) D[i] = -1
+            }
+            return D;
+        }
+    };
+
+Ques-3 -> (Construction Cost)
+ 
+ # Problem Description -
+    Given a graph with A nodes and C weighted edges. Cost of constructing the graph is the sum of weights of all the edges in the graph.
+    Find the minimum cost of constructing the graph by selecting some given edges such that we can reach every other node from the 1st node.
+    NOTE: Return the answer modulo 109+7 as the answer can be large.
+
+# Problem Constraints -
+    1 <= A <= 100000
+    0 <= C <= 100000
+    1 <= B[i][0], B[i][1] <= N
+    1 <= B[i][2] <= 109
+
+# Solution -
+    class PriorityQueue {
+        constructor() {
+            this.heap = [];
+        }
+
+        getParentIndex(index) {
+            return Math.floor((index - 1) / 2);
+        }
+
+        getLeftChildIndex(index) {
+            return 2 * index + 1;
+        }
+
+        getRightChildIndex(index) {
+            return 2 * index + 2;
+        }
+
+        swap(index1, index2) {
+            [this.heap[index1], this.heap[index2]] = [this.heap[index2], this.heap[index1]];
+        }
+
+        enqueue(node, priority) {
+            this.heap.push({ node, priority });
+            this.heapifyUp(this.heap.length - 1);
+        }
+
+        heapifyUp(index) {
+            while (index > 0) {
+                let parentIndex = this.getParentIndex(index);
+                if (this.heap[parentIndex].priority > this.heap[index].priority) {
+                    this.swap(parentIndex, index);
+                    index = parentIndex;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        dequeue() {
+            if (this.heap.length === 1) return this.heap.pop();
+            let root = this.heap[0];
+            this.heap[0] = this.heap.pop();
+            this.heapifyDown(0);
+            return root;
+        }
+
+        heapifyDown(index) {
+            let leftChildIndex = this.getLeftChildIndex(index);
+            let rightChildIndex = this.getRightChildIndex(index);
+            let smallest = index;
+
+            if (leftChildIndex < this.heap.length && this.heap[leftChildIndex].priority < this.heap[smallest].priority) {
+                smallest = leftChildIndex;
+            }
+
+            if (rightChildIndex < this.heap.length && this.heap[rightChildIndex].priority < this.heap[smallest].priority) {
+                smallest = rightChildIndex;
+            }
+
+            if (smallest !== index) {
+                this.swap(smallest, index);
+                this.heapifyDown(smallest);
+            }
+        }
+
+        isEmpty() {
+            return this.heap.length === 0;
+        }
+    }
+    module.exports = { 
+    //param A : integer
+    //param B : array of array of integers
+    //return an integer
+        solve : function(A, B){
+            const mod = Math.pow(10, 9) + 7;
+            let adjacentArr = Array.from({ length: A }, () => []);
+            let visitedArr = new Array(A).fill(false);
+            let totalCost = 0;
+            for(let i = 0; i < B.length; i++) {
+                let node = B[i][0] - 1;
+                let edge = B[i][1] - 1;
+                let weight = B[i][2];
+                adjacentArr[node].push([edge, weight]);
+                adjacentArr[edge].push([node, weight]);
+            }
+            let pq = new PriorityQueue();
+            pq.enqueue(0, 0);
+            while (!pq.isEmpty()) {
+                let { node, priority: weight } = pq.dequeue();
+                if (visitedArr[node]) continue;
+                visitedArr[node] = true;
+                totalCost = (totalCost + weight) % mod;
+                for (let [neighbour, currentWeight] of adjacentArr[node]) {
+                    if (!visitedArr[neighbour]) {
+                        pq.enqueue(neighbour, currentWeight);
+                    }
+                }
+            }
+            return totalCost;
+        }
+    };
+
+Ques-4 -> (Damaged Roads)
+
+# Problem Description -
+    You are the Prime Minister of a country and once you went for a world tour.
+    After 5 years, when you returned to your country, you were shocked to see the condition of the roads between the cities. So, you plan to repair them, but you cannot afford to spend a lot of money.
+    The country can be represented as a (N+1) x (M+1) grid, where Country(i, j) is a city.
+    The cost of repairing a road between (i, j) and (i + 1, j) is A[i]. The cost of repairing a road between (i, j) and (i, j + 1) is B[j].
+    Return the minimum cost of repairing the roads such that all cities can be visited from city indexed (0, 0).
+    As the cost can be large, return the cost modulo 109+7.
+
+# Problem Constraints -
+    1 <= N, M <= 105
+    1 <= A[i], B[i] <= 103
+
+# Solution -
+    module.exports = { 
+    //param A : array of integers
+    //param B : array of integers
+    //return an integer
+        solve : function(A, B){
+            let N = A.length;
+            let M = B.length;
+            let queue = [];
+
+            for(let i=0;i<N;i++) {
+                queue.push([A[i], 0]);
+            }
+            for(let i=0;i<M;i++) {
+                queue.push([B[i], 1]);
+            }
+            queue.sort((a, b) => a[0]-b[0]);
+            N++;
+            M++;
+            let cost = 0;
+
+            for(let [c, d] of queue) {
+                if(d == 0) {
+                    cost += c * M;
+                    N--;
+                } else if(d == 1) {
+                    cost += c * N;
+                    M--;
+                }
+            }
+            let mod = Math.pow(10, 9) + 7;
+            return cost % mod;
+        }
+    };
+
+Ques-5 -> (Edge in MST)
+
+# Problem Description -
+    Given a undirected weighted graph with A nodes labelled from 1 to A with M edges given in a form of 2D-matrix B of size M * 3 where B[i][0] and B[i][1] denotes the two nodes connected by an edge of weight B[i][2].
+    For each edge check whether it belongs to any of the possible minimum spanning tree or not , return 1 if it belongs else return 0.
+    Return an one-dimensional binary array of size M denoting answer for each edge.
+    NOTE:
+    The graph may be disconnected in that case consider mst for each component.
+    No self-loops and no multiple edges present.
+    Answers in output array must be in order with the input array B output[i] must denote the answer of edge B[i][0] to B[i][1].
+
+# Problem Constraints -
+    1 <= A, M <= 3*105
+    1 <= B[i][0], B[i][1] <= A
+    1 <= B[i][1] <= 103
+
+# Solution -
+    const maxn = 300009;
+    let arr = new Array(maxn);
+    let sz = new Array(maxn);
+    let edges = new Array(maxn);
+
+    function ini() {
+        edges = [];
+        for (let i = 0; i < maxn; i++) {
+            arr[i] = i;
+            sz[i] = 1;
+        }
+    }
+
+    function root(a) {
+        while (arr[a] != a) {
+            arr[a] = arr[arr[a]];
+            a = arr[a];
+        }
+        return a;
+    }
+
+    function un(a, b) {
+        let ra = root(a);
+        let rb = root(b);
+        if (sz[ra] <= sz[rb]) {
+            arr[ra] = rb;
+            sz[rb] += sz[ra];
+        } else {
+            arr[rb] = ra;
+            sz[ra] += sz[rb];
+        }
+    }
+    module.exports = { 
+    //param A : integer
+    //param B : array of array of integers
+    //return a array of integers
+        solve : function(A, B){
+            ini();
+        for (let i = 0; i < B.length; i++) {
+                let u = B[i][0];
+                let v = B[i][1];
+                let w = B[i][2];
+                edges.push([w, i, u, v]);
+            }
+            let ans = new Array(B.length);
+            edges.sort(function (a, b) {
+                return a[0] - b[0]
+            });
+            let i = 0;
+            let m = B.length;
+            while (i < m) {
+                let j = i;
+                while (j < m && edges[j][0] == edges[i][0]) {
+                    if (root(edges[j][2]) != root(edges[j][3]))
+                        ans[edges[j][1]] = 1;
+                    j++;
+                }
+                j = i;
+                while (j < m && edges[j][0] == edges[i][0]) {
+                    if (root(edges[j][2]) != root(edges[j][3]))
+                        un(edges[j][2], edges[j][3]);
+                    j++;
+                }
+                i = j;
+            }
+            for (let i = 0; i < ans.length; i++) {
+                if (ans[i] == undefined) {
+                    ans[i] = 0;
+                }
+            }
+            return ans;
+
+
+            // const mod = 1e9 + 7;
+            // const edges = B.map((edge, index) => [...edge, index]);
+            // edges.sort((a, b) => a[2]-b[2]);
+
+            // const uFind = new UnionFind(A+1);
+            // const mstEdges = [];
+            // let mstCost = 0;
+
+            // // Step 1: Use Kruskal's algorithm to find one MST
+            // for(const [u, v, weight, index] of edges) {
+            //     if(uFind.union(u, v)) {
+            //         mstEdges.push([u, v, weight, index]);
+            //         mstCost += weight;
+            //         if (mstEdges.length === A - 1) break;
+            //     }
+            // }
+            // // Step 2: Check each edge if it's part of any MST
+            // const result = Array(B.length).fill(0);
+            // for(const [u, v, weight, index] of edges) {
+            //     const uFindCheck = new UnionFind(A+1);
+            //     // let mstPossible = true;
+            //     let countEdges = 0;
+
+            //     for(const [u1, v1, weight1, index1] of mstEdges) {
+            //         if(index != index1 && uFindCheck.union(u1, v1)) countEdges++; 
+            //     }
+            //     if(countEdges < A-1 || uFindCheck.union(u, v)) result[index] = 1;
+            // }
+            // return result;
+        }
+    };
