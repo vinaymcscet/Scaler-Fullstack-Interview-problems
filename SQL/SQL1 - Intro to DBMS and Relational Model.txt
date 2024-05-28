@@ -1,0 +1,174 @@
+
+Ques-1 --> (Super Key - 1) -
+    +------------+--------------+-------------+----------+
+    | CustomerID | CustomerName | Address     | Phone    |
+    +------------+--------------+-------------+----------+
+    | 1          | John Smith   | 123 Main St | 555-1234 |
+    +------------+--------------+-------------+----------+
+    | 2          | Jane Doe     | 456 Elm St  | 555-5678 |
+    +------------+--------------+-------------+----------+
+    | 3          | Mark Johnson | 789 Oak Ave | 555-9012 |
+    +------------+--------------+-------------+----------+
+    What could be a possible super key for this table?
+
+# Solution - CustomerID
+
+Ques-2 --> (Super Key - 2) -
+    +------------+--------------+-------------+----------+
+    | CustomerID | CustomerName | Address     | Phone    |
+    +------------+--------------+-------------+----------+
+    | 1          | John Smith   | 123 Main St | 555-1234 |
+    +------------+--------------+-------------+----------+
+    | 2          | Jane Doe     | 456 Elm St  | 555-5678 |
+    +------------+--------------+-------------+----------+
+    | 3          | Mark Johnson | 789 Oak Ave | 555-9012 |
+    +------------+--------------+-------------+----------+
+
+    Which attribute(s) can uniquely identify each tuple in the table?
+
+# Solution - CustomerID
+
+Ques-3 --> (Super Key - 3) -
+    +------------+--------------+-------------+----------+
+    | CustomerID | CustomerName | Address     | Phone    |
+    +------------+--------------+-------------+----------+
+    | 1          | John Smith   | 123 Main St | 555-1234 |
+    +------------+--------------+-------------+----------+
+    | 2          | Jane Doe     | 456 Elm St  | 555-5678 |
+    +------------+--------------+-------------+----------+
+    | 3          | Mark Johnson | 789 Oak Ave | 555-9012 |
+    +------------+--------------+-------------+----------+
+
+    Which attribute(s) should be included in a minimal super key for this table?
+
+# Solution - CustomerID
+
+Ques-4 --> (Super Key - 4) -
+
+    Consider the table 'Students' with the following columns: Student_ID, Student_Name, Course_ID, Course_Name and Grade. Which of the following can be a Super Key?    
+
+# Solution - Student_ID, Course_ID
+
+Ques-5 --> (Super Key - 5) -
+
+    For the 'Employees' table having columns: Employee_ID, First_Name, Last_Name, Department_ID, Job_ID and Salary. Which of the following sets cannot be a Super Key?
+
+# Solution - First_Name, Last_Name
+
+Ques-6 --> (Super Key - 6) -
+
+    In a table 'Orders' with columns: Order_ID, Product_ID, Customer_ID, Quantity and Order_Date. If any pair of columns out of Order_ID, Product_ID, and Customer_ID are unique, then Super Key for the 'Orders' table would be?
+
+# Solution - Order_ID, Product_ID, Order_Date
+
+Ques-7 --> (Super Key - 7) -
+
+    Consider a 'Voters' table with the following columns:
+    Voter_ID, First_Name, Last_Name, Address, Voter_Registration_Number
+    Among the following sets, which is the minimal super key for the 'Voters' table?
+
+# Solution - {Voter_ID}
+
+Ques-8 --> (Super Key - 8) -
+
+    Consider a 'Voters' table with the following columns:
+    Voter_ID, First_Name, Last_Name, Address, Voter_Registration_Number
+    Identify the super key from the options provided for the 'Voters' table.
+# Solution - {Voter_ID, Voter_Registration_Number}
+
+Ques-9 --> (Super Key - 9) -
+
+    Consider a 'Voters' table with the following columns:
+    Voter_ID, First_Name, Last_Name, Address, Voter_Registration_Number
+    Which of the following sets is NOT a super key for the 'Voters' table?
+
+# Solution - {Last_Name, Address}
+
+Ques-10 --> (Super Key - 10) -
+
+    Consider a 'Courses' table with the following columns:
+    Course_ID, Course_Name, Department, Instructor_ID
+    Assume Multiple Instructors for each Course.
+    Among the following sets, which is the minimal super key for the 'Courses' table?
+
+# Solution - {Course_ID, Instructor_ID}
+
+Ques-11 --> (Super Key - 11) -
+
+    Let’s say we have Students table with following attributes : id, first_name, last_name, email_id and phone_number. Which of the following isn’t a Super Key ?
+
+# Solution - first_name, last_name
+
+Ques-12 --> (Super Key - 12) -
+
+    Given the table 'Cars' with the columns: VIN, Manufacturer, Model, Year, and Color. Which of the following is NOT a Super Key?
+# Solution - Manufacturer, Model, Year
+
+Ques-13 --> (Super Key - 13) -
+
+    Consider a 'Courses' table with the following columns:
+    Course_ID, Course_Name, Department, Instructor_ID
+    Assume Multiple Instructors for each Course.
+    Identify the super key from the options provided for the 'Courses' table.
+
+# Solution - {Course_ID, Instructor_ID,Department}
+
+Ques-14 --> (Super Key - 14) -
+
+    Consider a 'Students' table with the following columns:
+    Student_ID, First_Name, Last_Name, Date_of_Birth, and Major.
+    Identify the super key from the options provided for the 'Students' table.
+
+# Solution - {Student_ID, Major}
+
+Ques-15 --> (Super Key - 15) -
+
+    Consider a ‘Employees’ table with the following columns:
+    Employee_ID, Employee_Name, Project_Name, Project_ID, Manager_ID
+    Assume Multiple projects can be assigned to a single employee and each project has a unique Manager.
+    Which of the following sets is NOT a super key for the 'Employees' table?
+
+# Solution - {Project_ID,Employee_Name}
+
+Ques-16 --> (Super Key - 16) -
+
+    Consider a ‘Employees’ table with the following columns:
+    Employee_ID, Employee_Name, Project_Name, Project_ID, Manager_ID
+    Assume Multiple projects can be assigned to a single employee and each project has a unique Manager.
+    Choose the minimal super key for the 'Employees' table.
+
+# Solution - {Employee_ID, Project_ID,Project_Name}
+
+Ques-17 --> (Super Key - 17) -
+
+    Consider the ‘Sales’ table with columns:
+    Order_ID, Product_ID, Customer_ID, Quantity_Sold, Sale_Date
+    Among the following sets, which is a super key for the 'Sales' table?
+
+# Solution - {Order_ID, Customer_ID, Product_ID}
+
+
+Ques-18 --> (Super Key - 18) -
+
+    Consider the ‘Sales’ table with columns:
+    Order_ID, Product_ID, Customer_ID, Quantity_Sold, Sale_Date
+    Which of the following sets is NOT a super key for the 'Sales' table?
+
+# Solution - All of the above - {Customer_ID, Product_ID, Sale_Date}, {Customer_ID, Quantity_Sold, Sale_Date}, {Customer_ID, Quantity_Sold, Sale_Date}
+
+Ques-19 --> (Super Key - 19) -
+
+    Consider the ‘Sales’ table with columns:
+    Order_ID, Product_ID, Customer_ID, Quantity_Sold, Sale_Date
+    From the options, select the super key for the 'Sales' table.
+
+# Solution - {Order_ID, Product_ID, Quantity_Sold}
+
+Ques-20 --> (Super Key - 20) -
+
+    Consider an 'Inventory' table with the following columns:
+    Product_ID, Quantity, Warehouse_ID, Expiry_Date, Batch_Number
+    Note: Batch_Number uniquely identifies a specific batch of a product stored in a warehouse
+    Among the following sets, which is a super key for the 'Inventory' table?
+
+# Solution - {Product_ID, Warehouse_ID, Batch_Number}
