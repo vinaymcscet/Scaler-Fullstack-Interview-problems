@@ -227,7 +227,7 @@ Ques-5 -> (Matrix Search)
             }
             return 0;
             
-            // Optimized Approach
+            // Optimized Approach -> TC - O(log(n*m)), sc - O(1)
             let N = A.length;
             let M = A[0].length;
             let low = 0;
@@ -245,6 +245,17 @@ Ques-5 -> (Matrix Search)
             }
             return 0;
 
+            // Most Optimized Approach -> TC - O(log(n+m)), sc - O(1)
+            let N = A.length;
+            let M = A[0].length;
+            let low = 0;
+            let high = M-1;
+            while(low < N && high >= 0) {
+                if(A[low][high] > B) high--;
+                else if(A[low][high] < B) low++;
+                else return 1
+            }
+            return 0;
         }
     };
 
