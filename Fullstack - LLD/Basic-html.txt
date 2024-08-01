@@ -1,0 +1,273 @@
+Ques-1 -> (Class-1: A1. Creating header section)
+
+    Raw Problem
+    **Raw Problem**
+    Create a simple Nav bar and Header section with just using plain HTML.
+
+    For the nav bar:
+    1. Use <a> tags to add the redirectable links.
+
+    For the header section:
+    1. Use <img> tag to add a person's image.
+    2. Use Heading tags to add the name and summary/title.
+    3. Use the Button tag to add a button to download the resume.
+
+    WARNING: Don't use links in href or src properties, add "#" as mock link or use 'profile-img.jpg' for img src.
+
+    Further, refer to the test cases to understand necessary requirements to submit the problem.
+    Below is the basic structure of the expected.
+
+# Solution - 
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Home</title>
+            <style>
+                ul {
+                    list-style: none;
+                    display: flex;
+                    padding: 0;
+                }
+                li {
+                    margin-right: 10px;
+                }
+            </style>
+        </head>
+        <body>
+            <header>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">About</a>
+                        </li>
+                        <li>
+                            <a href="#">Projects</a>
+                        </li>
+                        <li>
+                            <a href="#">Blog</a>
+                        </li>
+                    </ul>
+                    <img src="/profile-img.jpg" alt="proile-img" />
+                </nav>
+            </header>
+            <h1>{PERSON_NAME}</h1>
+            <h2>I'm a Frontend Developer</h2>
+            <p>Description</p>
+            <button type="button">DOWNLOAD RESUME</button>
+        </body>
+    </html>
+
+Ques-2 -> (Class-1: A2. Creating About Me section)
+
+    Raw Problem
+    Create an About me Section that contains the person's image, necessary heading, intro, description, and social profile links.
+
+    Use the following tags in proper flow:
+    1. <section> tag, to hold the entire about me section.
+    2. <img> tag with relevant src and alt attribute to add a image.
+    3. <h1> and <h3> tag for section heading and person's intro.
+    4. <p> tag for a long description.
+    5. <a> tags with enclosed <img> tags to have logos (images) of different social profiles as redirectable links.
+
+    Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+# Solution -
+    <!DOCTYPE html>
+    <!-- Please NOTE that the link to assets (like images) need to be set in global context.
+    For example:
+    To access an image from assets folder correct way to set src attribute is 
+
+    src = 'profile.png'
+
+    instead of 
+
+    src = './assets/profile.png'
+    -->
+    <html>
+        <head>
+            <title>Home</title>
+        </head>
+        <body>
+        <section>
+            <img src = 'profile.png' alt="person-img" />
+                <h1>About Me</h1>
+                <h3>Hello! I'm {PERSON_NAME}</h3>
+                <p>Description Area for About me</p>
+                <a href="#"><img src="" alt="Social Profile"  Logo 1 </a>
+                <a href="#"><img src="" alt="Social Profile"  Logo 2 </a>
+                <a href="#"><img src="" alt="Social Profile"  Logo 3 </a>
+                <a href="#"><img src="" alt="Social Profile"  Logo 4 </a>
+        </section>
+            
+        </body>
+    </html>
+Ques-3 -> (Class-1: A3. Creating Projects section)
+
+    Raw Problem
+    Create a Projects section where projects will be showcased with necessary headings, divs and Images with project logos and project description.
+
+    Use the following tags in proper flow:
+    1. <section> tag to hold all the content for the Projects Section
+    2. <h1> tag that holds the section heading of 'My Projects'
+    3. <div> tag that groups all the tags associated with a single project
+    4. For each project use -
+    4.1 <img> tag for project's image
+    4.2 <h2> tag for project's name
+    4.1 <p> tag for project's description
+
+    Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+
+# Solution -
+    <!DOCTYPE html>
+    <!-- Please NOTE that the link to assets (like images) need to be set in global context.
+    For example:
+    To access an image from assets folder correct way to set src attribute is 
+
+    src = 'profile.png'
+
+    instead of 
+
+    src = './assets/profile.png'
+    -->
+    <html>
+        <head>
+            <title>Home</title>
+        </head>
+        <body>
+        <section>
+                <h1>My Projects</h1>
+                <p>I mostly work for HTML, CSS, JavaScript</p>
+                <div>
+                    <img src = 'project.png' alt="Project1" />
+                    <h2>Project 1</h2>
+                    <p>Project 1 description</p>
+                </div>
+                <div>
+                    <img src = 'project.png' alt="Project2" />
+                    <h2>Project 2</h2>
+                    <p>Project 2 description</p>
+                </div>
+                <div>
+                    <img src = 'project.png' alt="Project3" />
+                    <h2>Project 3</h2>
+                    <p>Project 3 description</p>
+                </div>            
+        </section>
+            
+        </body>
+    </html> 
+
+Ques-4 -> (Class-1: A4. Working with anchor tags)
+
+    Raw Problem
+    Create a basic HTML webpage with 2 links.
+    1. Link should redirect to "www.interviewbit.com" on the same tab. Link text should be "Interview Bit"
+    2. Link should redirect to "www.scaler.com" on the different tab. Link text should be "Scaler"
+
+# Solution -
+    <!DOCTYPE html>
+    <html>
+
+    <body>
+    <!-- Write solution here -->
+    <ul>
+        <li><a href="www.interviewbit.com" target="_blank">Interview Bit</a></li>
+        <li><a href="www.scaler.com" target="_blank">Scaler</a></li>
+    </ul>
+    </body>
+
+    </html>
+
+Ques-5 -> (Class-1: A5. Simple Scaler Page)
+
+    Raw Problem
+    Create a basic HTML website for scaler.
+    Page should have
+    an image on the top for Scaler logo,
+    heading that reads "Scaler Academy",
+    one sentence description about scaler.
+
+    Please note that:
+    For heading use <h1> tag.
+    For one line description use <p> tag.
+    You are provided with an image in the assets folder, named logo.png. Simply enter the src value as 'logo.png' to use it.
+
+    And finally a link with text "Go to website" and which points to scaler's website on a new tab.
+    Also, image alternate text should be "scaler academy logo", width and height of the image be 100px
+
+    Note:
+    It can be possible that the img provided above doesn't work on Scaler IDE. Please make sure to utilise correct alt value.
+
+# Solution -
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    </head>
+    <!-- Please NOTE that the link to assets (like images) need to be set in global context.
+    For example:
+    To access an image from assets folder correct way to set src attribute is 
+
+    src = 'profile.png'
+
+    instead of 
+
+    src = './assets/profile.png'
+    -->
+
+    <body>
+    <!-- Write solution here -->
+    <section>
+        <a href="#" target="_blank"><img src="logo.png" alt="scaler academy logo" width="100px" height="100px" /></a>
+        <h1>Scaler Academy</h1>
+        <p>Description about Scaler</p>
+        <a href="www.scaler.com" target="_blank">Go to website</a>
+    </section>
+    </body>
+
+    </html>
+
+Ques-6 -> (Class-1: A6. Text Decoration using HTML)
+
+    Raw Problem
+    Write a paragraph "Scaler is an online transformative upskilling platform for working tech and business professionals. *"
+    Make the follwoing changes using just HTML
+
+    1. "online transformative" as bold.
+    2. "upskilling platform" as italic.
+    3. "and business" as stikethrough
+    4. "*" as superscript
+
+    The result should look like below:
+
+    "Scaler is an online transformative upskilling platform for working tech and business professionals. *"
+
+    Note:
+    Use test cases as hints to achieve the desired output.
+
+# Solution -
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    </head>
+
+    <body>
+    <!-- Write solution here -->
+    <p>Scaler is an <strong>online transformative</strong> <i> upskilling platform for working tech</i> <del>and business</del> professionals. <sup>*</sup></p>
+    </body>
+
+    </html>
