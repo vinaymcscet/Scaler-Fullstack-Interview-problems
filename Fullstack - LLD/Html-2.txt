@@ -1,0 +1,282 @@
+Ques-1 -> (Class-2: A1. Table of Books)
+
+Raw Problem
+**Raw Problem**
+Create an HTML table to display information about 5 different books.
+The table should have a header row and 4 data rows.
+Each book should have a title, author, publication date, and number of pages.
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+Below is the basic structure of the expected output:
+
+# Solution -
+
+    <!DOCTYPE html>
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+<html>
+    <head>
+        <title>HTML Assignment</title>
+    </head>
+    <body>
+        <table align="center">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publication Date</th>
+                    <th>Pages</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>The great Gatsby</td>
+                    <td>F. Scott Fitzgerald</td>
+                    <td>April 10, 1925</td>
+                    <td>180</td>
+                </tr><tr>
+                    <td>To Kill a mockingbird</td>
+                    <td>Harper lee</td>
+                    <td>July 11, 1960</td>
+                    <td>281</td>
+                </tr>
+                <tr>
+                    <td>1984</td>
+                    <td>George Orwell</td>
+                    <td>June 8, 1949</td>
+                    <td>326</td>
+                </tr>
+                <tr>
+                    <td>Pride and Prejudice</td>
+                    <td>Jane Austen</td>
+                    <td>January 28, 1813</td>
+                    <td>282</td>
+                </tr>
+                <tr>
+                    <td>The Catcher in thr Rye J.D.Salinger</td>
+                    <td>J.D.Salinger</td>
+                    <td>July 16, 1951</td>
+                    <td>277</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
+
+Ques-2 -> (Class-2: A2. Making Survey Form)
+
+Raw Problem
+Create an HTML form for a survey to collect information about the favourite food of people.
+
+The survey should include the following fields:
+Name (text input)
+Age (number input)
+Gender (radio buttons with Male and Female options)
+Favorite Food (drop-down list with options like Pizza, Chinese food, Indian food, etc.)
+Do you like to cook? (checkbox with Yes/No options)
+Additional comments (textarea input)
+Submit button
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+Below is the basic structure of the expected output:
+hint-image
+
+# Solution -
+
+    <!DOCTYPE html>
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+<html>
+    <head>
+        <title>HTML Assignment</title>
+    </head>
+    <body>
+    <form>
+        <input type="text" name="Name" id="name" placeholder="Name" /><br />
+        <input type="number" name="Age" id="age" placeholder="Age" /><br />
+        <label>
+            <input type="radio" id="male" name="gender" value="male" /> Male
+            <input type="radio" id="female" name="gender" value="female" /> Female
+        </label><br />
+        <select name="Favourite Food" id="food">
+            <option value="Pizza" default>Pizza</option>
+            <option value="Chinese food">Chinese food</option>
+            <option value="Indian food">Indian food</option>
+        </select> <br />
+        <label>
+            <label for="cook">Do you like to cook?</label>
+            <input type="checkbox" id="cook" name="cook" value="yes" /> Yes
+        </label><br />
+        <label for="comments">Additional comments:</label>
+        <textarea name="comments" id="comments"></textarea>
+        <br/>
+        <input type="submit" value="submit">
+     </form>
+    </body>
+</html>
+
+Ques-3 -> (Class-2: A3. 'Get in Touch' Form)
+
+Raw Problem
+Create the ‘Get in Touch’ Form for your portfolio which should include the following:
+
+1. Name input section (an input of text type)
+
+2. Email input section (an input of email type)
+
+3. Message input section (a textarea)
+
+4. and a submit button (an input of submit type)
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+Below is the basic structure of the expected output:
+hint-image
+
+# Solution -
+
+    <!DOCTYPE html>
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+<html>
+    <head>
+        <title>HTML Assignment</title>
+    </head>
+    <body>
+        <section>
+        <h1>Get in Touch</h1>
+    <form>
+        Name <input type="text" name="Name" id="name" placeholder="Name" /><br />
+        Email <input type="email" name="Email" id="email" placeholder="Email" /><br />
+      
+        <label for="comments">Message</label>
+        <textarea name="message" placeholder="Message" id="message"></textarea>
+        <br/>
+        <input type="submit" value="Send">
+     </form>
+     </section>
+    </body>
+</html>
+
+Ques-4 -> (Class-2: A4. Lists and types in HTML)
+
+Raw Problem
+Create a basic HTML webpage that displays 2 list. One ordered, one unordered.
+Ordered List should contain a list of 5 cities from around the world. Use alphabets numbers for list-item marker.
+Unordered List should contain a list of 3 beverages. Use square for list-item marker.
+
+Note:
+Use test cases as hints to achieve the desired output.
+
+# Solution -
+
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- Write solution here -->
+  <ol type="a">
+    <li>USA</li>
+    <li>INDIA</li>
+    <li>CHINA</li>
+    <li>RUSSIA</li>
+    <li>Bangladesh</li>
+  </ol>
+  <ul type="square">
+    <li>Pizza</li>
+    <li>Burger</li>
+    <li>Lime Juice</li>
+  </ul>
+</body>
+
+</html>
+
+Ques-5 -> (Class-2: A5. HTML table and properties)
+Raw Problem
+Create a basic HTML webpage that displays a table like the one shown below:
+
+table image
+
+Note:
+Use test cases as hints to achieve the desired output.
+
+# Solution -
+
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- Write solution here -->
+  <table border="1">
+    <thead>
+      <th>Name</th>
+      <th>Tech</th>
+      <th>Rating</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="2">Vikhyat</td>
+        <td>HTML</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>CSS</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td rowspan="2">Ayush</td>
+        <td>HTML</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>CSS</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td colspan="3">Total: 12</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>
