@@ -1,0 +1,143 @@
+Ques-1 -> (Class-4: A1. The Box Model in CSS)
+
+Raw Problem
+Create a CSS web page that demonstrates the box model.
+The web page should display a box with a width of 400px, a height of 200px, and a border of 10px.
+The box should have a margin of 20px and a padding of 30px.
+The background color of the box should be lightgray.
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+Below is a basic look of the expected output:
+
+# Solution -
+
+<!DOCTYPE html>
+<html>
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .box { width: 400px;height: 200px; border:10px solid;margin: 20px; padding: 30px; background: lightgray;}
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+</body>
+
+</html>
+
+Ques-2 -> (Class-4: A3. Styling a Nav)
+
+Raw Problem
+Style a simple navigation menu.
+You are provided with HTML of a navigation menu made using semantic tags like ul, li.
+
+On ul, change background colour to yellow.
+On li tag, apply space around the element's content by 20px, set font size as 20px and "display" property to inline-block.
+Also, remove the default list style using CSS.
+
+Refer to test cases in order to submit the problem successfully.
+
+Below is the image to see what is the end state we want to reach.
+
+# Solution -
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* WRITE CSS CODE HERE */
+        ul.nav { background-color: yellow; list-style: none; }
+        ul.nav li { display: inline-block;font-size: 20px; padding: 20px; }
+    </style>
+</head>
+
+<body>
+    <ul class="nav">
+        <li>Home</li>
+        <li>About Us</li>
+        <li>Our Clients</li>
+        <li>Contact Us</li>
+    </ul>
+</body>
+
+</html>
+
+Ques-3 -> (Class-4: A4. Style a Box)
+
+Raw Problem
+You need to create a styled box element with specific dimensions and styles.
+
+
+Create a div element with add class "styled-box" on it.
+Write internal CSS and use class selector to target the div and follow the below intructions to style the div:
+1. Style the div element with the class styled-box to have a fixed width of 200px and a fixed height of 100px.
+2. Set a background color of 'red' for the box.
+3. Add a 20px margin around all sides of the box.
+4. Apply a 10px padding to the box.
+5. Add a solid border with a 5px width and black color.
+
+Refer to test cases in order to submit the problem successfully.
+
+# Solution -
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* WRITE CSS CODE HERE */
+        .styled-box{ width: 200px; height: 100px; background-color: red; margin: 20px; padding: 10px; border: 5px solid black; }
+
+    </style>
+</head>
+
+<body>
+    <!-- WRITE HTML CODE HERE -->
+    <div class="styled-box"></div>
+</body>
+
+</html>
+
+Ques-4 -> (Class-4: A5. Arranging 2 Boxes.)
+
+Raw Problem
+You are tasked with creating two overlapping elements using CSS positioning and write internal css following the following instructions:
+1. Style the first div element with the class element1 to have a fixed width and height of 100px each.
+2. Apply a background color of your choice to element1.
+3. Position element1 20px from the top and 20px from the left of its containing element.
+4. Style the second div element with the class element2 to have a fixed width and height of 80px each.
+5. Apply a different background color to element2.
+6. Position element2 so that it overlaps element1 by 10px from the top and 10px from the left of its containing element.
+
+Refer the below image to see what is the end state we want to reach.
+
+# Solution -
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* WRITE CSS CODE HERE */
+        .element1 { width: 100px;height: 100px; background-color: red; position: absolute; top: 20px; left: 20px; }
+        .element2 { width: 80px;height: 80px; background-color: blue; position: absolute; top: 10px; left: 10px; }
+    </style>
+</head>
+
+<body>
+    <div class="element1"></div>
+    <div class="element2"></div>
+</body>
+
+</html>

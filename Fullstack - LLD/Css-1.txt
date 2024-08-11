@@ -1,0 +1,419 @@
+Ques-1 -> (Class-3: A1. Using CSS Selectors)
+
+Raw Problem
+The goal of this problem is to use CSS selectors to style a webpage.
+
+Use relevant CSS selectors and properties to:
+1. Change color of h1 heading to 'blue' and center it horizontally to the page.
+2. Change background color <p> with class 'highlight' to 'yellow'.
+3. Change font size of <p> with id 'special' to 20 pixels.
+4. Add a solid gray border of 10 pixels to input of having type of 'text'.
+5. Change the color of <a> to 'red' when user hovers over it.
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+Below is the basic structure of the expected output:
+
+hint-image
+
+# Solution -
+
+   <!DOCTYPE html>
+<html>
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    
+<style>
+    h1 {
+        color: blue;
+        text-align: center;
+    }
+
+    .highlight {
+        background-color: yellow;
+    }
+
+    #special {
+        font-size: 20px;
+    }
+
+    input[type="text"] {
+        border: 10px solid gray;
+    }
+
+    a:hover {
+        color: red;
+    }
+</style>
+</head>
+
+<body>
+    <h1>Heading</h1>
+    <p class="highlight">This is a highlighted paragraph.</p>
+    <p id="special">This is a special paragraph.</p>
+    <input type="text" />
+    <input type="number" />
+    <a href="#">Link</a>
+</body>
+
+</html>
+
+Ques-2 -> (Class-3: A2. CSS and Colors)
+
+Raw Problem
+The goal of this problem is to use CSS to style a webpage with different colors.
+
+Write CSS to change the:
+1. Color of h1 element to 'blue'
+2. Background color of p element to 'rgb(255,255,0)'
+3. Color of element with 'highlight' class to '#ff0000'
+4. Background color of element with 'special' id to 'hsl(120, 100%, 50%)'
+5. Background color of input element to 'rgba(255, 0, 0, 0.5)'
+6. Color of link (a) to 'hsla(0, 100%, 50%, 0.8)' when hovered over
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+Below is the basic structure of the expected output:
+
+hint-image
+
+# Solution -
+
+<!DOCTYPE html>
+<html>
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        h1 {
+            color: blue;
+        }
+        p {
+            background-color: rgb(255,255,0);
+        }
+        .highlight {
+            color: #ff0000;
+        }
+        #special {
+            background-color: hsl(120, 100%, 50%);
+        }
+        input[type="text"] {
+            background-color: rgba(255, 0, 0, 0.5);
+        }
+        a:hover {
+            color: hsla(0, 100%, 50%, 0.8);
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Heading</h1>
+    <p>Paragraph with yellow background.</p>
+    <p class="highlight">This is a highlighted paragraph.</p>
+    <p id="special">This is a special paragraph.</p>
+    <input type="text" />
+    <a href="#">Link</a>
+</body>
+
+</html>
+
+Ques-3 -> (Class-3: A3. Portfolio gets CSS)
+
+Style your portfolio using CSS, for this question change the elements based on the following specifications:
+
+Change the font family of text to: 'Lato', sans-serif
+
+Change the color of Person's name's font to #5DA9E9
+
+Set the width of image in header section to : 400px
+
+Note : In the complete solution, after the above 3 specifications, we have further added more stylings for you to reference and add to your own portfolio. However, to submit and pass the test cases you just need to implement the above-mentioned specifications.
+
+# Solution -
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        *{font-family:'Lato', sans-serif;}
+        header h1 {color:  #5DA9E9;}
+        header img{width:400px;}
+    </style>
+</head>
+
+<body>
+    <!-- Week 1 -->
+    <!-- Header section -->
+    <header>
+        <!-- Navigation -->
+        <div>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Projects</a>
+            <a href="#">Blog</a>
+        </div>
+        <!-- Necessary Details -->
+        <div>
+            <img src="image1.jpg" alt="Profile1">
+            <h1>{PERSON_NAME}</h1>
+            <h2>I'm a Frontend<br> <span>Developer</span></h2>
+            <h3>Description:</h3>
+            <button>DOWNLOAD RESUME</button>
+        </div>
+    </header>
+
+    <hr>
+    <!-- About Me section -->
+    <section class="about">
+        <!-- Profile Image -->
+        <div>
+            <img src="image2.jpg" alt="Profile2">
+        </div>
+        <!-- Intro, Description and Links -->
+        <div>
+            <h1>About Me</h1>
+            <h3>Hello! I'm {PERSON_NAME}</h3>
+            <p>Description Area for About me</p>
+            <!-- Links to social profiles along with logos -->
+            <div>
+                <a href=""><img src="github logo.png" alt="Logo1"></a>
+                <a href=""><img src="leet logo.png" alt="Logo2"></a>
+                <a href=""><img src="linkedIn.png" alt="Logo3"></a>
+                <a href=""><img src="twitter logo.png" alt="Logo4"></a>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+    <!-- Projects section -->
+    <section class="projects">
+        <div>
+            <h1 class="projects-head">My Projects</h1>
+            <p>I mostly work with HTML, CSS, JavaScript</p>
+            <div>
+                <div class="card">
+                    <img src="calculator png.png" alt="Project1">
+                    <h2>Project 1</h2>
+                    <p>Project 1 description.</p>
+                </div>
+                <div class="card">
+                    <img src="cart png.png" alt="Project2">
+                    <h2>Project 2</h2>
+                    <p>Project 2 description.</p>
+                </div>
+                <div class="card">
+                    <img src="to do list.png" alt="Project3">
+                    <h2>Project 3</h2>
+                    <p>Project 3 description.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <!-- Week 2 -->
+    <!-- Get in Touch form section -->
+    <section class="contact-section">
+        <h1>Get in Touch</h1>
+        <form id="contact">
+            <label>
+                <span>Name</span>
+                <input type="text" name="name" placeholder="Name">
+            </label>
+            <label>
+                <span>Email</span>
+                <input type="email" name="email" placeholder="Email">
+            </label>
+            <label>
+                <span>Message</span>
+                <textarea name="message" placeholder="Message"></textarea>
+            </label>
+            <input id="submit_button" name="submit" type="submit" value="Send" />
+        </form>
+    </section>
+</body>
+
+</html>
+
+Ques-4 -> (Class-3: A4. Color the Target)
+
+Raw Problem
+Write internal CSS to select the elements that contain "Select me" as innerText
+and set the color as 'blue'.
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+
+# Solution -
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style> 
+    /* Write CSS here ============================*/
+     .some-class #the-one p.c1.c2, 
+     .some-class #the-one div.c1.c2 {
+        color: blue;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Select the element with "Select me" and make it blue  -->
+    <div class="some-class">
+        <div id="the-one">
+            <p>Random</p>
+            <div>
+                <p class="c1 c2">Random</p>
+            </div>
+            <p class="c1 c2">Select me</p>
+            <div class="c1 c2">Select me</div>
+        </div>
+    </div>
+    <div class="some-class">
+        <p class="c1">Random</p>
+        <p class="c2">Random</p>
+        <p class="c1 c2">Random</p>
+    </div>
+</body>
+
+</html>
+
+Ques-5 -> (Lecture 2: H2 - Styling Menu)
+
+Raw Problem
+You are provided with HTML and some preset CSS of a Menu Card for a restaurant.
+Write internal CSS to add the below-mentioned styles to the Menu card.
+
+For the div.card:
+1. Set the height and width as 400px each
+2. Apply a border of solid style, 30px width, and #7D5A44 color.
+3. Set the background-color to #EBE0C7
+4. Set line-height to 25px
+5. Add a box-shadow of '0 10px 22px 10px rgba(27, 38, 49, 0.1)'
+6. Set color property to #7D5A44
+
+
+Now, in the h1 tag there is a <span> that contains the text '(Menu)'
+
+For the entire h1:
+1. Set text-align as 'center'
+2. Add padding of 20px
+
+For the content in h1 inside of <span>, i.e., '(Menu)':
+1. Set text-decoration property to 'overline'
+2. Set the font-size to 15px
+
+Don't make any changes to the HTML and CSS boilerplate code.
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+The end result should be similar to the one given below:
+menu-hint-image
+
+
+
+What's new! 🎉
+Start Tour
+
+# Solution -
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Lato", sans-serif;
+        }
+
+        body {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Write CSS from here ============= */
+        div.card { 
+                width:400px;
+                height:400px;
+                border:30px solid #7D5A44;
+                background: #EBE0C7;
+                line-height: 25px;
+                box-shadow: 0 10px 22px 10px rgba(27, 38, 49, 0.1);
+                color: #7D5A44;
+        }
+        h1{ text-align: center;padding: 20px; }
+        h1 span { text-decoration: overline;font-size: 15px; }
+
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>
+            Les Papilles <br />
+            <span>(Menu)</span>
+        </h1>
+        <ol>
+            <li>Cheese Cheddar Burger</li>
+            <li>Quadro Formaggi Pizza</li>
+            <li>Overfilled Cheese Lasagna</li>
+            <li>Mac and Cheese</li>
+            <li>Mozzarella Linguine</li>
+            <li>Arabiata Spaghetti</li>
+            <li>Cadillac Margarita</li>
+            <li>Harvey Wallbanger</li>
+        </ol>
+    </div>
+</body>
+
+</html>
