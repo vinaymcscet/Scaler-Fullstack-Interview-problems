@@ -1,0 +1,409 @@
+Ques-1 -> (Class-6: A1. Using CSS Grid)
+
+Raw Problem
+You are given a web page design that needs to be implemented using CSS Grid.
+
+The design contains:
+a header,
+a navigation menu,
+a main content area,
+and a footer.
+
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+Below is a basic look of the expected output:
+
+# Solution -
+
+    <!DOCTYPE html>
+<html>
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Write CSS code here */
+        .grid-container{
+            display: grid;
+            grid-template-columns: 100px 100px;
+            grid-template-rows: 100px 100px;
+            grid-template-areas:
+            'header header'
+            'nav content'
+            'footer footer';
+        }
+        .header{
+            grid-area: header;
+        }
+        .nav{
+            grid-area: nav;
+        }
+        .content{
+            grid-area: content;
+        }
+        .footer{
+            grid-area: footer;
+        }
+    </style>
+</head>
+<body>
+	<div class="grid-container">
+		<header class="header">Header</header>
+		<nav class="nav">Nav</nav>
+		<main class="content">Main Content</main>
+		<footer class="footer">Footer</footer>
+	</div>
+</body>
+
+</html>
+
+Ques-2 -> (Class-6: A2. Pinterest Layout)
+
+Raw Problem
+Create a Pinterest-like layout using HTML and CSS, without using images, but only using simple boxes with different colors.
+Use CSS Grid to create the layout.
+The layout should have a responsive design and adapt to different screen sizes.
+
+Utilize the variable values provided in boilerplate CSS.
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+Below is a basic look of the expected output:
+
+# Solution -
+    <!DOCTYPE html>
+<html>
+<!-- Please NOTE that the link to assets (like images) need to be set in global context.
+For example:
+To access an image from assets folder correct way to set src attribute is 
+
+src = 'profile.png'
+
+instead of 
+
+src = './assets/profile.png'
+-->
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Write CSS code here */
+        :root {
+            --card_width: 250px;
+            --row_increment: 10px;
+            --card_border_radius: 16px;
+            --card_small: 26;
+            --card_medium: 33;
+            --card_large: 45;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 5px;
+            background-color: grey;
+        }
+
+        .pin_container {
+            display: grid;
+            padding: 20px;
+            height: 100vh;
+            grid-template-columns: repeat(2, var(--card_width));
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            justify-content: center;
+            counter-increment: var(--row_increment);
+            position: absolute;
+            
+        }
+
+        .card {
+            width: var(--card_width);
+            border-radius: var(--card_border_radius);
+            background-color: yellow;
+        }
+        .card_small {
+            grid-row-end: span var(--card_small);
+        }
+        .card_medium {
+            grid-row-end: span var(--card_medium);
+        }
+        .card_large {
+            grid-row-end: span var(--card_large);
+        }
+    </style>
+</head>
+<body>
+	<div class="pin_container">
+        <div class="card card_small"></div>
+        <div class="card card_medium"></div>
+        <div class="card card_large"></div>
+        <div class="card card_medium"></div>
+        <div class="card card_small"></div>
+        <div class="card card_large"></div>
+        <div class="card card_medium"></div>
+        <div class="card card_small"></div>
+        <div class="card card_medium"></div>
+        <div class="card card_small"></div>
+        <div class="card card_medium"></div>
+        <div class="card card_large"></div>
+        <div class="card card_medium"></div>
+        <div class="card card_small"></div>
+        <div class="card card_medium"></div>
+        <div class="card card_large"></div>
+    </div>
+</body>
+
+</html>
+
+Ques-3 -> ( Lecture 5: A2 - Responsive Feature Cards)
+
+    Raw Problem
+    Write internal CSS to make the features section responsive
+
+    You are given HTML and some preset CSS as boilerplate.
+    In HTML:
+    1. section.features contains:
+    1.1. h1 element
+    1.2. div.container-parent
+    2. div.container-parent contains: (display set as flex)
+    2.2. 3 div.containter elements that are the feature cards.
+
+    The output should look like this:
+
+# Solution -
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="preset.css">
+        <style>
+            /* Write CSS here ========================================= */
+            /* Media query for screens smaller than 940px */
+            @media only screen and (max-width: 939px) {
+                .container-parent {
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+        </style>
+    </head>
+
+
+    <body>
+        <section class="features">
+
+            <h2>Features</h2>
+
+            <div class="container-parent">
+                <div class="container">
+                    <img class="icon" src="plus-icon.svg" alt="calendar-logo">
+                    <h3>365 DAYS/YEAR</h3>
+                    <p class="feature-para">
+                        Never cook again! We really mean that. Our subscription plans include up to 365 days/year coverage.
+                        You can also choose to order more flexibly if that's your style.
+                    </p>
+                </div>
+                <div class="container">
+                    <img class="icon" src="plus-icon.svg" alt="calendar-logo">
+                    <h3>365 DAYS/YEAR</h3>
+                    <p class="feature-para">
+                        Never cook again! We really mean that. Our subscription plans include up to 365 days/year coverage.
+                        You can also choose to order more flexibly if that's your style.
+                    </p>
+                </div>
+                <div class="container">
+                    <img class="icon" src="plus-icon.svg" alt="calendar-logo">
+                    <h3>365 DAYS/YEAR</h3>
+                    <p class="feature-para">
+                        Never cook again! We really mean that. Our subscription plans include up to 365 days/year coverage.
+                        You can also choose to order more flexibly if that's your style.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </body>
+
+    </html>
+
+Ques-4 -> (Lecture 5: H2 - Responsive Pricings)
+
+Raw Problem
+Write internal CSS to make the Pricings section responsive
+
+You are given HTML and some preset CSS as boilerplate.
+
+In HTML:
+1. section contains:
+1.1. h2 element
+1.2. div.cards-container
+2. div.cards-container contains: (display set as flex)
+2.2. 3 div.card elements that are the pricing cards.
+
+The output should look like this:
+To achieve this you need to utilise media query in the following manner.
+
+Add a media query for screens smaller than 768px, in which:
+1. Using flex-direction, change the main-axis of the div.cards-container to y-axis.
+2. In the div.cards-container, align the items across cross-axis to center.
+
+Note: smaller than 768px will have max-width set to 767px
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+# Solution -
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pricing</title>
+
+        <link rel="stylesheet" href="preset.css">
+
+        <style>
+            /* Write CSS here ============= */
+            @media only screen and (max-width:767px) {
+                .cards-container {
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }       
+        </style>
+    </head>
+
+    <body>
+        <section>
+            <h2>START EATING HEALTHY TODAY</h2>
+
+            <div class="cards-container">
+                <div class="card">
+                    <h3>PREMIUM</h3>
+                    <h4>$399<span>/month</span></h4>
+                    <p>That's only 13.30$ per meal</p>
+                    <hr>
+                    <div>
+                        <ul>
+                            <li>1 meal every day</li>
+                            <li>Order 24/7</li>
+                            <li>Access to newest creations</li>
+                            <li>Free delivery</li>
+                        </ul>
+
+                        <hr>
+                    </div>
+                    <div class="signup-button">
+                        <a href="#" class="btn">I'm hungry</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>PREMIUM</h3>
+                    <h4>$399<span>/month</span></h4>
+                    <p>That's only 13.30$ per meal</p>
+                    <hr>
+                    <div>
+                        <ul>
+                            <li>1 meal every day</li>
+                            <li>Order 24/7</li>
+                            <li>Access to newest creations</li>
+                            <li>Free delivery</li>
+                        </ul>
+
+                        <hr>
+                    </div>
+                    <div class="signup-button">
+                        <a href="#" class="btn">I'm hungry</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>PREMIUM</h3>
+                    <h4>$399<span>/month</span></h4>
+                    <p>That's only 13.30$ per meal</p>
+                    <hr>
+                    <div>
+                        <ul>
+                            <li>1 meal every day</li>
+                            <li>Order 24/7</li>
+                            <li>Access to newest creations</li>
+                            <li>Free delivery</li>
+                        </ul>
+
+                        <hr>
+                    </div>
+                    <div class="signup-button">
+                        <a href="#" class="btn">I'm hungry</a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </body>
+
+    </html>
+
+Ques-5 -> (CSS - Make a 3x3 Grid)
+
+Raw Problem
+    You are tasked with creating a simple 3x3 grid layout using CSS Grid.
+    Below, you'll find the initial HTML structure and the CSS requirements to achieve
+    this grid layout.
+
+    CSS Requirements:
+    1. Create a simple 3x3 grid layout using CSS Grid for the elements within the .grid container.
+    2. Use appropriate CSS Grid properties to achieve the desired grid structure.
+    3. Ensure that there is equal spacing between grid items of 10px
+
+    Refer to the below image to see what is the end state we want to reach.
+
+# Solution -
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3x3 Grid Layout</title>
+    <style>
+      .item {
+        background-color: #3498db;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 3fr 3fr 3fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 10px;
+      }
+      /* COMPLETE CSS CODE HERE */
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+      <div class="item">Item 4</div>
+      <div class="item">Item 5</div>
+      <div class="item">Item 6</div>
+    </div>
+  </body>
+</html>
