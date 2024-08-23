@@ -1,0 +1,161 @@
+Ques-1 -> (JS Core - String Manipulation: Reverse a string)
+
+Create a function called reverseString that takes a string as input and returns the reversed version.
+
+The function is called with the argument of a string that needs to be reversed.
+Use array methods to reverse the string.
+
+Input Format
+String
+
+Sample Input 0
+hello
+
+Sample Output 0
+olleh
+
+# Solution -
+
+function reverseString(inputString) {
+  // Write your code here
+  // return the result
+  // Approach - 1
+    return inputString.split("").reverse().join("")
+
+    // Approach - 2
+    let reversed = "";
+    for (let i = inputString.length - 1; i >= 0; i--) {
+        reversed += inputString[i];
+    }
+    return reversed;
+}
+
+Ques-2 -> (JS Core - Area of Circle)
+
+Write a function named calculateArea that takes the radius of a circle as a parameter and returns the area.
+The calculateArea function is called with the argument and the result is stored in a variable called circleArea.
+
+
+Input Format
+Number
+
+
+Constraints
+n <= 10 ^ 9
+
+
+Output Format
+Number
+
+
+Sample Input 0
+5
+
+Sample Output 0
+78.5
+
+# Solution -
+
+    function calculateArea(radius){
+        // Write your code here
+        // return the result
+            let circleArea = (3.14) * radius * radius;
+            return circleArea;
+    }
+
+Ques-3 -> (JS Core - Conditional Statements)
+
+Write an if-else statement to check if a user is older than 18.
+If true, log "You are an adult." otherwise log "You are a minor."
+
+main function will be called with an argument with the value of age.
+
+
+Input Format
+Integer
+
+
+Constraints
+n <= 10 ^ 9
+
+
+Output Format
+String
+
+Sample Input 0
+12
+
+Sample Output 0
+You are a minor.
+
+# Solution -
+
+    function main(userAge) {
+    // Write your code here
+    // Use console.log to output the result
+        if(userAge > 18) console.log("You are an adult.");
+        else console.log("You are a minor.")
+    }
+
+Ques-4 -> (JS Core - Loops in Action)
+
+Use a for loop to iterate through an array of numbers and log each element multiplied by 2.
+
+main function will be called with an array of integers as argument.
+
+
+Input Format
+Values of an array
+
+Constraints
+n <= 10 ^ 9
+
+Output Format
+Logged Integers
+
+Sample Input 0
+[1, 2, 3]
+
+Sample Output 0
+2
+4
+6
+
+# Solution -
+
+    function main(arr) {
+    // Write your code here
+    // Use console.log to output the result
+        for(let i=0;i<arr.length;i++) {
+            console.log(arr[i] * 2);
+        }
+    }
+
+Ques-5 -> (JS Core -  Objects : Retrieve book information)
+
+You need to make a formatted sentence using the relevant information, which will be contained in an input object called book.
+
+The format of the sentence should be:
+BOOK_NAME by AUTHOR_NAME was published in PUBLISH_YEAR.
+
+Log this sentence to the console.
+
+Sample Input0
+let book = {
+
+title: "The Great Gatsby",
+author: "F. Scott Fitzgerald",
+publishedYear: "1925",
+
+};
+
+Sample Ouput0
+The Great Gatsby by F. Scott Fitzgerald was published in 1925.
+
+# Solution -
+
+    function main(book) {
+    // Write your code here
+    // Use console.log to output the result
+        console.log(`${book.title} by ${book.author} was published in ${book.publishedYear}.`);
+    }
