@@ -1,0 +1,612 @@
+Ques-1 --> (Joined first) - 
+
+    Context:
+
+    Bright Tech Solutions is a leading technology firm specializing in innovative software solutions and advanced data analytics. The company values understanding workforce dynamics to foster better management and team development.
+    As a data analyst at Bright Tech Solutions, you are tasked with generating a report that lists the details of employees who joined the company before their managers. Understanding the hierarchy and timelines of employee and manager join dates can provide insights into team dynamics and leadership transitions. Analyzing cases where employees joined the company before their managers did can highlight unique mentorship scenarios and organizational adjustments.
+    Problem Statement:
+
+    Write a query to display the details of the employees who joined the company before their managers joined the company.
+
+    Result:
+
+    Return the columns 'employee_id', 'first_name', and 'last_name'.
+    Return the result ordered by employee_id in ascending order.
+    Dataset Description:
+
+    Sample Input:
+
+    Table: employees
+
+    Sample Output:
+
+    Sample Explanation:
+
+    This query identifies employees who joined before their respective managers.
+
+# Solution - 
+    SELECT e.employee_id, e.first_name, e.last_name
+    from employees e
+    join employees m
+    on e.manager_id = m.employee_id
+    where e.hire_date < m.hire_date
+    order by e.employee_id;
+
+Ques-2 --> (Human Resources) -
+
+    Problem Statement:
+
+    Write a query to find details of the employees who work in the 'Human Resources' department.
+    Return the columns 'employee_id', 'department_id', 'first_name', 'last_name', 'job_id', and 'department_name'.
+    Return the result ordered by employee_id in ascending order.
+    Dataset Description:
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+    Sample Input:
+    Table: employees
+    Table: departments
+    Sample Output:
+
+# Solution -  
+    select e.employee_id, d.department_id, e.first_name, e.last_name, e.job_id, d.department_name
+    from employees e
+    join departments d
+    where e.department_id = d.department_id AND d.department_name = 'Human Resources'
+    order by employee_id;
+
+Ques-3 --> (Article Views II) -
+
+    Problem Statement:
+
+    Write a query to find all the people who viewed more than one article on the same date.
+    Save the viewer_id as the id.
+    Return the result sorted by id in ascending order.
+    Sample Input:
+    Table: views
+    Sample output:
+    Sample Explanation:
+    Viewer with id 5 viewed two articles on 2019-08-01.
+    Viewer with id 6 viewed two articles on 2019-08-02.
+    Viewer with id 4 viewed the same article two times. Hence, not included.
+
+# Solution - 
+    
+    // Approach - 1
+    SELECT DISTINCT v1.viewer_id as id 
+    from views v1
+    join views v2
+    where v1.viewer_id = v2.viewer_id 
+    and Date(v1.view_date) = Date(v2.view_date) 
+    and v1.article_id != v2.article_id
+    order by id;
+
+    // Approach - 2
+    SELECT DISTINCT v1.viewer_id as id 
+    from views v1
+    join views v2
+    ON v1.viewer_id = v2.viewer_id 
+    and Date(v1.view_date) = Date(v2.view_date) 
+    and v1.article_id != v2.article_id
+    order by id;
+
+Ques-4 --> (Department in US) -
+
+    Problem Statement:
+
+    Display the details of those employees who have a manager working in the department that is US (i.e., country_id) based.
+
+    Note:
+
+    Return the columns employee_id, first_name, and last_name.
+    Return the result ordered by employee_id in ascending order.
+    Dataset Description:
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+    Sample Input:
+    Table: employees
+    manager_id column represents the employee_id of the manager.
+    Table: department
+    Table: locations
+    Sample Output:
+
+# Solution - 
+    SELECT e1.employee_id , e1.first_name, e1.last_name
+    FROM employees e1
+    JOIN employees e2
+    on e1.manager_id = e2.employee_id
+    JOIN departments d
+    on e2.department_id = d.department_id
+    join locations l 
+    on d.location_id = l.location_id
+    and l.country_id = "US"
+    ORDER BY employee_id ASC
+
+Ques-5 --> (Job like sales) -
+
+    Context:
+
+    TechWave Solutions is a globally recognized technology firm known for its cutting-edge software solutions. In order to maintain its competitive edge, TechWave Solutions places a strong emphasis on sales management.
+
+    As a data analyst at TechWave Solutions, you are asked to extract the list of employees who have held job titles related to 'sales' in the past and have a minimum salary of 6000 or more. This report will help the company identify potential candidates for a new sales initiative based on their previous job experiences and salary requirements.
+
+    Problem Statement:
+
+    Display the details of the employees who had job titles like 'sales' in the past and the min_salary is greater than or equal to 6000.
+
+    Result:
+
+    Return the columns 'employee_id', 'department_name', 'job_id', 'job_title', and 'min_salary'.
+    Return the employee's current information for the columns 'employee_id', and 'department_name'.
+    Return the employee's past information for the columns 'job_id', 'job_title', and 'min_salary'.
+    Return the output ordered by employee_id and min_salary in ascending order.
+    NOTE:
+
+    To get the min_salary refer to the jobs table.
+    Refer to the job_history table to get the details of past jobs.
+    An employee might have worked in multiple jobs in the past whose record will be available in job_history.
+    If any employee hasn't worked in any jobs in the past, his record wouldn't be present in the job_history table.
+    Dataset Description:
+
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+
+    Sample Input:
+    Table: employees
+
+
+
+    Table: departments
+
+
+
+    Table: job_history
+
+
+
+    Table: jobs
+
+
+
+    Sample Output:
+
+
+
+    Sample Explanation:
+
+    This output lists the details of employees who had job titles related to 'sales' in their past job history, provided their minimum salary was 6000 or more.
+    The results are sorted first by employee ID and then by minimum salary in ascending order.
+
+# Solution - 
+
+    SELECT DISTINCT e.employee_id, d.department_name, jh.job_id, j.job_title, j.min_salary
+    from employees e
+    join departments d
+    ON e.department_id = d.department_id
+    join job_history jh
+    ON e.employee_id = jh.employee_id
+    join jobs j
+    ON jh.job_id = j.job_id
+    WHERE j.job_title LIKE '%sales%'
+    and j.min_salary  >= 6000
+    order by e.employee_id, j.min_salary;
+
+Ques-6 --> (Employees Earning More Than Their Managers) -
+
+    Write an SQL query to find the employee names (as 'Employee') who earn more than their managers.
+
+    Return the result table ordered by names.
+
+    Table : employee
+
+
+
+    Sample Test Case:
+
+    Table: employee
+
+
+
+    Sample Output:
+
+    Output
+
+# Solution - 
+
+    SELECT E1.NAME AS Employee
+    FROM employee E1
+    JOIN employee E2
+    ON E1.managerId = E2.id 
+    where E1.salary > E2.salary
+    order by E1.NAME
+
+Ques-7 --> (Friendly Movies Streamed Last Month) -
+
+    Write an SQL query to report the distinct titles of kid-friendly movies streamed in June 2020.
+
+    Return the output ordered by title in ascending order.
+
+
+    Note: Use month() and year() function to extract month and year from program_date
+
+    Table: TVProgram
+
+
+
+    Table: content
+
+
+
+    Sample Input:
+
+    Table: TVProgram
+    Table 1
+
+    Table: content
+    Table 2
+
+    Sample Output:
+    Output
+
+    Explanation: SNOW-WHITE has content_type of "MOVIES" , released in "June 2020" and is "kid-friendly".
+
+# Solution - 
+    
+    SELECT distinct c.title
+    FROM TVProgram tv 
+    join content c 
+    on tv.content_id = c.content_id
+    where c.content_type = "MOVIES"
+    and c.kids_content = "Y" 
+    and month(tv.program_date) = 6 and year(tv.program_date) = 2020 
+    order by title asc;     
+
+Ques-8 --> (All the Matches of the League 1) -
+
+    Write an SQL query that reports all the possible matches of the league. Note that every two teams play two matches with each other, with one team being the home_team once and the other time being the away_team.
+    The query result format is in the following example.
+    Return the output ordered by home_team in ascending order.
+    Table: teams
+
+    Sample Input:
+    teams table:
+
+    Sample Output:
+
+    output
+
+# Solution - 
+
+    SELECT t1.team_name as home_team , t2.team_name as away_team
+    from teams t1
+    JOIN teams t2 
+    on t1.team_name != t2.team_name
+    order by home_team asc;
+
+Ques-9 --> (Sales Analysis I) -
+
+    Consider a database with the following tables:
+
+    Sales: sale_id (Integer, Primary Key), product_id (Integer), customer_id (Integer), employee_id (Integer), sale_amount (Integer)
+
+    Products: product_id (Integer, Primary Key), product_name (Text), category_id (Integer)
+
+    Customers: customer_id (Integer, Primary Key), customer_name (Text), city (Text)
+
+    Employees: employee_id (Integer, Primary Key), employee_name (Text), department_id (Integer)
+
+    Write an SQL query to retrieve the sale ID, product name, customer name, employee name, and sale amount for all sales. Include details about the product, customer, and employee.
+
+    Return the output ordered by sale_amount in descending order.
+
+    Sample Input:
+
+    Table: Sales
+    Sales
+
+
+    Table: Products
+    Products
+
+    Table: Customers
+    Customers
+
+    Table: Employees
+    Employees
+
+    Sample Output:
+
+# Solution -
+
+    SELECT s.sale_id, p.product_name, c.customer_name, e.employee_name, s.sale_amount
+    FROM  Sales s 
+    join Products p 
+    on s.product_id = p.product_id
+    join Customers c 
+    on s.customer_id= c.customer_id
+    join Employees  e
+    on e.employee_Id = s.employee_Id
+    order by s.sale_amount desc
+
+
+Ques-10 --> (Sales Analysis IIConsider a database with the following tables:
+
+    Sales: sale_id (Integer, Primary Key), product_id (Integer), customer_id (Integer), employee_id (Integer), sale_amount (Integer)
+
+    Products: product_id (Integer, Primary Key), product_name (Text), category_id (Integer)
+
+    Customers: customer_id (Integer, Primary Key), customer_name (Text), city (Text)
+
+    Employees: employee_id (Integer, Primary Key), employee_name (Text), department_id (Integer)
+
+    Write an SQL query to fetch the names of the employees who sold ‘Laptop’.
+
+    Return the output ordered by employee_name in ascending order.
+
+    Sample Input:
+    Table: Sales
+
+    Sales
+
+    Table: Products
+
+    Products
+
+    Table: Customers
+
+    Customers
+
+    Table: Employees
+
+    Employees
+
+    Sample Output:
+
+# Solution - 
+
+    SELECT distinct e.employee_name 
+    from Sales s 
+    join Products p 
+    on s.product_id = p.product_id 
+    join Customers c 
+    on c.customer_id = s.customer_id 
+    join Employees e 
+    on e.employee_Id = s.employee_Id 
+    where p.product_name = "Laptop"
+    order by e.employee_name
+
+Ques-11 --> (Product Sales Analysis V) -
+
+    Write an SQL query that reports the spending of each user.
+
+    Return the resulting table ordered by spending in descending order. In case of a tie, order them by user_id in ascending order.
+
+    The query result format is shown below in the following example.
+    Table: sales
+    Table: product
+
+    Sample Input:
+    Table: sales
+    Table: product
+
+    Sample Output:
+
+# Solution - 
+    
+    select s.user_id , SUM(s.quantity * p.price) as spending
+    from sales s
+    join product p 
+    on p.product_id = s.product_id
+    GROUP BY s.user_id 
+    order by spending desc,s.user_id asc;
+
+Ques-12 --> (Same manager) -
+
+    Problem Statement:
+
+    Extract the details of the employees who work under the same manager.
+
+    Return the details along with the manager's full name (first name, last name separated by space) as 'Manager' and the employee's full name (first name, last name separated by space) as 'Employee'.
+
+    Order the output based on manager_id and 'Employee' in ascending order.
+
+    Return the columns 'manager_id', 'Manager', 'Employee'.
+    Use the employees table.
+    Dataset Description:
+
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+
+    Sample Input:
+
+    Table: employees
+
+    input
+
+    Sample Output:
+
+    output
+
+# Solution - 
+
+    SELECT e1.manager_id, CONCAT(e2.first_name, " " , e2.last_name) as Manager, 
+    CONCAT(e1.first_name, " " , e1.last_name) as Employee  
+    FROM employees e1 
+    join employees e2 
+    on e1.manager_id = e2.employee_id
+    order by e1.manager_id, Employee
+
+Ques-13 --> (Three months) -
+
+    Context:
+
+    GlobalTech Solutions is a multinational company with thousands of employees spread across various departments.
+
+    The company's Human Resources (HR) department maintains a comprehensive database to manage employee information, including personal details, employment history, and departmental affiliations.
+
+    One common requirement from the HR department is to identify employees hired within specific date ranges for various activities like onboarding programs, salary reviews, or compliance reporting.
+
+    Problem Statement:
+
+    You have been asked to display the details of employees who were hired between the specified date '1998-01-01' and three months from that date.
+
+    The result should include the columns employee_id, first_name, last_name, salary, department_name, hire_date, and city.
+    The result should be ordered by employee_id in ascending order to maintain clarity and ease of reference.
+    Note: To get the three months interval, use the DATE_ADD() function and add the interval by 90 days from the given date (i.e., three months).
+
+    Dataset Description:
+
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+
+    Sample Input:
+
+    Table: employees
+
+
+
+    Table: departments
+
+
+
+    Table: locations
+
+
+
+    Sample Output:
+
+# Solution - 
+
+    SELECT e.employee_id, e.first_name, e.last_name, e.salary, d.department_name, e.hire_date, l.city
+    from employees e
+    join departments d
+    on e.department_id = d.department_id
+    join locations l
+    on d.location_id = l.location_id
+    -- where e.hire_date between '1998-01-01' and date_add('1998-01-01', INTERVAL 3 MONTH)
+    where e.hire_date between '1998-01-01' and date_add('1998-01-01', INTERVAL 90 DAY)
+    order by e.employee_id;
+
+Ques-14 --> (Sales Analysis III) -
+
+    Consider a database with the following tables:
+
+    Sales: sale_id (Integer, Primary Key), product_id (Integer), customer_id (Integer), employee_id (Integer), sale_amount (Integer)
+
+    Products: product_id (Integer, Primary Key), product_name (Text), category_id (Integer)
+
+    Customers: customer_id (Integer, Primary Key), customer_name (Text), city (Text)
+
+    Employees: customer_id (Integer, Primary Key), customer_name (Text), city (Text)
+
+    Write an SQL query to fetch the names of the top 2 products which had the highest sale_amount.
+
+    Sample Input:
+    Table: Sales
+
+    Sales
+
+    Table: Products
+
+    Products
+
+    Table: Customers
+
+    Customers
+
+    Table: Employees
+
+    Employees
+
+    Sample Output:
+
+
+# Solution - 
+   
+    SELECT p.product_name,  s.sale_amount
+    FROM Sales s 
+    join Products p 
+    on s.product_id = p.product_id 
+    join Customers c 
+    on s.customer_id = c.customer_id
+    join Employees e
+    on e.employee_id = s.employee_id
+    order by s.sale_amount desc
+    limit 2; 
+
+Ques-15 --> (INNER JOIN - 1) -
+
+    Which statement best describes the purpose of INNER JOIN in SQL?
+
+# Solution - It returns only the rows from both tables that satisfy the specified condition.
+
+Ques-16 --> (SELF JOIN - 1) -
+
+   In a SELF JOIN operation, how does the table aliasing work when dealing with the same table?
+
+# Solution - Different aliases must be assigned to distinguish between the two instances of the same table.
+
+Ques-17 --> (INNER JOIN - 2) -
+
+    In an INNER JOIN operation, what happens if there is no match between the columns specified in the ON clause for the two tables?
+    What does this query do?
+
+# Solution - The query returns an empty result set.
+
+Ques-18 --> (INNER JOIN - 3) -
+
+    In a scenario where you have three tables, A, B, and C, and you perform an INNER JOIN between A and B and then join the result with C, how does the order of the joins impact the result?
+    Note: Consider the ordering/sequence of rows into consideration as well.
+
+# Solution - The order of joins affects the result; it determines the sequence of matching.
+
+Ques-19 --> (Employees II) -
+
+    Consider the database with the following employees table:
+
+    Employees: employee_id (Integer, Primary Key), employee_name (Text), manager_id (Integer)
+
+    Write an SQL query to find employees who are also managers.
+
+    Return the output ordered by manager_name in descending order.
+
+    Sample Input:
+
+    Table: Employees
+
+    input
+
+    Sample Output:
+
+# Solution - 
+
+    SELECT  distinct m.employee_name as manager_name 
+    from Employees e 
+    join Employees m 
+    on e.manager_Id = m.employee_Id 
+    order by manager_name desc
+
+Ques-20 --> ( Employees I) -
+
+    Consider the database with the following employees table:
+
+    Employees: employee_id (Integer, Primary Key), employee_name (Text), manager_id (Integer)
+
+    Write an SQL query to find pairs of employees who have the same manager.
+
+    Return the output ordered by employee_name in ascending order.
+
+    Note: Make sure that the employee_id of employee1 is less than employee2
+
+    Sample Input:
+
+    Table: Employees
+    input
+
+    Sample Output:
+
+
+# Solution - 
+
+    SELECT e1.employee_name as employee1, e2.employee_name as employee2, m.employee_name as manager_name 
+    from Employees e1
+    join Employees e2
+    on e1.manager_Id = e2.manager_Id
+    join Employees m
+    on e1.manager_Id = m.employee_id
+    where e1.employee_id < e2.employee_id
+    order by e1.employee_name;

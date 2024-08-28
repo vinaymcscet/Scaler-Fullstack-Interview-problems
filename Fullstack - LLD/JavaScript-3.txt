@@ -1,0 +1,45 @@
+Ques-1 -> (Closures - 3)
+
+    What is a closure in JavaScript?
+
+# Solution - A function that has access to its parent scope and can use its variables after the enclosing function is terminated
+
+Ques-2 -> (Caching Closure)
+
+    Create a JavaScript function that uses closures to implement caching (memoization). The function should cache the results of complex calculations and return the cached result when the same inputs occur again.
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Counter Closure</title>
+    </head>
+
+    <body>
+        <!-- No need to change HTML -->
+        <script>
+            function cachingFunction(complexCalculation) {
+                // Modify this cache object and store data in the arg
+                // also perform the complexCalculation on the arg
+                window.cache = {};
+                // Implement the closure-based caching mechanism here
+                    return function (arg) {
+                        arg = String(arg);
+                        if(window.cache[arg]) {
+                            return window.cache[arg];
+                        } else {
+                            let result = complexCalculation(arg);
+                            window.cache[arg] = result;
+                            return result;
+                        }
+                    };
+            }
+
+        </script>
+    </body>
+
+    </html>
