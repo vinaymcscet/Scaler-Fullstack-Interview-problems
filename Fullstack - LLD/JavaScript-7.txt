@@ -1,0 +1,260 @@
+Ques-1 -> (JS Lecture 9: H1 - Two Files in Series using await)
+
+    Raw Problem
+    Using async await complete the function twoSeries(file1, file2, ansArray),
+    which takes in two file names as file1 and file2 and ansArray
+
+    Write the code such that:
+    1. Both the files are serially read using the fetchByPromise(fileName)
+    2. Add the content of both files in the ansArray.
+    3. At the end of the contents, the ansArray should hold string "All files have been read"
+
+    Example:
+
+    Input:
+    let ansArray = [];
+    twoSeries('FILE 1', 'FILE 2', ansArray)';
+
+    Output:
+    ansArray = ['content : FILE 1', 'content : FILE 2', 'All files have been read']
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <script defer>
+            function fetchByPromise(fileName) {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        resolve(`content : ${fileName}`);
+                    }, 100 * Math.random());
+                });
+            }
+        </script>
+        <!-- Write your code solution here, inside the twoSeries function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            async function twoSeries(file1, file2, ansArray) {
+                //write your code here =========================================
+                    let data = await fetchByPromise(file1);
+                    ansArray.push(data);
+
+                    data = await fetchByPromise(file2);
+                    ansArray.push(data);
+
+                    ansArray.push('All files have been read');
+
+                    return ansArray
+            }
+        </script>
+    </body>
+
+    </html>
+
+Ques-2 -> (JS Lecture 9: H2 - N Files in Series using await)
+
+    Raw Problem
+    Using async await complete the function nSeries(fileArray, ansArray),
+    that takes in fileArray and ansArray, in which
+    fileArray is an array of file names.
+
+    Write the code such that:
+    1. All the files in the fileArray are serially read using the fetchByPromise(fileName)
+    2. Add the content of both files in the ansArray.
+    3. At the end of the contents, the ansArray should hold string "All files have been read"
+
+    Example:
+
+    let ansArray = [];
+    let fileArray = ["FILE 1", "FILE 2"];
+    nSeries(fileArray, ansArray);
+
+    Output:
+    ansArray = ['content : FILE 1', 'content : FILE 2', 'All files have been read']
+
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <script defer>
+            function fetchByPromise(fileName) {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        resolve(`content : ${fileName}`);
+                    }, 100 * Math.random());
+                });
+            }
+        </script>
+        <!-- Write your code solution here, inside the nSeries function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            async function nSeries(fileArray, ansArray) {
+                //write your code here =========================================
+                for (let i=0;i<fileArray.length;i++) {
+                    let data = await fetchByPromise(fileArray[i]);
+                    ansArray.push(data);
+                }
+                ansArray.push('All files have been read');
+                return ansArray
+                
+            }
+        </script>
+    </body>
+
+    </html>
+
+Ques-3 -> (JS Core - Error Handling - Divide By Zero)
+
+    You are building a function to perform division in JavaScript. However, you want to make sure that division by zero is handled properly. Create a function that divides two numbers and handles division by zero gracefully.
+
+    Write a JavaScript function divide that takes two numbers as arguments and returns the result of dividing the first number by the second number. If the second number is zero, the function should throw an error with the message "Division by zero is not allowed."
+
+    Demonstrate the usage of the divide function by dividing two numbers, including a case where division by zero occurs.
+
+    function divide(a, b)
+    Note that the Error message should be "Division by zero is not allowed." and if there is no error, then the function should return result of type Number.
+
+    Examples
+
+    Calling the divide(a, b) function inside try and catch block with different values.
+
+    Example 1
+
+    // Usage
+    try {
+        const result = divide(10, 2);
+        console.log("Result:", result); // Should print "Result: 5"
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+    Output
+
+    Result: 5
+    Example 2
+
+    // Usage
+    try {
+        const divisionByZero = divide(8, 0); // Division by zero
+    } catch (error) {
+        console.error(error.message); // Prints: Division by zero is not allowed.
+    }
+    Output
+
+    Division by zero is not allowed.
+
+# Solution - 
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <!-- Write your code solution here, inside the main function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            function divide(a, b) {
+                //write your code here ===============================================
+                if (b === 0) {
+                    throw new Error("Division by zero is not allowed.");
+                }
+                const result = a / b;
+                return result;
+            }
+        </script>
+    </body>
+    </html>
+
+Ques-4 -> (JS Lecture 9: H2 - N Files in Series using await)
+
+    Raw Problem
+    Using async await complete the function nSeries(fileArray, ansArray),
+    that takes in fileArray and ansArray, in which
+    fileArray is an array of file names.
+
+    Write the code such that:
+    1. All the files in the fileArray are serially read using the fetchByPromise(fileName)
+    2. Add the content of both files in the ansArray.
+    3. At the end of the contents, the ansArray should hold string "All files have been read"
+
+    Example:
+
+    let ansArray = [];
+    let fileArray = ["FILE 1", "FILE 2"];
+    nSeries(fileArray, ansArray);
+
+    Output:
+    ansArray = ['content : FILE 1', 'content : FILE 2', 'All files have been read']
+
+
+# Solution - 
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <script defer>
+            function fetchByPromise(fileName) {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        resolve(`content : ${fileName}`);
+                    }, 100 * Math.random());
+                });
+            }
+        </script>
+        <!-- Write your code solution here, inside the nSeries function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            async function nSeries(fileArray, ansArray) {
+                //write your code here =========================================
+                for(let i=0;i<fileArray.length;i++) {
+                    let data = await fetchByPromise(fileArray[i]);
+                    ansArray.push(data); 
+                }
+                ansArray.push('All files have been read');
+            }
+        </script>
+    </body>
+
+    </html>
