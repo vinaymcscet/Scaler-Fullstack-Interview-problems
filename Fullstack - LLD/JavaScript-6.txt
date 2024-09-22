@@ -1,0 +1,230 @@
+Ques-1 -> (Lecture 7: H1 - Two Files in Series)
+
+    Raw Problem
+    Complete the function twoSeries(file1, file2, ansArray),
+    which takes in two file names as file1 and file2 and ansArray
+
+    Write the code such that:
+    1. Both the files are serially read using the fetchByCb(fileName, callback)
+    2. Add the content of both files in the ansArray.
+    3. At the end of the contents, the ansArray should hold string "All files have been read"
+
+    Example:
+
+    Input:
+    let ansArray = [];
+    twoSeries('FILE 1', 'FILE 2', ansArray)';
+
+    Output:
+    ansArray = ['content : FILE 1', 'content : FILE 2', 'All files have been read']
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        </head>
+
+
+        <body>
+            <script defer>
+                function fetchByCb(fileName, cb) {
+                    setTimeout(function () {
+                        cb(`content : ${fileName}`);
+                    }, 100 * Math.random());
+                }
+            </script>
+            <!-- Write your code solution here, inside the twoSeries function -->
+            <!-- WARNING:
+                Don't make any changes outside the given function. (would fail test cases)
+                Write the required code and return the correct answer. -->
+            <script id='solution' defer>
+                function twoSeries(file1, file2, ansArray) {
+                    //write your code here =========================================
+                    fetchByCb(file1, (content1) => {
+                        ansArray.push(content1);      
+                        fetchByCb(file2, (content2) => {
+                            ansArray.push(content2);
+                            // Add the final message to ansArray
+                            ansArray.push('All files have been read');
+                        });
+                    });
+                }
+            </script>
+        </body>
+
+        </html>
+
+Ques-2 -> (JS Lecture 8: Two Files in Series by Promise)
+
+    Complete the function twoSeries(file1, file2, ansArray), which takes in two file names as file1 and file2 and ansArray
+
+    Write the code such that:
+
+    Both the files are serially read using the fetchByPromise(fileName)
+    Add the content of both files in the ansArray.
+    At the end of the contents, the ansArray should hold string "All files have been read"
+    Example:
+    Input:
+    let ansArray = [];
+    twoSeries('FILE 1', 'FILE 2', ansArray)';
+
+    Output:
+    ansArray = ['content : FILE 1', 'content : FILE 2', 'All files have been read']
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <script defer>
+            function fetchByPromise(fileName) {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        resolve(`content : ${fileName}`);
+                    }, 100 * Math.random());
+                });
+            }
+        </script>
+        <!-- Write your code solution here, inside the twoSeries function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            function twoSeries(file1, file2, ansArray) {
+                //write your code here =========================================
+                fetchByPromise(file1)
+                .then(data => {
+                    ansArray.push(data)
+                    return fetchByPromise(file2)
+                })
+                .then(data => ansArray.push(data))
+                .finally(() => ansArray.push("All files have been read"))
+                return ansArray;
+            }
+        </script>
+    </body>
+
+    </html>
+
+Ques-3 -> (JS Core - Promise Sum)
+
+    Write a function promiseSum that takes two integers, a and b, and returns a Promise. The Promise should resolve with the sum of a and b if both are positive; otherwise, it should reject with an error message.
+    You need to implement the promiseSum function, which returns a Promise. The Promise should resolve with the sum of a and b if both are positive, and reject with an error message if any of them is non-positive.
+
+    // Test Cases
+    promiseSum(3, 5)
+        .then(result => console.log(result)) // Expected output: 8
+        .catch(error => console.error(error));
+
+    promiseSum(-2, 5)
+        .then(result => console.log(result))
+        .catch(error => console.error(error)); // Expected output: "Both numbers must be positive"
+
+# Solution - 
+
+    function promiseSum(a, b) {
+    // Write Code Here =============
+    return new Promise(function(resolve, reject) {
+        if(a > 0 && b > 0) {
+            resolve(a+b)
+        } else {
+            reject("Both numbers must be positive")
+        }
+    })
+}
+
+
+Ques-4 -> (JS Core - timeoutPromise)
+
+    Write a function timeoutPromise that takes a delay time in milliseconds and returns a Promise. The Promise should resolve after the specified delay.
+    You need to implement the timeoutPromise function, which returns a Promise. The Promise should resolve after the specified delay time.
+
+
+    function timeoutPromise(delay) 
+    // Test Cases
+    timeoutPromise(2000)
+        .then(result => console.log(result)) // Expected output after 2000ms: "Promise resolved after 2000 milliseconds"
+        .catch(error => console.error(error));
+
+
+# Solution - 
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <!-- Write your code solution here, inside the main function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            function timeoutPromise(delay) {
+                // write solution here ============
+                return new Promise((resolve, reject) => {
+                    setTimeout(function() {
+                        resolve(`Promise resolved after ${delay} milliseconds`)
+                    }, delay)
+                })
+            }
+        </script>
+    </body>
+
+    </html>
+
+Ques-5 -> (JS Core - Currency Converter Promise)
+
+    Write a function convertCurrency that takes an amount, source currency, and target currency, and returns a Promise. The Promise should resolve with the converted amount if the conversion is successful; otherwise, it should reject with an error message.
+    You need to implement the convertCurrency function, which returns a Promise. The Promise should resolve with the converted amount if the conversion is successful, and reject with an error message if there is any issue.
+
+    // Test Cases
+    convertCurrency(100, 'USD', 'EUR')
+        .then(result => console.log(`Converted amount: ${result} EUR`))
+        .catch(error => console.error(error));
+
+    convertCurrency(50, 'USD', 'JPY')
+        .then(result => console.log(`Converted amount: ${result} JPY`))
+        .catch(error => console.error(error)); // Expected output: "Error converting currency: Invalid currency"
+
+
+# Solution - 
+
+    const exchangeRates = {
+        'USD': 1.0,
+        'EUR': 0.85,
+        'GBP': 0.75,
+    };
+
+    function convertCurrency(amount, sourceCurrency, targetCurrency) {
+        // Write code here =========
+        return new Promise((resolve, reject) => {
+            if(targetCurrency in exchangeRates) {
+                let result = amount * sourceCurrency[exchangeRates] * targetCurrency[exchangeRates];
+                resolve(`Converted amount: ${result}` 
+                )
+            }
+            else {
+                reject("Error converting currency: Invalid currency")
+            }
+        })
+    }
