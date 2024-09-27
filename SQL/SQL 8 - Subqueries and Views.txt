@@ -1,0 +1,847 @@
+Ques-1 --> (No Job history) - 
+
+    Context:
+
+    GlobalTech Solutions is a multinational company with thousands of employees spread across various departments.
+
+    The company's Human Resources (HR) department maintains a comprehensive database to manage employee information, including personal details, employment history, and departmental affiliations.
+
+    The HR department wants to identify new hires who haven't held any positions within the company yet.
+
+    Problem Statement:
+
+    We want to find all employees who are not present in the job_history table. This indicates they haven't held any jobs previously within the company.
+
+    The result should include all columns from the employees table.
+    The result should to be sorted by employee_id in ascending order for easier reference.
+    Note:
+
+    To get the details of the employee's previous jobs refer to the job_history table.
+    An employee is present in the job_history table if he/she has worked before.
+    Dataset Description:
+
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+
+    Sample Input:
+
+    Table: employees
+    Table: job_history
+    Sample Output:
+    Explanation: Only employess with id 101 and 102 have a job history.
+
+# Solution - 
+    /* YOUR QUERY GOES HERE
+        Example: SELECT * FROM employees; 
+    */
+    select * from employees 
+    where employee_id not in (select employee_id from job_history)
+    order by employee_id
+
+Ques-2 --> (Customers order) -
+
+    Problem Description:
+
+    Write a query to find all the customers who have not ordered anything.
+
+    Return the name of the customers as 'Customers'.
+    Table: customers
+
+    customers
+
+    Table: orders
+
+    orders
+
+    Sample Input:
+
+    Table: customers
+
+
+
+    Table: orders
+
+
+
+    Sample Output:
+
+
+
+# Solution -  
+
+    /* YOUR QUERY GOES HERE
+        Example: SELECT * FROM employee; 
+    */
+    SELECT DISTINCT Name as Customers
+    from customers c
+    left join orders o
+    on c.id = o.Cust_id
+    where o.Cust_id is null;
+
+
+
+    SELECT DISTINCT c.Name as Customers
+    from customers c 
+    where c.id not in (select o.Cust_id from orders o);
+
+Ques-3 --> (4 or More employees) -
+
+    Context:
+
+    GlobalTech Solutions is a multinational company with thousands of employees spread across various departments.
+
+    The company's Human Resources (HR) department maintains a comprehensive database to manage employee information, including personal details, employment history, and departmental affiliations.
+
+    The HR department wants to identify key managers who oversee a significant number of employees. Understanding which managers are handling larger teams can assist in evaluating management effectiveness, allocating resources, and making organizational decisions.
+
+    Problem Statement:
+
+    You need to write a SQL query to find the "full_name" (first_name and last_name, separated by space) of managers who oversee four or more employees.
+
+    The result should be ordered by full_name, lexicographically.
+    The column manager_id in the employees table represents the employee_id of the manager.
+    Dataset Description:
+
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+
+    Sample Input:
+
+    Table: employees
+
+
+
+    Sample Output:
+
+
+
+    Sample Explanation:
+
+    In the sample data, we have 2 manager IDs 101 and 102. But only the manager with id 101 manages 4 or more employees.
+    Hence, we return the full_name (i.e., Neena Kochhar) of manager 101.
+
+# Solution - 
+    
+    /* YOUR QUERY GOES HERE
+        Example: SELECT * FROM employees; 
+    */
+    SELECT CONCAT(first_name," ", last_name ) as full_name
+    FROM employees 
+    where employee_id in (SELECT manager_id from employees group by manager_id HAVING count(*) >=4 ) 
+    order by full_name;
+
+Ques-4 --> (Department name) -
+
+    Context:
+
+    GlobalTech Solutions is a multinational company with thousands of employees spread across various departments.
+
+    The company's Human Resources (HR) department maintains a comprehensive database to manage employee information, including personal details, employment history, and departmental affiliations.
+
+    The HR department is interested in understanding the composition of some particular departments. By analyzing this data, they may be able to identify potential salary discrepancies across departments.
+
+    Problem Description:
+
+    Here's what we need to find:
+
+    We are interested in employees working in the 'Administration', 'Marketing', and 'Human Resources' departments.
+    For each qualifying employee, we want to retrieve the employee_id, full_name (first and last name separated by space), and salary.
+    Use CONCAT() function to add 2 strings.
+    We want the final results to be ordered by employee_id in ascending order for easier reference.
+    Dataset Description:
+
+
+
+    Sample Input:
+
+    Table: employees
+
+
+
+    Table: departments
+
+    departments
+    Note: The department_id is hidden for the sample test cases.
+
+    Sample Output:
+
+# Solution - 
+
+    /* YOUR QUERY GOES HERE
+        Example: SELECT * FROM employees; 
+    */
+    SELECT employee_id ,concat(first_name," ",last_name) as full_name , salary 
+    from employees 
+    where department_id in (
+        select department_id from departments where department_name in ('Administration', 'Marketing','Human Resources')
+    )
+    order by employee_id;
+
+Ques-5 --> (3rd highest) -
+
+    Context:
+
+    GlobalTech Solutions is a multinational company with thousands of employees spread across various departments.
+
+    The company's Human Resources (HR) department maintains a comprehensive database to manage employee information, including personal details, employment history, and departmental affiliations.
+
+    In a corporate environment, it's crucial to rank employees based on their salaries for various purposes such as determining promotion eligibility, understanding salary distribution, or making strategic decisions about salary adjustments.
+
+    Problem Statement:
+
+    Write a SQL query to find all the details of employees who earn the third-highest salary.
+
+    Return all the columns from the employees table.
+    Avoid using the LIMIT keyword in the query.
+    Dataset Description:
+
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+
+    Sample Input:
+
+    Table: employees
+
+
+    Sample Output:
+
+# Solution - 
+
+    /* YOUR QUERY GOES HERE
+        Example: select * from employees; 
+    */
+    select * 
+    from employees e
+    where e.salary in (select max(e1.salary) from employees e1 where salary < 
+    (select max(e2.salary) from employees e2 where e2.salary <
+    (select max(e3.salary) from employees e3 where e3.salary)))
+
+Ques-6 --> (Sales Person) -
+
+    Context:
+
+    At Sell Well Inc., a leading sales firm, it's essential to monitor the performance of salespersons by tracking their interactions with key clients. One such client, "RED," is particularly significant for the company's revenue. To better understand which salespersons are actively engaging with this client, you need to identify those who have not had any orders related to "RED."
+
+    Problem Statement:
+
+    Write a query to report the names of all the salespersons who did not have any orders related to the company named "RED".
+
+    Result:
+
+    Return the result table with the column 'name' and order it in ascending order.
+
+    Sample Input:
+
+    Table: salesperson
+
+
+
+    Table: orders
+
+
+
+    Table: company
+
+
+
+    Sample Output:
+
+
+
+    Explanation:
+
+    According to orders 3 and 4 in the orders table, it is easy to tell that only salespersons John and Pam have sales to company RED, so we report all the other names in the table salesperson.
+
+# Solution - 
+
+    /* YOUR QUERY GOES HERE
+        Example: SELECT * FROM salesperson; 
+    */
+    select sp.name
+    from salesperson sp where sp.sales_id not in 
+    (   select o.sales_id 
+        from orders o
+        join company c
+        on o.com_id = c.com_id
+        where c.name = "RED"
+    )
+    order by sp.name;
+
+Ques-7 --> (Biggest Single Number.) -
+
+    able name: MyNumbers
+
+    Column Name	Type
+    num	int
+    There is no primary key for this table. It may contain duplicates.
+    Each row of this table contains an integer.
+
+    A single number is a number that appeared only once in the MyNumbers table.
+
+    Write an SQL query to report the largest single number.
+
+    The output should contain one column num which would contain the largest single number.
+
+
+    Samle Input :
+
+    Table: MyNumbers
+
+    Input
+
+    Sample Output:
+
+    Output
+
+# Solution - 
+    
+    /* YOUR QUERY GOES HERE
+        Example: SELECT * FROM EMPLOYEE; 
+    */
+    SELECT max(num) as num
+    from MyNumbers
+    where num in (select num from MyNumbers group by num having count(num) = 1)     
+
+Ques-8 --> (Game Play Analysis 2) -
+
+    Write an SQL query to report the device that is first logged in for each player.
+
+    Return the result table ordered by player_id in ascending order.
+
+    Table: activity
+
+
+
+
+    Sample Input:
+
+    Table: activity
+
+
+
+    Sample Output:
+
+    output
+
+# Solution - 
+
+    /* YOUR QUERY GOES HERE
+        Example: SELECT * FROM EMPLOYEE; 
+    */
+    SELECT player_id, device_id
+    from activity where event_date
+    in ( select  min(event_date) from activity group by player_id )
+    order by player_id asc 
+
+Ques-9 --> (Immediate Food Delivery I) -
+
+    Problem Statement:
+
+    If the customer's preferred delivery date is the same as the order date, then the order is called immediate; otherwise, it is called scheduled.
+
+    Write a query to find the percentage of immediate orders in the table, rounded to 2 decimal places.
+
+
+    Sample Input:
+
+    Table: delivery
+
+
+
+    Sample output:
+
+
+
+    Explanation:
+
+    The orders with delivery id 2 and 3 are immediate while the others are scheduled.
+
+# Solution -
+
+    /* YOUR QUERY GOES HERE
+        Example: SELECT * FROM delivery; 
+    */
+    SELECT Round( ((select count(customer_id) FROM delivery where order_date = customer_pref_delivery_date)
+            /count(*)) * 100, 2) as immediate_percentage
+    FROM delivery 
+
+Ques-10 --> (Request Confirmation Messages) -
+
+    Context:
+
+    ConfirmHub, an online platform, allows users to sign up and request confirmation messages for various actions such as account verification and other time-sensitive operations. To optimize user experience and avoid spamming, the platform tracks user activity.
+
+    Problem Statement:
+
+    You are required to write a query to find the IDs of users who requested a confirmation message twice within a 24-hour window. This is crucial for implementing measures to improve the security protocols.
+
+    Note:
+
+    Two messages exactly 24 hours apart are considered to be within the window.
+    The action does not affect the answer, only the request time.
+    The result table should be ordered by user_id in an ascending manner.
+    Table: signups
+
+    signups
+
+    Table: confirmations
+
+    confirmations
+
+    Sample Input:
+
+    Table: signups
+
+
+
+    Table: confirmations
+
+
+
+    Sample Output:
+
+
+
+    Explanation:
+
+    User 2 requested two messages within exactly 24 hours of each other, so they are included.
+    User 3 requested two messages within 6 minutes and 59 seconds of each other, so they are included.
+    User 6 requested two messages within 23 hours, 59 minutes, and 59 seconds of each other, so they are included.
+    User 7 requested two messages within 24 hours and 1 second of each other, so they are excluded from the answer.
+
+# Solution - 
+
+    SELECT distinct user_id  
+    from confirmations c1
+    where exists (
+        select 1
+        from confirmations c2
+        where c1.user_id = c2.user_id
+        and c1.time_stamp < c2.time_stamp
+        and ABS(TIMESTAMPDIFF(HOUR, c1.time_stamp, c2.time_stamp)) <= 24
+    )
+    order by user_id;
+
+Ques-11 --> (Candidates Skills) -
+
+    Context:
+
+    You are part of the HR department at a tech company that is currently hiring for a Data Science position. To ensure that you select the best candidates for the job, you need to filter out candidates who have the essential skills required for the role. Specifically, you are looking for candidates who are proficient in 'Python', 'Tableau', and 'MySQL'.
+
+    Problem Description:
+
+    Given a list of candidates and their skills, write a SQL query to find the candidates who possess all three required skills for the Data Science position.
+
+    Note that there are no duplicates in the candidates table.
+    Return the result ordered by candidate_id in ascending order.
+    Table: candidates
+
+    schema
+
+    Sample Input:
+
+    Table: candidates
+
+
+
+    Sample Output:
+
+
+
+    Sample Explanation:
+
+    Candidate 100 is displayed because he/she possesses all three required skills: Python, Tableau, and MySQL.
+    Candidates 101 and 102 are not included in the output because they are missing one or more of the required skills.
+
+# Solution - 
+    
+    SELECT candidate_id 
+    from candidates 
+    where skill IN  ("Python", "Tableau", "MySQL")
+    group by candidate_id
+    having count(distinct skill) = 3;
+    order by candidate_id asc;
+
+Ques-12 --> (Seattle) -
+
+    Context:
+
+    GlobalTech Solutions is a multinational company with thousands of employees spread across various departments.
+
+    The company's Human Resources (HR) department maintains a comprehensive database to manage employee information, including personal details, employment history, and departmental affiliations.
+
+    To optimize departmental coordination and resource allocation, you need to retrieve information about employees who are specifically located in Seattle.
+
+    Problem Statement:
+
+    The goal is to write an SQL query to retrieve details of all employees whose department is located in Seattle.
+
+    The result should include the columns employee_id, first_name, last_name, and job_id.
+    The result should be sorted by employee_id in ascending order.
+    Dataset Description:
+
+    https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/004/944/original/hr_img.PNG?1653046505
+
+    Sample Input:
+
+    Table: employees
+
+
+
+    Table: departments
+
+
+
+    Table: locations
+
+
+
+    Sample Output:
+
+# Solution - 
+
+    SELECT  employee_id, first_name, last_name, job_id
+    from employees 
+    where department_id in
+    (select d.department_id
+    from departments d
+    join locations l 
+    on d.location_id = l.location_id and l.city = "seattle")
+    order by employee_id;
+
+Ques-13 --> (Employee 107) -
+
+    Context:
+
+    You are a HR manager for a company and you're interested in finding out who else works in the same job as a specific employee (employee_id 107). This could be helpful for identifying potential collaborators or teammates for employee 107. Also, Analyzing the number of employees in the same job can give insights into workload distribution and potential staffing needs.
+
+    Problem Statement:
+
+    We want to find all employees who share the same job as the employee with employee_id 107. Additionally, you need to create a new column "full_name" by concatenating first_name and last_name, separated by space.
+
+    The result should include the columns full_name, salary, department_id, and job_id.
+    The result should be sorted by full_name in ascending order for easier reference.
+    Dataset Description:
+
+
+
+    Sample Input:
+
+    Table: employees
+
+
+
+    The column manager_id in the employees table represents the employee_id of the manager.
+
+    Sample Output:
+
+
+
+    Sample Explanation:
+
+    Here the employee with id 107 has the job_id as 'IT_PROG'.
+    In the sample data, we have 4 employees with the same job_id including employee 107.
+    Hence, we return those 4 records with the same job_id as 107.
+
+# Solution - 
+
+    SELECT d.dept_name , count(s.student_id) as student_number
+    from student s 
+    right join department d 
+    on s.dept_id = d.dept_id
+    group by d.dept_name
+    order by student_number desc, d.dept_name asc
+
+Ques-14 --> (Products Recommendation) -
+
+    Context:
+
+    You are a HR manager for a company and you're interested in finding out who else works in the same job as a specific employee (employee_id 107). This could be helpful for identifying potential collaborators or teammates for employee 107. Also, Analyzing the number of employees in the same job can give insights into workload distribution and potential staffing needs.
+
+    Problem Statement:
+
+    We want to find all employees who share the same job as the employee with employee_id 107. Additionally, you need to create a new column "full_name" by concatenating first_name and last_name, separated by space.
+
+    The result should include the columns full_name, salary, department_id, and job_id.
+    The result should be sorted by full_name in ascending order for easier reference.
+    Dataset Description:
+
+
+
+    Sample Input:
+
+    Table: employees
+
+
+
+    The column manager_id in the employees table represents the employee_id of the manager.
+
+    Sample Output:
+
+
+
+    Sample Explanation:
+
+    Here the employee with id 107 has the job_id as 'IT_PROG'.
+    In the sample data, we have 4 employees with the same job_id including employee 107.
+    Hence, we return those 4 records with the same job_id as 107.
+
+# Solution - 
+
+    SELECT concat(first_name, " ", last_name) as full_name, salary, department_id, job_id
+    from employees
+    where job_id in 
+    (SELECT job_id
+    from employees where employee_id = 107)
+    order by full_name;
+
+Ques-15 --> (Consecutive Available Seats) -
+
+    Write an SQL query to report all the consecutive available seats in the cinema.
+
+    Return the result table ordered by seat_id.
+
+    The test cases are generated so that more than two seats are consecutively available.
+
+    Table: cinema
+
+
+
+    seat_id is an auto-increment primary key column for this table.
+    Each row of this table indicates whether the ith seat is free or not. 1 means free while 0 means occupied.
+
+    Example:
+
+    Table: cinema
+
+
+
+    Output:
+
+
+
+    Explanation: Clearly, seat numbers with id 102,103 and 104 are consecutive and free.
+
+# Solution - 
+
+    SELECT seat_id
+    from cinema c
+    where free = 1 and 
+    (
+    (select free from cinema where seat_id = c.seat_id + 1) = 1 or
+    (select free from cinema where seat_id = c.seat_id - 1) = 1
+    )
+    order by seat_id;
+
+Ques-16 --> (Find the Team Size) -
+
+   Write an SQL query to find the team size (as 'team_size') of each of the employees.
+
+    Return result table ordred by employee_id in ascending order.
+
+    Table: employee
+
+
+
+
+    Sample Input:
+
+    Table: employees
+
+
+
+    Sample Output:
+
+# Solution - 
+
+    SELECT employee_id , (select count(employee_id) from employee where team_id = e.team_id ) as team_size
+    FROM employee e
+    ORDER BY employee_id asc ;
+
+Ques-17 --> (Students With Invalid Departments) -
+
+    Write an SQL query to find the id and the name of all students who are enrolled in departments that no longer exist.
+
+    Return the result table in ordered by id in ascending order.
+
+    Table: departments
+
+
+
+    Table: students
+
+
+
+
+    Sample Input:
+
+    Table: departments
+
+
+
+    Table: students
+
+
+
+    Sample Output:
+
+# Solution - 
+
+    SELECT id, name
+    FROM students 
+    where department_id not in (
+        SELECT department_id 
+        from departments d 
+        join students s
+        on d.id = s.department_id
+    )
+    order by id;
+
+Ques-18 --> (Sellers With No Sales) -
+
+    Problem Statement:
+
+    Write a query to report the names of all sellers who did not make any sales in 2020.
+
+    Return the result table ordered by seller_name in ascending order.
+    Sample Input:
+
+    Table: Customer
+
+
+
+    Table: Orders
+
+
+
+    Table: Seller
+
+
+
+    Sample output:
+
+
+
+    Explanation:
+
+    Daniel made 1 sale in March 2020.
+    Elizabeth made 2 sales in 2020 and 1 sale in 2019.
+    Frank made 1 sale in 2019 but no sales in 2020.
+
+# Solution - 
+
+    select seller_name
+    from Seller 
+    where seller_id not in (
+            select distinct seller_id from Orders where YEAR(sale_date) = 2020 
+        )
+    order by seller_name;
+
+Ques-19 --> (Percentage of Users Attended a Contest) -
+
+    Table: Users
+
+    Column Name	Type
+    user_id	int
+    user_name	varchar
+    user_id is the primary key for this table.
+    Each row of this table contains the name and the id of a user.
+
+
+    Table: Register
+
+    Column Name	Type
+    contest_id	int
+    user_id	int
+
+
+    (contest_id, user_id) is the primary key for this table.
+    Each row of this table contains the id of a user and the contest they registered into.
+
+
+    Write a solution to find the percentage of the users registered in each contest rounded to two decimals.
+    Return the result table ordered by percentage in descending order. In case of a tie, order it by contest_id in ascending order.
+
+    Sample Input :
+
+    Table: Users
+
+    user_id	user_name
+    6	Alice
+    2	Bob
+    7	Alex
+
+    Table: Register
+
+    contest_id	user_id
+    215	6
+    209	2
+    208	2
+    210	6
+    208	6
+    209	7
+    209	6
+    215	7
+    208	7
+    210	2
+    207	2
+    210	7
+
+    Sample Output:
+
+    contest_id	percentage
+    208	100.00
+    209	100.00
+    210	100.00
+    215	66.67
+    207	33.33
+
+# Solution - 
+
+    SELECT r.contest_id, Round(count(distinct user_id)*100/(select count(user_id) from Users), 2) as percentage
+    from Register r
+    group by r.contest_id
+    order by percentage desc, r.contest_id asc;
+
+Ques-20 --> (Customers Who Bought All Products) -
+
+    Write an SQL query to report the customer ids from the Customer table that bought all the products in the Product table.
+
+    Return the result table ordered by customer_id in ascending order.
+
+    Table: Customer
+
+
+
+    There is no primary key for this table. It may contain duplicates.
+    product_key is a foreign key to Product table.
+
+    Table: Product
+
+
+
+    product_key is the primary key column for this table.
+
+
+    Sample Input:
+
+    Customer Table:
+
+
+
+    Product Table:
+
+
+
+    Sample Output:
+
+
+
+    Explanation:
+
+    The customers who bought all the products (7 and 8) are customers with IDs 1 and 3.
+
+# Solution - 
+
+    SELECT customer_id
+    from customer
+    group by customer_id
+    having count(distinct product_key) = (SELECT count(*) from product)
+    order by customer_id asc;

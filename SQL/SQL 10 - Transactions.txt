@@ -1,0 +1,100 @@
+Ques-1 --> (Transactions 1) - 
+
+    Which of the following best describes a database transaction?
+
+# Solution - A sequence of one or more SQL statements treated as a unit of work
+
+Ques-2 --> (Transactions 2) -
+
+    Which one of the following is NOT a part of the ACID properties of database transactions?
+
+# Solution -  Deadlock-freedom
+
+Ques-3 --> (Transactions 3) -
+
+    The statement given below describes which of the ACID properties of transactions?
+
+    “The changes applied to the database by a committed transaction must persist in the database, and these changes must not be lost because of any failure”
+
+# Solution - Durability
+
+Ques-4 --> (Transactions 4) -
+
+    Consider the following transaction involving two bank accounts x and y.
+
+    read (x); x := x – 50 ; write (x) ; read (y) ; y≔ y + 50 ; write (y)
+    The constraint that the sum of the accounts x and y should remain constant is that of
+
+# Solution - Consistency
+
+Ques-5 --> (Transactions 5) -
+
+    Consider the following partial Schedule S involving two transactions T1 and T2. Only the read and the write operations have been shown. The read operation on data item P is denoted by read(P) and the write operation on data item P is denoted by write(P)
+
+    Image
+
+    Suppose that the transaction T1 fails immediately after time instance 9. Which one of the following statements is correct?
+
+# Solution - Schedule S is non-recoverable and cannot ensure transaction atomicity
+
+Ques-6 --> (Transactions 6) -
+
+    You are a database administrator. A user initiates a transaction to transfer funds from one bank account to another. During the execution of the transaction, a system error occurs, and only part of the funds are transferred. What ACID property is violated in this situation?
+
+# Solution - Atomicity
+
+Ques-7 --> (Transactions 7) -
+
+    If multiple users are simultaneously executing transactions involving the same bank accounts, which ACID property ensures that their transactions don't interfere with each other, maintaining data integrity and the balance constraint?
+
+# Solution - Isolation
+
+Ques-8 --> (Transactions 8) -
+
+    In the given transaction, if the "write(x)" operation is executed but the "write(y)" operation fails due to a system error, what will be the state of accounts x and y?
+
+    (Assume ACID properties are followed by the transaction)
+
+# Solution - Neither x nor y will be updated
+
+Ques-9 --> (Transactions 9) -
+
+    Execution of transaction in isolation preserves the _________ of a database.
+
+# Solution - Consistency
+
+Ques-10 --> (Transactions 10) -
+
+    To get the table's previous permanent status, use the ____ command.
+
+# Solution - Rollback
+
+Ques-11 --> (Transactions 11) - 
+
+    In a multi-step transaction, if a "COMMIT" statement is executed, what is the expected outcome for the changes made in the transaction?
+
+# Solution - The changes are finalized and permanently saved in the database.
+
+Ques-12 --> (Transactions 12) -
+
+    If a database system ensures all the ACID properties, what is it primarily focused on?
+
+# Solution - Data consistency
+
+Ques-13 --> (Transactions 13) -
+
+    An e-commerce website is experiencing heavy traffic due to a flash sale. Multiple users are attempting to place orders simultaneously, and their transactions must be processed reliably. Which ACID property guarantees that each order transaction will either be fully completed or fully rolled back in case of an issue?
+
+# Solution - Atomicity
+
+Ques-14 --> (Transactions 14) -
+
+    A transportation company's database records the locations and statuses of vehicles in real-time. The system must ensure that the data remains accessible and consistent, even in the event of hardware failures. Which ACID property is the primary focus in this scenario?
+
+# Solution - Durability
+
+Ques-15 --> (Transactions 15) -
+
+    A content management system allows multiple users to edit and publish articles simultaneously. To prevent conflicts and ensure that changes do not interfere with each other, which ACID property is crucial in this situation?
+
+# Solution - Isolation

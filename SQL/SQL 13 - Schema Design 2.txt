@@ -1,0 +1,319 @@
+Ques-1 --> (Movies Schema Design - RT) - 
+
+    We’re going to design a movies database. Each movie has a title and year, one (and only one) director, and some number of actors. Actors can star in multiple movies. Directors can direct multiple movies. Some movies have the same title such as Ocean’s Eleven (the 2001 version directed by Steven Sodenbergh had George Clooney, Brad Pitt, Matt Damon, Julia Roberts, and many others, but the 1960 version was directed by Lewis Milestone and starred Frank Sinatra, Dean Martin and Sammy Davis Jr).
+
+    The schema should be normalized enough to avoid duplicating strings too much, and also to be able to efficiently answer questions like these two:
+
+    Who acted in Fight Club (1999)?
+    What are the 10 most recent movies that George Clooney starred in?
+    Mention all your tables (with its attributes), relationships between tables using Draw.io editor
+    ____________________________________________________________________
+
+    Example:
+
+    Tables:
+
+    1. Table A
+
+    int attirbute_a1
+
+    string attirbute_a2
+
+    2. Table B
+
+    int attirbute_b1
+
+    string attirbute_b2
+
+    Relationships:
+
+    Table A belongs to Table B etc
+
+# Solution - 
+
+    1. Table Movies
+      int movie_id
+      varchar title
+      year year
+      int director_id 
+
+    2. Table Directors
+        int director_id
+        varchar name
+
+    3.  Table Actors
+        int actor_id
+        varchar name
+
+    4. Table movies_actor
+        int movie_id
+        int actor_id
+
+    Relationship:
+    Table Movies have one director which is associated with Table Directors.
+    Table Movies have Actors which is associated with Actors table (Many to Many relationship so we create a new Table movies_actor).
+    Table Movies has foreign key(director_id).
+
+Ques-2 --> (Design Scaler Academy Schema - RT) -
+
+   Design schema satisfying the following requirements mentioned below.
+
+    System requirements:
+
+    1. Students can register for different batches (Ex: Feb’20)
+
+    2. Students attend daily lectures on various topics (like, Trees, Linked lists, stacks etc.)
+
+    3. Every lecture has an assignment and homework.
+
+    4. Every assignment and homework can have 0-10 problems.
+
+    5. Every class has an instructor, some prelecture content and lecture notes.
+
+    6. Students should be able to see the class timeline, problem solve percentage, attendance percentage and status of all the problems in all the assignments/homework in the dashboard.
+
+    7. Instructors should be able to see a list of classes taken by him and his upcoming class.
+
+    8. Instructors should be able to create lessons for all the batches and should be able to add and modify the assignments and homework problems.
+
+    Future Scope:
+
+    1. Store ratings and feedback or the class.
+
+    2. Collaborative lectures taken by multiple instructors.
+
+    3. Daily Streak calculation.
+
+    NOTE:
+
+    Draw Class diagram and the ER diagram.
+    Define the PKs for all the tables.
+    Mention the columns which should be indexed.
+
+# Solution -  
+
+    1. Table Students
+      student_id int(Primary Key)
+      name varchar 
+      email varchar 
+      batch_name  varchar (foreign Key)
+      streak_id(foreign Key)
+
+    2. Table Batches
+        batch_id  int (Primary Key)
+        batch_name  varchar
+        start_date Date
+        end_date  Date
+
+    3.  Table Lectures
+        lecture_id (PK)
+        topic
+        assignment_id (FK)
+        homework_id (FK)
+        instructor_id (FK)
+        prelecture_content
+        lecture_notes
+
+    4. Table Assignments
+        assignment_id int(Primary key)
+        lecture_id int(Foreign Key)
+        problem_id int(Foreign Key)
+
+    5. Table Homewworks
+        homework_id int(Primary key)
+        lecture_id int(Foreign Key)
+            problem_id int(Foreign Key)
+
+    6. Table Problems
+            problem_id int(Primary Key)
+            questions varchar
+            lecture_id int (Forign key)
+
+    7. Table classes
+        class_id int(Primary keys)
+        ratings varchar 
+        feedback varchar   
+        instructor_id int (foreign key)
+        prelecture_content varchar
+        lecture_notes varchar
+        timeline varchar
+        psp varchar
+        attedance varchar
+        status varchar
+
+    8. Table Instructors
+        instructor_id int(Primary Key)
+        name varchar
+        class_name varchar
+        upcoming_class_name varchar
+        batch_id  varchar (Foreign key)
+        create_lesson varchar
+        assignment_id(Foreign Key)
+        homework_id(Foreign Key)
+
+    Relationship:
+        Students table have primary key - student_id and foreign key of batch_name and streak_id which connected with batch table.
+        Batches table have primary key - batch_id.
+        Lectures table have primary key - lecture_id and forign key of assignment_id , homework_id ,  instructor_id          which  connect relation with (1:M) on assignment table, homework table and instructor table.
+        Assignments table have primary key - assignment_id and foreign key - lecture_id and problem_id which create a (1:M) cardinality relations.
+        Homewworks table have primary key - homework_id and foreign key - lecture_id, problem_id which create a (1:M) cardinality relations.
+        Problems table have primary key - problem_id and foreign key - lecture_id which create a (1:M) cardinality relations.
+        Classes table have primary Key - class_id and foreign key - instructor_id which creates a (M:1) cardinality relation.
+        Instructors table have primry key - instructor_id and foreign key - batch_id, assignment_id, homework_id.
+
+
+Ques-3 --> (Design Email Campaign Schema - RT) -
+
+    Design a system to be used by various companies to reach out to their connections through automated email campaigns.
+
+
+
+    System requirements:
+
+    1. Companies should be able to add/update connections.
+
+    2. Companies should be able to create email campaigns.
+
+    3. Each campaign can have multiple email templates to be delivered after a specified duration of time if the connection does not reply to the mail.
+
+    4. Companies should be able to stop the campaign for all or some of the connections.
+
+    5. Email templates should be reusable (i.e. same template can be a part of different campaigns).
+
+
+
+    Future Scope:
+
+    1. Group connections based on any criteria (Ex: Backend Profile, Frontend Profile, ICPC Qualifier).
+
+    2. Group campaigns and templates based on any criteria.
+
+
+
+    NOTE:
+
+    Draw Class diagram and the ER diagram.
+    Define the PKs for all the tables.
+    Mention the columns which should be indexed.
+
+# Solution - 
+
+    1. Table Companies
+        company_id int (Primary Key)
+        name varchar 
+       email varchar
+
+    2. Table Connections
+        connection_id int(Primary Key)
+        name varchar
+            email varchar
+        status
+        company_id int(Foreign Key)
+
+    3. Table Campaigns
+        campaign_id int(primary Key)
+        name
+        connection_id(Foreign Key)
+        company_id int(Foreign Key)
+        start_date varchar
+        end_date varchar
+        status varchar
+
+    4. Table Campaign_EmailTemplate
+        email_template_id int(Primary Key)
+        campaign_id int
+        timestamp date
+        company_id int(Foreign Key)
+        sender_name varchar
+        sender_email varchar
+        subject varchar
+        body varchar
+
+    5. Table CampaignEmail 
+            campaign_email_id int (Primary key)
+            template_id int (Foreign Key)
+            company_id int(Foreign Key)
+            connection_id int(Foreign Key)
+            send_time  Date 
+            status
+
+    Primary Key - 
+    1.  company_id for Companies Table.
+    2. connection_id for Connections Table.
+    3. campaign_id for Campaigns Table.
+    4. email_template_id for Email template mapping Table.
+    5. campaign_email_id for Campaign Email Mapping Table.
+
+    Foreign Key - 
+    1.  company_id for Connections Table.
+    2. connection_id for Campaigns Table.
+    3.  company_id for Campaigns Table.
+    4. company_id for Email template mapping Table.
+    5. template_id for Campaign Email Mapping Table.
+    6. company_id for Campaign Email Mapping Table.
+    7. connection_id for Campaign Email Mapping Table.
+
+Ques-4 --> (Design Netflix Schema - RT) -
+
+    Design Database Schema for a system like Netflix with the following Use Cases. You can draw it on pen and paper and upload the image of your solution.
+
+    Use Case
+
+    Netflix has users
+    Every user has an email and a password
+    Users can create profiles to have separate independent environments.
+    Each profile has a name and a type. Type can be KID or ADULT.
+    There are multiple videos on Netflix.
+    For each video, there will be a title, description and a cast.
+    A cast is a list of actors who were a part of the video. For each actor, we need to know their name and list of videos they were a part of.
+    For every video, for any profile who watched that video, we need to know the status (COMPLETED/ IN PROGRESS).
+    For every profile for whom a video is in progress, we want to know their last watch timestamp.
+
+# Solution -
+    1. Table Users
+        user_id int (Primary key)
+        email varchar
+        password varchar
+       
+    2. Table Profiles
+        profile_id int (Primary key)
+        user_id int(Foreign Key)
+        name varchar
+        type enum - ('KID', 'ADULT')
+        status enum - ('COMPLETED', 'IN PROGRESS')
+        timestamp date
+
+    3. Table Videos
+        video_id int (Primary key)
+        title varchar
+        description varchar
+        cast_id int (Foreign Key)
+        
+    4. Table video_castActors
+        cast_id int (Primary key)
+        video_id int (Foreign key)
+        
+    5. Table Actors
+            actor_id int (Primary Key)
+            name varchar
+            video_id int (Foreign key)
+        
+    Primary Key - 
+    1.  user_id for Users Table.
+    2. profile_id for Profiles Table.
+    3. video_id for Videos Table.
+    4. cast_id for Video Cast Actors mapping Table.
+    5. actor_id for Actors Table.
+
+    Foreign Key - 
+    1.  user_id for Profiles Table.
+    2. connection_id for Campaigns Table.
+    3.  cast_id for Videos Table.
+    4. video_id for video_castActors mapping Table.
+    5. video_id for ActorsTable.
+
+    Indexes - 
+        1. Users table create indexes for user_id column. 
+        2. Profiles table create indexes for profile_id column.
+        3. Videos table create indexes for video_id column.
+        4. Actors table create indexes for actor_id column.

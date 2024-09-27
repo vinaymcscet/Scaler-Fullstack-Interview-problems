@@ -1,0 +1,59 @@
+Ques-1 --> (Indexing - 1) - 
+
+    In a B-Tree index structure, what does the 'B' stand for?
+
+# Solution - Balanced
+
+Ques-2 --> (Indexing - 2) -
+
+    In which of the following scenarios is a Hash Index most beneficial?
+
+# Solution -  When you need to perform exact match queries
+
+Ques-3 --> (Indexing - 3) -
+
+    How is the Full-Text Index in MySQL different from other indexes?01.
+
+# Solution - It is optimized for matching exact phrases, It is optimized for searching large text fields
+
+Ques-4 --> (Indexing - 4) -
+
+    Which of the following statements is true about indexes in MySQL?
+
+# Solution - Indexes slow down UPDATE and INSERT operations but speed up SELECT queries
+
+Ques-5 --> (Indexing - 5) -
+
+    Which type of index would NOT store the indexed data in sorted order?
+
+# Solution - Hash Index
+
+Ques-6 --> (Indexing - 6) -
+
+    In MySQL, what does the keyword "EXPLAIN" do before a SELECT query?
+
+# Solution - It provides information about the query execution plan, including how indexes are used
+
+Ques-7 --> (Indexing - 7) -
+
+    If you have an index on a single column "age," which of the following types of queries would benefit the most from using this index?
+
+# Solution - Queries filtering by age ranges.
+
+Ques-8 --> (Indexing - 8) -
+    
+    Suppose you have a table with a multi-column index on columns (country, city). Which of the following query scenarios is likely to benefit the most from this index?
+
+# Solution - Queries filtering by both "country" and "city."
+
+Ques-9 --> (Indexing - 9) -
+
+    Why is indexing a long text field, such as a product description, not always the best choice?
+
+# Solution - Indexing long text fields requires additional storage.
+
+Ques-10 --> (Indexing - 10) -
+
+    Consider a database table "Orders" with columns: "OrderID," "CustomerName," "ProductID," and "OrderDate." An index is created on the columns "CustomerName" and "ProductID" in that order. In which scenario would a query involving "CustomerName" and "ProductID" not receive significant benefits from this index?
+
+# Solution - When searching for orders placed for a specific product, regardless of the customer.
