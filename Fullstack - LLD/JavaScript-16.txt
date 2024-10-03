@@ -1,0 +1,117 @@
+Ques-1 -> (Debounce Function)
+
+    Raw Problem
+
+    Implement a Debounce Function in JavaScript
+    In this problem, you will solidify your understanding of debouncing by creating your own debounce function in JavaScript. After learning about debouncing, this hands-on challenge will help you apply the concept and develop a functional debounce utility.
+    Instructions:
+    You are provided with a partially completed function named debounce. Your task is to complete the implementation to create a working debounce utility.
+    The debounce function should take two arguments: func (the function to be debounced) and wait (the time interval in milliseconds).
+    Test your debounce function with various scenarios, including different debounce intervals and functions.
+    Important pointers:
+    Remember that debouncing is useful in scenarios where you want to delay the execution of a function until a certain amount of time has passed without additional calls.
+    To test your implementation, create a test function that logs a message to the console. Use your debounce function to debounce the test function and observe the behavior.
+    Function Signature and Test Case:
+
+    function debounce(func, wait) {
+    }
+
+    // Test Cases
+
+    const debouncedFunc = debounce((value) => console.log(value), 200);
+
+    debouncedFunc("First call"); // Should not log immediately
+    debouncedFunc("Second call"); // Should cancel the previous and set a new timeout
+    // Wait for 200 ms
+    // Should log "Second call" after 200 ms
+
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Items Buy</title>
+    </head>
+
+    <body>
+        <p></p>
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id="solution">
+            // complete the debounce function given below
+            let timeout;
+            function debounce(func, wait) {
+                return function test() {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(func, wait);
+                }
+            }
+        </script>
+    </body>
+
+</html>
+
+Ques-2 -> (JS Core - Throttle Function)
+
+    Raw Problem
+
+    Implement a Throttle Function in JavaScript
+
+    In this coding challenge, you will practice implementing a throttle function in JavaScript. After you've learnt about throttling, this exercise will give you hands-on experience in creating a functional throttle utility.
+
+    Instructions:
+    You are provided with a partially completed function named throttle. Your task is to complete the implementation to create a functional throttle utility.
+    The throttle function should take two arguments: fn (the function to be throttled) and time (the time interval in milliseconds).
+    Test your throttle function with different time intervals and functions.
+
+    Important Pointers:
+    Throttling is useful in scenarios where you want to limit the frequency of a function's execution to a specified time interval.
+    Be sure to capture the function's context (this) and arguments inside the inner function.
+    Experiment with different functions and time intervals to see how the throttle function behaves.
+
+    Function Signature and Test Case:
+    function throttle(fn, time) {
+    }
+    // Test Cases
+
+    const throttledFunc = throttle((value) => console.log(value), 200);
+
+    throttledFunc("First call"); // Should log
+    throttledFunc("Second call"); // Should not log
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Items Buy</title>
+    </head>
+
+    <body>
+        <p></p>
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+
+        <script id="solution">
+            // complete the throttle function given below
+            function throttle(fn, time) {
+                let lastTime = 0;
+                return function(){
+                    let currentTime = new Date().getTime();
+                    if(currentTime - lastTime >= time){
+                        fn.apply(this, arguments)
+                        lastTime = currentTime;
+                    }
+                }
+            }
+        </script>
+    </body>
+
+    </html>
