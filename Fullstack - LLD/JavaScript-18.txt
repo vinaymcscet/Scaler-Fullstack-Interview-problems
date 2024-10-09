@@ -1,0 +1,102 @@
+Ques-1 -> (JS Core: Class Inheritance)
+
+    You are working on a project that involves different types of vehicles. Implement a Vehicle class with properties make and model. Extend this class to create a Car class that has an additional property numDoors. Ensure that the Car class inherits the properties from the Vehicle class.
+    Test Case:
+
+    const car1 = new Car('Toyota', 'Camry', 4);
+    console.log(car1.make);        // Output: Toyota
+    console.log(car1.model);       // Output: Camry
+    console.log(car1.numDoors); 
+
+# Solution - 
+    class Vehicle {
+        // Write Code here -----
+        constructor(make, model) {
+            this.make = make;
+            this.model = model;
+        }
+    }
+    
+    class Car extends Vehicle {
+        // Write Code here -----
+        constructor(make, model, numDoors) {
+            super(make, model);
+            this.numDoors = numDoors;
+        }
+    }
+
+Ques-2 -> (JS Core: Polymorphism in JavaScript)
+
+    Create a base class Vehicle with a method start that prints a message indicating the vehicle has started. Implement two subclasses, Car and Motorcycle, that extend the Vehicle class. Override the start method in each subclass to provide a customized message.
+
+    Test Cases
+
+    const car = new Car();
+    car.start(); // Output: "Car started!"
+
+    const motorcycle = new Motorcycle();
+    motorcycle.start(); // Output: "Motorcycle started!"
+
+# Solution - 
+    class Vehicle {
+        start() {
+        console.log("Vehicle started!");
+        }
+    }
+    
+    class Car extends Vehicle {
+        // Write Code here ========
+        start() {
+            console.log('Car started!')
+        }
+    }
+    
+    class Motorcycle extends Vehicle {
+        // Write Code here ========
+        start() {
+            console.log('Motorcycle started!')
+        }
+    }
+
+Ques-3 -> (JS Core: Encapsulation in JavaScript)
+
+    You are building a simple banking system. Implement a BankAccount class with private properties accountNumber and balance. Create methods for deposit and withdraw that modify the balance property accordingly.
+
+    Problem Description:
+    Create a class BankAccount with private properties accountNumber and balance. The accountNumber should be generated automatically when a new account is created.
+    Implement a private method generateAccountNumber to generate a unique account number for each account.
+    Implement public methods deposit and withdraw that allow users to modify the balance property. Ensure that withdrawals cannot result in a negative balance. return 'Insufficient funds' in such cases.
+
+# Solution - 
+    class BankAccount {
+        #accountNumber;
+        #balance;
+    
+        constructor() {
+        this.#accountNumber = this.generateAccountNumber();
+        this.#balance = 0;
+        }
+    
+        generateAccountNumber() {
+        // Generate a random account number logic (for simplicity, using a fixed number here)
+        // Write Code here ========
+            let _accountNumber = '';
+            for(let i=0; i<12; i++){
+                const asciiCode = Math.floor(Math.random() * 92 + 32);
+                _accountNumber += String.fromCharCode(asciiCode);
+            }
+            return _accountNumber;
+        }
+        deposit(amount) {
+            // Write Code here ========
+            this.#balance += amount;
+            return this.#balance;
+        }
+    
+        withdraw(amount) {
+            // Write Code here ========
+            if(this.#balance < amount) return 'Insufficient funds';
+            else this.#balance -= amount;
+            return this.#balance;
+        }
+    }
