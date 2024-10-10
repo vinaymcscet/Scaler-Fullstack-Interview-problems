@@ -553,6 +553,26 @@ Ques-6 -> (Kth Smallest Element in a Sorted Matrix)
                 else high = mid;
             }
             return low;
+            // Approach - 3(Using Priority Queue)
+            const N = A.length;
+            const M = A[0].length;
+            let low = A[0][0];
+            let high = A[N-1][M-1];
+            while(low < high) {
+                let mid = Math.floor(low + (high-low)/2);
+                let count = 0;
+                let j = M - 1;
+
+                for(let i = 0; i < N; i++) {
+                    while(j >= 0 && A[i][j] > mid) {
+                        j--;
+                    }
+                    count += (j + 1);
+                }
+                if(count < B) low = mid + 1;
+                else high = mid;
+            }
+            return low;
         }
     };
 
