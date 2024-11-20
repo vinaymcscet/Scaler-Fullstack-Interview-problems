@@ -1,0 +1,282 @@
+Ques-1 -> (JS Core - Implement Promise.all())
+
+    The Promise.all() method takes an iterable of promises as an input, and returns a single Promise that resolves to an array of the results of the input promises Could you write your own all() ? which should works the same as Promise.all()
+
+    note
+
+    Do not use Promise.all() directly, it is not helping
+
+    Function signature is given below, here promises parameter would contain an array of promises.
+
+    all(promises);
+    Examples
+
+    Example 1
+
+    let ans = "";
+    all([Promise.resolve(ans += `func1 `), Promise.resolve(ans += `func2 `), Promise.resolve(ans += `func3 `)])
+    console.log(ans);
+    Output
+
+    func1 func2 func3 
+    Example 2
+
+    let ans = "";
+    let func1 = () => {setTimeout(() => { ans += `setTimeout called for func1\n`}, 100)}
+    let func2 = () => {setTimeout(() => { ans += `setTimeout called for func2\n`}, 200)}
+    let func3 = () => {setTimeout(() => { ans += `setTimeout called for func3\n`}, 300)}
+
+
+    all([func1(), func2(), func3()])
+
+    setTimeout(() => {
+        console.log(ans);
+    }, 500)
+    Output
+
+    setTimeout called for func1
+    setTimeout called for func2
+    setTimeout called for func3
+    Example 2
+
+    let i = 1;
+        let ans = "";
+        let func1 = () => {
+        setTimeout(() => {
+            ans += `setTimeout called for func${i++} \n `;
+        }, Math.random * 100);
+        };
+
+    all([func1(), func2(), func3()])
+
+    setTimeout(() => {
+        console.log(ans);
+    }, 500)
+    Output
+
+    setTimeout called for func1
+    setTimeout called for func2
+    setTimeout called for func3
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <!-- Write your code solution here, inside the main function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            function all(promises) {
+                //write your code here ===============================================
+                return new Promise((resolve, reject) => {
+                    let completePromise = [],
+                        totalCount = 0,
+                        length = promises.length;
+
+                    promises.forEach(function(promise, i) {
+                        Promise.resolve(promise)
+                            .then(res => {
+                                    completePromise[i] = res;
+                                    totalCount++;
+                                    if(totalCount === length) resolve(completePromise);
+                            })
+                            .catch(err => reject(err));
+                    }) 
+                })
+            }
+        </script>
+    </body>
+    </html>
+
+Ques-2 -> (JS Core - Implement Promise.any())
+
+    Problem Statement
+
+    Promise.any() takes an iterable of elements (usually Promises). It returns a single promise that resolves as soon as any of the elements in the iterable fulfills, with the value of the fulfilled promise. If no promises in the iterable fulfill (if all of the given elements are rejected), then the returned promise is rejected with an AggregateError, a new subclass of Error that groups together individual errors.
+
+    If an empty iterable is passed, then the promise returned by this method is rejected synchronously. The rejected reason is an AggregateError object whose errors property is an empty array.
+
+    Source: Promise.any() - JavaScript | MDN
+
+    Let's implement our own version of Promise.any(), a promiseAny function, with the difference being the function takes in an array instead of an iterable and AggregateErrors returned just have to return an array of error reasons, the message doesn't have to be set. Refer to the AggregateError constructor examples on MDN.
+
+    Be sure to read the description carefully and implement accordingly!
+
+    Examples
+
+    Example 1
+
+    const p0 = Promise.resolve(42);
+    const p1 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve(21);
+    }, 100);
+    });
+
+    await promiseAny([p0, p1]); // 42
+    Example 2
+
+    const p0 = new Promise((resolve) => {
+    setTimeout(() => {
+        resolve(42);
+    }, 100);
+    });
+
+    const p1 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        reject('Err!');
+    }, 400);
+    });
+
+    await promiseAny([p0, p1]); // 42
+    Example 3
+
+    const p0 = Promise.reject('p0');
+    const p1 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('p1');
+    }, 100);
+    });
+    const p2 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('p2');
+    }, 20);
+    });
+
+
+    const ans = await promiseAny([p0, p1, p2]);
+
+    console.log(ans); // p2
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <!-- Write your code solution here, inside the main function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            function promiseAny(iterable) {
+                //write your code here ===============================================
+                return new Promise((resolve, reject) => {
+                    let rejectedPromise = [],
+                        rejectionCount = 0,
+                        length = iterable.length;
+
+                    iterable.forEach((item, i) => {
+                        Promise.resolve(item)
+                            .then(res => resolve(res))
+                            .catch(err => {
+                                    rejectedPromise[i] = err;
+                                    rejectionCount++;
+                                    if(rejectionCount === length) {
+                                        return new AggregateError(rejectedPromise, 'All promises were rwejected.');
+                                    }
+                            })
+                    })
+                })
+            }
+        </script>
+    </body>
+    </html>
+
+Ques-3 -> (JS Core - Implement Promise.race())
+
+    Problem statement
+
+    The Promise.race() method returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise.
+
+    If the iterable passed is empty, the promise returned will be forever pending.
+
+    If the iterable contains one or more non-promise value and/or an already settled promise, then Promise.race() will resolve to the first of these values found in the iterable.
+
+    Let's implement our own version of Promise.race(), a promiseRace function, with the difference being the function takes in an array instead of an iterable. Be sure to read the description carefully and implement accordingly!
+
+    Examples
+
+    Example 1
+
+    const p0 = new Promise((resolve) => {
+    setTimeout(() => {
+        resolve(42);
+    }, 100);
+    });
+
+    const p1 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        reject('Err!');
+    }, 400);
+    });
+
+    await promiseRace([p0, p1]); // 42
+    Example 2
+
+    const p1 = new Promise((resol2ve, reject) => {
+    setTimeout(() => {
+        resolve('Resolved p1');
+    }, 100);
+    });
+    const p2 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        reject('Error on p2');
+    }, 20);
+    });
+
+    try {
+    const ans =  await promiseRace([p1, p2]);
+    } catch (err) {
+    console.log(err); // Error on p2
+    }
+
+# Solution - 
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <body>
+        <!-- Write your code solution here, inside the main function -->
+        <!-- WARNING:
+            Don't make any changes outside the given function. (would fail test cases)
+            Write the required code and return the correct answer. -->
+        <script id='solution' defer>
+            function promiseRace(iterable) {
+                //write your code here ===============================================
+                return new Promise((resolve, reject) => {
+                    iterable.forEach((promise, i) => {
+                        Promise.resolve(promise)
+                            .then(resolve)
+                            .catch(reject)
+                    })
+                })
+            }
+        </script>
+    </body>
+
+    </html>
