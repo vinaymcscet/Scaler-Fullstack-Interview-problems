@@ -1,0 +1,336 @@
+Ques-1 -> (Create Todo Application)
+
+    You are tasked with creating a simple Todo application using React. The application should allow users to add tasks to a list and delete them by clicking on them. The main functionalities you need to implement are adding new tasks and deleting existing tasks from the list.
+    Functional Requirements
+    Adding Tasks:
+
+    Implement an input field where users can type in new tasks.
+    Include an "Add Task" button that, when clicked, adds the task from the input field to the list of tasks.
+    Clear the input field after adding a task.
+    Displaying Tasks:
+
+    Render a list that displays all added tasks.
+    Each task in the list should be clickable.
+    Deleting Tasks:
+
+    Implement functionality to delete a task from the list when it is clicked.
+    Technical Requirements
+    Utilize functional components and React hooks for state management.
+    Break down the application into at least three components: Todo, InputBox, and List.
+
+# Solution - 
+    App.js - 
+        import "./App.css";
+        import Todo from "./Todo";
+
+        function App() {
+        return (
+            <div className="App">
+            <Todo />
+            </div>
+        );
+        }
+
+        export default App;
+
+    =================
+    InputBox.js - 
+        import React, { useState } from "react";
+        function InputBox(props) {
+        const [inputValue, setInputValue] = useState("")
+        const handleInput = (e) => {
+            // Add code here
+            setInputValue(e.target.value);
+        };
+        const addTaskChild = () => {
+            // Add code here
+            if(inputValue) {
+            props.addTask(inputValue)
+            setInputValue("")
+            }
+        };
+        return (
+            <div className="inputbox">
+            <input 
+                type="text"
+                value={inputValue}
+                onChange={handleInput} />
+
+            <button onClick={addTaskChild}>Add Task</button>
+            </div>
+        );
+        }
+
+        export default InputBox;
+
+    =================
+    Todo.js - 
+        // rfce
+        import React, { useState } from "react";
+        import List from "./List";
+        import InputBox from "./InputBox";
+
+        function Todo() {
+        const [tasksArr, setTasks] = useState([]);
+        const addTask = (inputValue) => {
+            // Complete the function
+            setTasks(prev => [...prev, inputValue])
+        };
+
+        const handleDelete = (idx) => {
+            // Complete the function
+            setTasks(prev => prev.filter((_,id) => id != idx));
+        };
+
+        return (
+            // react Fragments
+            <>
+            <InputBox addTask={addTask} />
+            <List tasksArr={tasksArr} handleDelete={handleDelete}></List>
+            </>
+        );
+        }
+
+        export default Todo;
+
+
+    ========================================
+    List.js - 
+        import React from "react";
+
+        export default function List(props) {
+        const { tasksArr, handleDelete } = props;
+        return (
+            <div className="list">
+            <ul>
+                {tasksArr.map((task, idx) => {
+                return (
+                    <li
+                    onClick={() => {
+                        handleDelete(idx);
+                    }}
+                    key={idx}>
+                    {task}
+                    </li>
+                );
+                })}
+            </ul>
+            </div>
+        );
+        }
+
+
+
+Ques-2 -> (Fetch Data)
+
+    Your task is to create a React component that fetches and displays user information from an API. Specifically, the component should make a GET request to "https://jsonplaceholder.typicode.com/users/1" and display the fetched user's name, email, and username. The component should initially display a loading placeholder text until the data is fetched successfully.
+    Functional Requirements
+    Data Fetching:
+
+    Implement an asynchronous operation within the component to fetch user data from the provided URL upon component mounting.
+    State Management:
+
+    Utilize React's useState hook to manage the fetched data state within your component.
+    Effect Hook:
+
+    Use React's useEffect hook to trigger the data fetching operation when the component mounts. Ensure that the fetching operation is performed only once.
+    Conditional Rendering:
+
+    Display a placeholder text (<h2>Loading data…</h2>) while the data is being fetched.
+    Once the data is fetched, display the user's name, email, and username.
+    If there is an error, show the error like (<h2>Error fetching data</h2>)
+
+# Solution - 
+    App.js - 
+        import "./App.css";
+        import GetData from "./GetData";
+
+        function App() {
+        return (
+            <div className="App">
+            <GetData />
+            </div>
+        );
+        }
+
+        export default App;
+
+    ==================================
+    getData.jsx - 
+        import React, { useEffect, useState } from "react";
+        function GetData() {
+        // using state management, manage
+        // error, loading and success states
+        const [data, setData] = useState(null)
+        const [loading, setLoading] = useState(true)
+        const [error, setError] = useState(null)
+
+        async function fetchData() {
+            // complete the code here
+            const url = "https://jsonplaceholder.typicode.com/users/1";
+            await fetch(url)
+            .then(res => res.json())
+            .then(result => setData((result)))
+            .catch(err => setError(err))
+            .finally(setLoading(false))
+        }
+
+        // call the fetch data function when the
+        // page loads
+        useEffect(() => {
+            fetchData();
+        }, [])
+
+        // Here is the basic data boilerplate
+        return (
+            <>
+            {loading ? (
+                <div>Loading…</div>
+            ) : error ? (
+                <div>Error: {error}</div>
+            ) : data ? (
+                <>
+                <h2>Name: {data.name}</h2>
+                <h2>Email: {data.email}</h2>
+                <h2>Username: {data.username}</h2>
+                </>
+            ) : (
+                <div>No data available</div>
+            )}
+            </>
+        );
+        }
+
+        export default GetData;
+
+
+    =====================================
+    Counter.js - 
+        import React, { useState } from "react";
+
+        function Counter({ index, value }) {
+        const [count, setCount] = useState(value)
+        const increment = () => setCount(count + 1);
+        const decrement = () => setCount(count - 1);
+
+        return (
+            <div>
+            <h2>Counter Number: {index}</h2>
+            <button onClick={increment}>+</button>
+            <p>{count}</p>
+            <button onClick={decrement}>-</button>
+            </div>
+        );
+        }
+
+        export default Counter;
+
+
+Ques-3 -> (Fix fetching in Effect)
+
+    This component shows the biography for the selected person. It loads the biography by calling an asynchronous function fetchBio(person) on mount and whenever person changes. That asynchronous function returns a Promise which eventually resolves to a string. When fetching is done, it calls setBio to display that string under the select box.
+    export async function fetchBio(person) {
+    const delay = person === 'Bob' ? 2000 : 200;
+    return new Promise(resolve => {
+        setTimeout(() => {
+        resolve('This is ' + person + '’s bio.');
+        }, delay);
+    })
+    }
+    import { useState, useEffect } from 'react';
+    import { fetchBio } from './api.js';
+
+    export default function Page() {
+    const [person, setPerson] = useState('Alice');
+    const [bio, setBio] = useState(null);
+
+    useEffect(() => {
+        setBio(null);
+        fetchBio(person).then(result => {
+        setBio(result);
+        });
+
+
+    return (
+        <>
+        <select value={person} onChange={e => {
+            setPerson(e.target.value);
+        }}>
+            <option value="Alice">Alice</option>
+            <option value="Bob">Bob</option>
+            <option value="Taylor">Taylor</option>
+        </select>
+        <hr />
+        <p><i>{bio ?? 'Loading...'}</i></p>
+        </>
+    );
+    }
+    There is a bug in this code. Start by selecting “Alice”. Then select “Bob” and then immediately after that select “Taylor”. If you do this fast enough, you will notice that bug: Taylor is selected, but the paragraph below says “This is Bob’s bio.”
+
+    Why does this happen? Fix the bug inside this Effect
+
+# Solution - 
+    App.js - 
+        import "./App.css";
+        import Page from "./Page";
+
+        function App() {
+        return (
+            <div className="App">
+            <Page />
+            </div>
+        );
+        }
+
+        export default App;
+
+
+    ====================================
+    API.js - 
+        export async function fetchBio(person) {
+        const delay = person === "Bob" ? 2000 : 200;
+        return new Promise((resolve) => {
+            setTimeout(() => {
+            resolve("This is " + person + "'s bio.");
+            }, delay);
+        });
+        }
+
+
+    ============================================
+    Page.js - 
+        import { useState, useEffect } from "react";
+        import { fetchBio } from "./api.js";
+
+        export default function Page() {
+        const [person, setPerson] = useState("Alice");
+        const [bio, setBio] = useState(null);
+
+        useEffect(() => {
+            setBio(null);
+            fetchBio(person).then((result) => {
+            setBio(result);
+            });
+        }, [person]);
+
+        return (
+            <>
+            <select
+                value={person}
+                onChange={(e) => {
+                setPerson(e.target.value);
+                }}>
+                <option value="Alice">Alice</option>
+                <option value="Bob">Bob</option>
+                <option value="Taylor">Taylor</option>
+            </select>
+            <hr />
+            <p>
+                <i>{bio ?? "Loading..."}</i>
+            </p>
+            </>
+        );
+        }
+
+
+

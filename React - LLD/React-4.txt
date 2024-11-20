@@ -1,0 +1,25 @@
+Ques-1 -> (Routing in React Apps with React Router - 2)
+
+    What is the benefit of using React Router?
+
+# Solution - 
+    Allows for the creation of clear and readable routes,
+    Improves the user experience of your app by simplifying site navigation,
+    Allows for the use of multiple views in React apps
+
+Ques-2 -> (React: Class 2 - MCQ 12)
+
+    In React Router, how do you define routes using the component?
+
+# Solution - 
+    <Routes><Route path="/about" element={<About />} /></Routes>
+
+Ques-3 -> (React Pagination: MCQ 5)
+
+    How can the React Router library be leveraged to implement filtering functionality in different views of a React application?
+
+# Solution - 
+    By dynamically generating routes based on filter criteria and rendering appropriate components.
+
+
+

@@ -1,0 +1,311 @@
+Ques-1 -> (Basic Counter with Hooks)
+
+    You are tasked with implementing a basic counter application using React. Your application should allow users to increment and decrement a count value displayed on the screen. The initial value of the count should be 0.
+    Instructions
+    Create a React component named Counter.
+    Use the useState hook to manage the count state within the Counter component. The initial count should be set to 0.
+    Implement two functions within the Counter component:
+    increment: When called, this function should increase the count by 1.
+    decrement: When called, this function should decrease the count by 1.
+    Render two buttons within the Counter component:
+    One button for incrementing the count. This button should have the text +.
+    One button for decrementing the count. This button should have the text -.
+    Display the current count value between these two buttons.
+
+# Solution - 
+    App.js - 
+        import "./App.css";
+        import Counter from "./Counter";
+
+        function App() {
+        return (
+            <div className="App">
+            <Counter />
+            </div>
+        );
+        }
+
+        export default App;
+
+    =================
+    Counter.js - 
+        import React, { useState } from "react";
+
+        // Complete the code
+        function Counter() {
+        const increment = () => setCount(count + 1);
+        const decrement = () => setCount(count - 1);
+        const [count, setCount] = useState(0);
+
+        return (
+            <div>
+            <button onClick={decrement}>-</button>
+            <span>{count}</span>
+            <button onClick={increment}>+</button>
+            </div>
+        );
+        }
+
+        export default Counter;
+
+
+Ques-2 -> (Multiple Counters with Hooks)
+
+    In this exercise, you are tasked with creating a React application that displays multiple counter components. Each counter should maintain its own state and have the ability to increment and decrement its value independently of the others.
+    Instructions
+    Counter Component:
+    Create a functional React component named Counter. The component should accept two props: index and value. index: A unique identifier for each counter. value: The initial count value for the counter. Utilize the useState hook to manage the counter's current value, initializing it with the value prop. Implement two functions within the component: increment: Increases the counter's value by 1. decrement: Decreases the counter's value by 1. (Note: There is a bug in the provided code where both increment and decrement functions increase the value. The decrement function should decrease the value.) Render the counter's index, current value, and two buttons to control the counter (increment and decrement).
+    ParentCounter Component:
+    Create another functional React component named ParentCounter. Inside this component, render multiple Counter components with different initial values and indexes. Example: Render three Counter components with indexes 1, 2, 3, and initial values 2, 3, 4, respectively
+
+# Solution - 
+    App.js - 
+        import "./App.css";
+        import ParentCounter from "./Counter";
+
+        function App() {
+        return (
+            <div className="App">
+            <ParentCounter />
+            </div>
+        );
+        }
+
+        export default App;
+
+    ==================================
+    Parent.jsx - 
+        import React from "react";
+        import Counter from "./Counter";
+
+        function ParentCounter() {
+        return <div>
+            <Counter index={1} value={2} />
+            <Counter index={2} value={3} />
+            <Counter index={3} value={4} />
+        </div>;
+        }
+
+        export default ParentCounter;
+
+    =====================================
+    Counter.js - 
+        import React, { useState } from "react";
+
+        function Counter({ index, value }) {
+        const [count, setCount] = useState(value)
+        const increment = () => setCount(count + 1);
+        const decrement = () => setCount(count - 1);
+
+        return (
+            <div>
+            <h2>Counter Number: {index}</h2>
+            <button onClick={increment}>+</button>
+            <p>{count}</p>
+            <button onClick={decrement}>-</button>
+            </div>
+        );
+        }
+
+        export default Counter;
+
+
+Ques-3 -> (Complete The Gallery)
+
+    When you press “Next” on the last sculpture, the code crashes. Fix the logic to prevent the crash. You may do this by adding extra logic to event handler or by disabling the button when the action is not possible.
+
+    After fixing the crash, add a “Previous” button that shows the previous sculpture. It shouldn’t crash on the first sculpture. app.js
+
+    import { useState } from 'react';
+    import { sculptureList } from './data.js';
+
+    export default function Gallery() {
+    const [index, setIndex] = useState(0);
+    const [showMore, setShowMore] = useState(false);
+
+    function handleNextClick() {
+
+        setIndex(index + 1);
+    }
+
+    function handleMoreClick() {
+        setShowMore(!showMore);
+    }
+
+    let sculpture = sculptureList[index];
+    return (
+        <>
+        <button onClick={handleNextClick}>
+            Next
+        </button>
+        <h2>
+            <i>{sculpture.name} </i> 
+            by {sculpture.artist}
+        </h2>
+        <h3>  
+            ({index + 1} of {sculptureList.length})
+        </h3>
+        <button onClick={handleMoreClick}>
+            {showMore ? 'Hide' : 'Show'} details
+        </button>
+        {showMore && <p>{sculpture.description}</p>}
+        <img 
+            src={sculpture.url} 
+            alt={sculpture.alt}
+        />
+        </>
+    );
+    }
+
+# Solution - 
+    App.js - 
+        import "./App.css";
+        import Gallery from "./Gallery";
+
+        function App() {
+        return (
+            <div className="App">
+            <Gallery />
+            </div>
+        );
+        }
+
+        export default App;
+
+    ====================================
+    Gallery.js - 
+        import { useState } from "react";
+        import { sculptureList } from "./data";
+        // import { sculptureList } from "./data.js";
+        export default function Gallery() {
+        const [index, setIndex] = useState(0);
+        const [showMore, setShowMore] = useState(false);
+
+        function handleMoreClick() {
+            setShowMore(!showMore);
+        }
+
+        let sculpture = sculptureList[index];
+        return (
+            <>
+            <button onClick={() => setIndex(index - 1)} disabled={index === 0}>Previous</button>
+            
+            <button onClick={() => setIndex(index + 1)} disabled={index === sculptureList.length-1}>Next</button>
+            <h2>
+                <i>{sculpture.name} </i>
+                by {sculpture.artist}
+            </h2>
+            <h3>
+                ({index + 1} of {sculptureList.length})
+            </h3>
+            <button onClick={handleMoreClick}>
+                {showMore ? "Hide" : "Show"} details
+            </button>
+            {showMore && <p>{sculpture.description}</p>}
+            <img src={sculpture.url} alt={sculpture.alt} />
+            </>
+        );
+        }
+
+    ============================================
+    data.js - 
+        export const sculptureList = [
+        {
+            name: "Homenaje a la Neurocirugía",
+            artist: "Marta Colvin Andrade",
+            description:
+            "Although Colvin is predominantly known for abstract themes that allude to pre-Hispanic symbols, this gigantic sculpture, an homage to neurosurgery, is one of her most recognizable public art pieces.",
+            url: "https://i.imgur.com/Mx7dA2Y.jpg",
+            alt: "A bronze statue of two crossed hands delicately holding a human brain in their fingertips.",
+        },
+        {
+            name: "Floralis Genérica",
+            artist: "Eduardo Catalano",
+            description:
+            "This enormous (75 ft. or 23m) silver flower is located in Buenos Aires. It is designed to move, closing its petals in the evening or when strong winds blow and opening them in the morning.",
+            url: "https://i.imgur.com/ZF6s192m.jpg",
+            alt: "A gigantic metallic flower sculpture with reflective mirror-like petals and strong stamens.",
+        },
+        {
+            name: "Eternal Presence",
+            artist: "John Woodrow Wilson",
+            description:
+            'Wilson was known for his preoccupation with equality, social justice, as well as the essential and spiritual qualities of humankind. This massive (7ft. or 2,13m) bronze represents what he described as "a symbolic Black presence infused with a sense of universal humanity."',
+            url: "https://i.imgur.com/aTtVpES.jpg",
+            alt: "The sculpture depicting a human head seems ever-present and solemn. It radiates calm and serenity.",
+        },
+        {
+            name: "Moai",
+            artist: "Unknown Artist",
+            description:
+            "Located on the Easter Island, there are 1,000 moai, or extant monumental statues, created by the early Rapa Nui people, which some believe represented deified ancestors.",
+            url: "https://i.imgur.com/RCwLEoQm.jpg",
+            alt: "Three monumental stone busts with the heads that are disproportionately large with somber faces.",
+        },
+        {
+            name: "Blue Nana",
+            artist: "Niki de Saint Phalle",
+            description:
+            "The Nanas are triumphant creatures, symbols of femininity and maternity. Initially, Saint Phalle used fabric and found objects for the Nanas, and later on introduced polyester to achieve a more vibrant effect.",
+            url: "https://i.imgur.com/Sd1AgUOm.jpg",
+            alt: "A large mosaic sculpture of a whimsical dancing female figure in a colorful costume emanating joy.",
+        },
+        {
+            name: "Ultimate Form",
+            artist: "Barbara Hepworth",
+            description:
+            "This abstract bronze sculpture is a part of The Family of Man series located at Yorkshire Sculpture Park. Hepworth chose not to create literal representations of the world but developed abstract forms inspired by people and landscapes.",
+            url: "https://i.imgur.com/2heNQDcm.jpg",
+            alt: "A tall sculpture made of three elements stacked on each other reminding of a human figure.",
+        },
+        {
+            name: "Cavaliere",
+            artist: "Lamidi Olonade Fakeye",
+            description:
+            "Descended from four generations of woodcarvers, Fakeye's work blended traditional and contemporary Yoruba themes.",
+            url: "https://i.imgur.com/wIdGuZwm.png",
+            alt: "An intricate wood sculpture of a warrior with a focused face on a horse adorned with patterns.",
+        },
+        {
+            name: "Big Bellies",
+            artist: "Alina Szapocznikow",
+            description:
+            "Szapocznikow is known for her sculptures of the fragmented body as a metaphor for the fragility and impermanence of youth and beauty. This sculpture depicts two very realistic large bellies stacked on top of each other, each around five feet (1,5m) tall.",
+            url: "https://i.imgur.com/AlHTAdDm.jpg",
+            alt: "The sculpture reminds a cascade of folds, quite different from bellies in classical sculptures.",
+        },
+        {
+            name: "Terracotta Army",
+            artist: "Unknown Artist",
+            description:
+            "The Terracotta Army is a collection of terracotta sculptures depicting the armies of Qin Shi Huang, the first Emperor of China. The army consisted of more than 8,000 soldiers, 130 chariots with 520 horses, and 150 cavalry horses.",
+            url: "https://i.imgur.com/HMFmH6m.jpg",
+            alt: "12 terracotta sculptures of solemn warriors, each with a unique facial expression and armor.",
+        },
+        {
+            name: "Lunar Landscape",
+            artist: "Louise Nevelson",
+            description:
+            "Nevelson was known for scavenging objects from New York City debris, which she would later assemble into monumental constructions. In this one, she used disparate parts like a bedpost, juggling pin, and seat fragment, nailing and gluing them into boxes that reflect the influence of Cubism’s geometric abstraction of space and form.",
+            url: "https://i.imgur.com/rN7hY6om.jpg",
+            alt: "A black matte sculpture where the individual elements are initially indistinguishable.",
+        },
+        {
+            name: "Aureole",
+            artist: "Ranjani Shettar",
+            description:
+            'Shettar merges the traditional and the modern, the natural and the industrial. Her art focuses on the relationship between man and nature. Her work was described as compelling both abstractly and figuratively, gravity defying, and a "fine synthesis of unlikely materials."',
+            url: "https://i.imgur.com/okTpbHhm.jpg",
+            alt: "A pale wire-like sculpture mounted on concrete wall and descending on the floor. It appears light.",
+        },
+        {
+            name: "Hippos",
+            artist: "Taipei Zoo",
+            description:
+            "The Taipei Zoo commissioned a Hippo Square featuring submerged hippos at play.",
+            url: "https://i.imgur.com/6o5Vuyu.jpg",
+            alt: "A group of bronze hippo sculptures emerging from the sett sidewalk as if they were swimming.",
+        },
+        ];
+
+
