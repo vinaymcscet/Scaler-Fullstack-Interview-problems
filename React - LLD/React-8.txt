@@ -1,0 +1,83 @@
+Ques-1 -> (Scaler Topics - Why redux?? Redux and it’s advantages - 3)
+
+    What are the three main components of Redux?
+
+# Solution - 
+    Store, action, and reducer
+
+Ques-2 -> (Scaler Topics - Why redux?? Redux and it’s advantages - 1)
+
+    In what type of applications is Redux most useful?
+
+# Solution - 
+    Applications with frequent state changes and user interaction
+
+Ques-3 -> ( React: Redux 1 MCQ 1)
+
+    const initialState = {
+        counter: 0
+    };
+
+    const reducer = (state, action) => {
+    switch (action.type) {
+        case "INCREMENT":
+        return {
+            ...state,
+            counter: state.counter + 1
+        };
+        case "DECREMENT":
+        return {
+            ...state,
+            counter: state.counter - 1
+        };
+        default:
+        return state;
+    }
+    };
+
+    const store = createStore(reducer, initialState);
+    Which of the following statements is true about the code above?
+
+# Solution - 
+    The code defines a Redux store with an initial state of { counter: 0 }.,
+    The code defines a Redux reducer that increments or decrements the counter state depending on the action type.,
+    The code defines a Redux action that increments the counter state.
+
+Ques-4 -> (React: Redux 1 MCQ 2)
+
+    const initialState = {
+        todos: []
+    };
+
+    const reducer = (state, action) => {
+        switch (action.type) {
+            case "ADD_TODO":
+                return {
+                    ...state,
+                    todos: [...state.todos, action.payload]
+                };
+            case "REMOVE_TODO":
+                return {
+                    ...state,
+                    todos: state.todos.filter(todo => todo.id !== action.payload)
+                };
+            default:
+                return state;
+        }
+    };
+
+    const store = createStore(reducer, initialState);
+    Which of the following statements is true about the code above?
+
+# Solution - 
+    The code defines a Redux store with an initial state of { todos: [] }.,
+    The code defines a Redux reducer that adds or removes todos from the state depending on the action type.,
+    The code defines a Redux action that adds a todo to the state.
+
+Ques-5 -> (React: Redux 1 MCQ 3)
+
+    Which of the following is not a principle of Redux?
+
+# Solution - 
+    Actions are pure functions.
+    

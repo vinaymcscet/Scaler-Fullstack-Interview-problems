@@ -1,0 +1,175 @@
+Ques-1 -> (LLD-React_Optimizing User Settings Management with React Context API)
+
+    Description:
+    You are tasked with refactoring an existing React application that manages user settings across multiple components. Currently, the application uses prop drilling to pass user preferences (like theme and language) down through several levels of components, making the code difficult to manage and scale.
+    Your goal is to optimize the codebase by implementing the React Context API to provide a more efficient and maintainable way to access user settings across the application. You will need to create a SettingsContext to handle the theme and language preferences, eliminating the need for prop drilling.
+
+# Solution - 
+    App.js - 
+    import React from "react";
+    import UserSettings from "./UserSettings";
+    import Profile from "./Profile";
+    import { SettingsProvider } from "./SettingsContext";
+
+    function App() {
+    return (
+        <div>
+        <SettingsProvider>
+            <UserSettings />
+            <Profile />
+        </SettingsProvider>
+        </div>
+    );
+    }
+
+    export default App;
+    ============================================
+    Profile.js - 
+    import React from "react";
+    import { useSetting } from "./SettingsContext";
+
+    function Profile() {
+    const context = useSetting();
+    return (
+        <div style={{ color: context.theme === "light" ? "black" : "white" }}>
+        Profile Page in {context.language}
+        </div>
+    );
+    }
+
+    export default Profile;
+    =================================================
+    SettingContext - 
+    import React from "react";
+    import { useContext } from "react";
+
+    export const SettingsContext = React.createContext(null);
+    export const useSetting = () => {
+    const state = useContext(SettingsContext);
+    return state;
+    }
+
+    export const SettingsProvider = ({ children }) => {
+    const [theme, setTheme] = React.useState("light");
+    const [language, setLanguage] = React.useState("English");
+    // Write your code here
+    return (
+        <SettingsContext.Provider value={{theme, setTheme, language, setLanguage}}>
+        {children}
+        </SettingsContext.Provider>
+    )
+    };
+    ===============================================
+    UserSettings.js - 
+    import React from "react";
+    import { useSetting } from "./SettingsContext";
+
+    function UserSettings() {
+    const context = useSetting();
+    return (
+        <div>
+        <button onClick={() => context.setTheme(context.theme === "light" ? "dark" : "light")}>
+            Toggle Theme
+        </button>
+        <button
+            onClick={() =>
+            context.setLanguage(context.language === "English" ? "Spanish" : "English")
+            }
+        >
+            Toggle Language
+        </button>
+        </div>
+    );
+    }
+
+    export default UserSettings;
+
+
+
+Ques-2 -> ( LLD-React_Optimizing Notification Handling with React Context API)
+
+    Description: In an existing React application, notifications are passed down through multiple components via prop drilling. These notifications include system alerts, error messages, and informational pop-ups that appear in various parts of the application. Your task is to refactor this codebase by implementing the React Context API to manage notifications more efficiently and centrally.
+
+# Solution - 
+    App.js - 
+    import React from "react";
+    import Dashboard from "./Dashboard";
+    import Footer from "./Footer";
+    import { NotificationProvider } from "./NotificationContext";
+
+    function App() {
+    return (
+        <div>
+        <NotificationProvider>
+            <Dashboard />
+            <Footer />
+        </NotificationProvider>
+        </div>
+    );
+    }
+
+    export default App;
+
+    ===================================
+    NotificationContext.js - 
+    import React, { createContext, useState } from "react";
+
+    export const NotificationContext = createContext({
+    notifications: [],
+    addNotification: () => {},
+    });
+
+    export const NotificationProvider = ({ children }) => {
+    // Write your code here
+    const [notifications, setNotifications] = React.useState([]);
+    const addNotification = (notification) => {
+        setNotifications([...notifications, notification]);
+    };
+    return (
+        <NotificationContext.Provider value={{ notifications, setNotifications, addNotification }}>
+        {children}
+        </NotificationContext.Provider>
+    )
+
+    };
+
+    ========================
+    Dashboard.js - 
+    import React from "react";
+    import { useContext } from "react";
+    import { NotificationContext } from "./NotificationContext";
+
+    function Dashboard() {
+    const { notifications, addNotification } = useContext(NotificationContext);
+    return (
+        <div>
+        <button onClick={() => addNotification("New alert from Dashboard!")}>
+            Add Dashboard Alert
+        </button>
+        {notifications.map((note, idx) => (
+            <p key={idx}>{note}</p>
+        ))}
+        </div>
+    );
+    }
+
+    export default Dashboard;
+
+    =======================================
+    Footer.js - 
+    import React, { useContext } from "react";
+    import { NotificationContext } from "./NotificationContext";
+
+    function Footer() {
+    const { notifications } = useContext(NotificationContext);
+
+    return (
+        <div>
+        {notifications.map((note, idx) => (
+            <div key={idx}>{note} : Footer</div>
+        ))}
+        </div>
+    );
+    }
+
+    export default Footer;
