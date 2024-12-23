@@ -1,0 +1,206 @@
+Ques-1 -> (LLD-React_Implement_Debouncing)
+
+   Problem Statement
+    
+    Problem Statement: Implement Debouncing in React with Static Data
+    
+    For this task, you are required to optimize an existing React component that includes a search input field for filtering a list of items. The original component filters the list immediately as the user types, leading to potentially inefficient rendering. You will modify the component by implementing debouncing to reduce unnecessary renders when the user types.
+
+# Solution - 
+
+    App.js - 
+    import "./App.css";
+    import SearchComponent from "./SearchComponent";
+
+    function App() {
+    return (
+        <div className="App">
+        <SearchComponent />
+        </div>
+    );
+    }
+
+    export default App;
+    ==============================================
+
+    SearchComponent - 
+    import React, { useState, useEffect } from "react";
+
+    const dataList = [
+    { id: 1, name: "Apple" },
+    { id: 2, name: "Banana" },
+    { id: 3, name: "Cherry" },
+    { id: 4, name: "Date" },
+    { id: 5, name: "Elderberry" },
+    ];
+
+    function SearchComponent() {
+    const [query, setQuery] = useState("");
+    const [filteredData, setFilteredData] = useState(dataList);
+
+    useEffect(() => {
+        const results = setTimeout(() => {
+        setFilteredData(dataList.filter((item) =>
+        item.name.toLowerCase().includes(query.toLowerCase())
+        ));
+
+        }, 1000)
+        return () => {
+        clearTimeout(results)
+    }
+    }, [query]);
+
+    return (
+        <div>
+        <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+        />
+        <ul>
+            {filteredData.map((item) => (
+            <li key={item.id}>{item.name}</li>
+            ))}
+        </ul>
+        </div>
+    );
+    }
+
+    export default SearchComponent;
+
+
+Ques-2 -> (LLD-React_Currency Converter Hook)
+
+    Problem Statement: Currency Converter Hook
+    Create a custom React hook called useCurrencyConverter that converts an amount from one currency to another using static exchange rates. This hook will facilitate currency conversions within components where such functionality is required.
+
+    Requirements:
+    The hook should accept two parameters:
+    baseCurrency: The currency from which the conversion should start.
+    targetCurrency: The currency to which the amount will be converted.
+    The hook should return a function:
+    convert(amount): Takes a numerical value (the amount in baseCurrency) and returns the converted amount in targetCurrency.
+    Use the following predefined exchange rates for conversion:
+    USD to EUR: 0.93
+    EUR to USD: 1.07
+    GBP to USD: 1.21
+    If an unsupported currency pair is used or if the input amount is not a number, the convert function should return null.
+
+# Solution - 
+    
+    App.js - 
+    import React, { useState } from "react";
+    import "./App.css";
+    import useCurrencyConverter from "./useCurrencyConverter";
+
+    function App() {
+    // States for USD to EUR conversion
+    const [usdAmount, setUsdAmount] = useState("");
+    const [convertedEur, setConvertedEur] = useState("");
+
+    // States for EUR to USD conversion
+    const [eurAmount, setEurAmount] = useState("");
+    const [convertedUsdFromEur, setConvertedUsdFromEur] = useState("");
+
+    // States for GBP to USD conversion
+    const [gbpAmount, setGbpAmount] = useState("");
+    const [convertedUsdFromGbp, setConvertedUsdFromGbp] = useState("");
+
+    // Create hook instances
+    // Ex :- const convertUsdToEur = useCurrencyConverter("USD", "EUR");
+    const  convertUsdToEur = useCurrencyConverter("USD", "EUR");
+    const  convertEurToUsd = useCurrencyConverter("EUR", "USD");
+    const  convertGbpToUsd = useCurrencyConverter("GBP", "USD");
+
+    // Create event handlers
+
+    const handleUsdAmountChange = (event) => {
+        // Implement the function here
+        const value = event.target.value;
+        setUsdAmount(value);
+        const updatedValue = convertUsdToEur(value);
+        setConvertedEur(updatedValue || '');
+    };
+
+    const handleEurAmountChange = (event) => {
+        // Implement the function here
+        const value = event.target.value;
+        setEurAmount(value);
+        const updatedValue = convertEurToUsd(value);
+        setConvertedUsdFromEur(updatedValue || '');
+    };
+
+    const handleGbpAmountChange = (event) => {
+        // Implement the function here
+        const value = event.target.value;
+        setGbpAmount(value);
+        const updatedValue = convertGbpToUsd(value);
+        setConvertedUsdFromGbp(updatedValue || '');
+    };
+
+    // do not edit the return statement
+
+    return (
+        <div className="App">
+        <h1>Currency Converter</h1>
+        <div>
+            <label>USD to EUR:</label>
+            <input
+            type="number"
+            value={usdAmount}
+            onChange={handleUsdAmountChange}
+            placeholder="Enter USD amount"
+            />
+            <p>Converted to EUR: {convertedEur}</p>
+        </div>
+        <div>
+            <label>EUR to USD:</label>
+            <input
+            type="number"
+            value={eurAmount}
+            onChange={handleEurAmountChange}
+            placeholder="Enter EUR amount"
+            />
+            <p>Converted to USD: {convertedUsdFromEur}</p>
+        </div>
+        <div>
+            <label>GBP to USD:</label>
+            <input
+            type="number"
+            value={gbpAmount}
+            onChange={handleGbpAmountChange}
+            placeholder="Enter GBP amount"
+            />
+            <p>Converted to USD: {convertedUsdFromGbp}</p>
+        </div>
+        </div>
+    );
+    }
+
+    export default App;
+
+    =======================================
+    useCurrencyConverter.js -
+    import { useCallback } from "react";
+
+    function useCurrencyConverter(baseCurrency, targetCurrency) {
+    // Use the following predefined exchange rates for conversion:
+    //  - USD to EUR: 0.93
+    //  - EUR to USD: 1.07
+    //  - GBP to GBP: 1.21
+    const convert = useCallback(
+        (amount) => {
+        // Conversion logic will be placed here.
+        if(typeof amount === NaN) return null;
+        if(baseCurrency === 'USD' && targetCurrency === 'EUR') return amount * 0.93;
+        if(baseCurrency === 'EUR' && targetCurrency === 'USD') return amount * 1.07;
+        if(baseCurrency === 'GBP' && targetCurrency === 'USD') return amount * 1.21;
+        return amount;
+        },
+        [baseCurrency, targetCurrency]
+    );
+
+    return convert;
+    }
+
+    export default useCurrencyConverter;
