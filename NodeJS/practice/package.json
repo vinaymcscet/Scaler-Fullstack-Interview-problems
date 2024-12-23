@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.21.2",
     "formidable": "^3.5.2",
+    "mongoose": "^8.9.2",
     "nodemailer": "^6.9.16",
     "upper-case": "^3.0.0"
   }
