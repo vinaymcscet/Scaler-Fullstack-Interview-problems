@@ -1,0 +1,94 @@
+Ques-1 --> (Node_express_pre_save_hook)
+
+# Problem Description - 
+    In a Node.js application using Mongoose as an ODM for MongoDB, you are required to ensure data integrity for a "Movie" model. This model includes several fields: title, description, duration, genre, language, releaseDate, and poster. To maintain the integrity of the "duration" field, you need to implement a pre-save hook in the Mongoose schema. This hook should validate that the movie's duration is neither negative nor zero, as such values are not logically valid for a movie's runtime.
+    Implement a pre-save hook on the "Movie" model.
+    Check if the "duration" field is less than or equal to zero.
+    If the duration is invalid, throw an error with the message: "Duration can't be negative or zero".
+    Allow the save operation to proceed if the duration is valid.
+    Involves adding a pre-save middleware to the Mongoose schema for the Movie model, which will intercept the save operation and check the value of the "duration" field. If the duration is less than or equal to zero, the middleware will halt the save operation by passing an error to the next callback function. If the duration is greater than zero, it will allow the save operation to continue by calling the next function without arguments.
+    Write your code in src/api.js
+
+# Solution - 
+    const express = require("express");
+    const app = express();
+    const mongoose = require("mongoose");
+    app.use(express.json());
+
+    /** Do not change the connection string below */
+    mongoose.connect("mongodb://localhost:27017/myApp", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    });
+    /** connection ends */
+
+    const movieSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    duration: { type: Number, required: true },
+    genre: { type: String, required: true },
+    language: { type: String, required: true },
+    releaseDate: { type: Date, required: true },
+    poster: { type: String, required: true },
+    });
+
+    // Your code goes here.
+    movieSchema.pre("save", function(next) {
+    const validDuration = this.duration;
+    if(validDuration <= 0) {
+        return next(
+        new Error("Duration can't be negative or zero")
+        );
+    }
+    else {
+        next();
+    }
+    })
+    const Movie = mongoose.model("Movie", movieSchema);
+    module.exports = Movie;
+
+
+Ques-2 --> (Node_express_post_save_hook)
+
+# Problem Description - 
+    You are tasked with enhancing the functionality of a MongoDB-based movie management system using Mongoose. Specifically, you need to implement a post-save hook for a Movie model. This hook should log a specific message to the console each time a movie document is saved to the database, providing feedback that the save operation has been successful..
+    Model Setup: Define a Mongoose model for a movie with the necessary attributes.
+    Post-save Hook: Implement a post-save middleware that triggers after a movie is saved to the database.
+    Logging: The middleware should log the message "Movie [movie title] has been saved" to the console.
+    The mongoose.Schema class provides a method called post('save') that allows you to define a function that will be executed after a document is saved to the database. To implement the post-save hook, integrate middleware by adding a post-save middleware to the Movie schema using Mongoose's schema.post() method. Use the doc parameter in the post-save hook to access the saved movie document. Within the middleware, log the movie title included in the saved document to the console.
+    Write your code in src/api.js
+
+# Solution - 
+    const express = require("express");
+    const app = express();
+    app.use(express.json());
+    const mongoose = require("mongoose");
+
+    /** Do not change the connection string below */
+    mongoose.connect("mongodb://localhost:27017/myApp", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    });
+    /** connection ends */
+
+    const movieSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    duration: { type: Number, required: true },
+    genre: { type: String, required: true },
+    language: { type: String, required: true },
+    releaseDate: { type: Date, required: true },
+    poster: { type: String, required: true },
+    });
+
+    // Your code goes here.
+    movieSchema.post("save", function(movie, next) {
+    console.log(`Movie ${movie.title} has been saved`);
+    next();
+    })
+    const Movie = mongoose.model("Movie", movieSchema);
+    module.exports = Movie;
+
+
+
+

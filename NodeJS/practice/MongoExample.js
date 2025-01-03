@@ -3,6 +3,8 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+app.use(express.json()); // middleware for post request
+
 const dbUrl = 
 `mongodb+srv://vinaymcscet68:4M6nKb9PEhWAeAMU@cluster0.g0wxqiz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const PORT = 8081;
@@ -48,7 +50,6 @@ const productSchema = new mongoose.Schema({
     }
 }, {timestamps: true});
 const ProductModel = mongoose.model('products', productSchema);
-app.use(express.json()); // middleware for post request
 
 // post api
 app.post('/api/products', async(req, res) => {
