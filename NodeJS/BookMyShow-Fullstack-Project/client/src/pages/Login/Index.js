@@ -1,13 +1,40 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Form, Input } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Form, Input, message } from "antd";
+import { LoginUser } from "../../api/users";
 
 const Login = () => {
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const onFinish = async (values) => {
+    try {
+      const response = await LoginUser(values);
+      if (response.success) {
+        message.success(response.message);
+        form.resetFields(); // This clears all the fields
+        // localStorage.setItem("token", response.data);
+
+        setTimeout(() => {
+          console.log(document.cookie);
+          
+          if(document.cookie.includes("token")) {
+            console.log("cookie", document.cookie.includes("token"));
+          }
+        }, 1000);
+        
+        // navigate('/');
+      } else {
+        message.error(response.message);
+      }
+    } catch (err) {
+      message.error(err.message || "Something went wrong");
+    }
+  };
   return (
     <main className="App-header">
       <h1>Login to BookMyShow</h1>
       <section className="mw-500 text-left px-3">
-        <Form layout={"vertical"} >
+        <Form layout={"vertical"} form={form} onFinish={onFinish} >
           <Form.Item 
             label="Email"
             htmlFor="email"
