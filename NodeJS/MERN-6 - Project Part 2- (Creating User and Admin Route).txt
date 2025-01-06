@@ -1,0 +1,89 @@
+Ques-1 --> (Node_express_cookies)
+
+# Problem Description - 
+    You need to develop a simple visit counter feature in an Express.js application. This feature will track the number of times a user has visited the /visit endpoint using cookies.
+    Cookie Management: Utilize cookies to store and track the number of visits.
+    Route Setup: Create a route /visit that handles GET requests.
+    Visit Counter Logic: Increment the visit counter stored in a cookie if it exists; otherwise, initialize it.
+    Response: Return a message to the user indicating the number of times they have visited the page.
+    Start by setting up cookie management to utilize cookies for storing and tracking the number of visits. Create a route /visit that handles GET requests. Implement the visit counter logic by incrementing the visit counter stored in a cookie if it exists, otherwise initializing it. Finally, return a message to the user indicating the number of times they have visited the page ("This is your visit number {visitCount}").
+    Set up middleware configuration to utilize cookie-parser to handle cookies within the app. In the /visit route, check if the visitCount cookie exists. If it does, increment its value; if not, set it to 1. Then, update the response to include the updated cookie and return a message to the user showing the visit count.
+    Write your code in src/api.js
+
+# Solution - 
+    const express = require("express");
+    const cookieParser = require("cookie-parser");
+
+    const app = express();
+    app.use(cookieParser());
+
+    app.get("/visit", (req, res) => {
+    // Implementation for visit counting
+    const visit_count = req.cookies.visitCount;
+    if(visit_count) {
+        res.cookie("visitCount", parseInt(visit_count) + 1);
+        res.send(`This is your visit number ${parseInt(visit_count) + 1}`);
+    } else {
+        res.cookie("visitCount", 1);
+        res.send(`This is your visit number 1`);
+    }
+    });
+
+    module.exports = app;
+
+Ques-2 --> (Node_express_JWT)
+
+# Problem Description - 
+    The goal is to implement JWT-based authentication within an Express.js application. The application should manage two routes: /login for user authentication and /secret for protected content access. Users log in by providing credentials, and on successful authentication, they receive a JWT. This token is then used to access the protected route.
+    Express.js Setup: The application should use the Express.js framework.
+    JWT Implementation: Use the jsonwebtoken library for generating and verifying tokens.
+    Routes:
+    /login (POST): Accepts credentials (username and password) and returns a JWT on successful authentication.
+    /secret (GET): Requires a valid JWT in the Authorization header to access.
+    For the /login route, check if the provided username and password match preset credentials (e.g., "admin" and "password"). If they match, generate a JWT with the username as the payload, signed with a secret key, and respond with this token. If the credentials do not match, respond with an error("Invalid credentials") with status 401.
+    For the /secret route, retrieve the JWT from the Authorization header and verify it using the same secret key used for signing. If the token is valid, respond with a welcome message("Welcome to the secret area"). If invalid, respond with an error with status 401.
+    Write your code in src/api.js
+
+# Solution - 
+    const express = require("express");
+    const app = express();
+    const jwt = require("jsonwebtoken");
+    app.use(express.json());
+
+    const SECRET_KEY = "vinay@123489";
+
+    app.post("/login", (req, res) => {
+    // Implementation for login
+    if(req.body.username === 'admin' && req.body.password === 'password') {
+        const token = jwt.sign({ username: req.body.username }, SECRET_KEY, { expiresIn: '1h'});
+        res.json({token})
+    } else {
+        res.status(401).send("Invalid credentials");
+    }
+    });
+
+    const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ error: "Authorization header missing" });
+    }
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) {
+        return res.sendStatus(401);
+        }
+        req.user = user;
+        next();
+    });
+    };
+    app.get("/secret", authenticateToken, (req, res) => {
+    // Implementation for token validation and response
+    res.send("Welcome to the secret area");
+    });
+
+    module.exports = app;
+
+
+
+
+
