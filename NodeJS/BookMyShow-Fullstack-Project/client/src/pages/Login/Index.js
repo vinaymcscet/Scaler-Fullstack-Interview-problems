@@ -12,17 +12,8 @@ const Login = () => {
       if (response.success) {
         message.success(response.message);
         form.resetFields(); // This clears all the fields
-        // localStorage.setItem("token", response.data);
-
-        setTimeout(() => {
-          console.log(document.cookie);
-          
-          if(document.cookie.includes("token")) {
-            console.log("cookie", document.cookie.includes("token"));
-          }
-        }, 1000);
-        
-        // navigate('/');
+        localStorage.setItem("token", response.data);
+        navigate('/');
       } else {
         message.error(response.message);
       }
