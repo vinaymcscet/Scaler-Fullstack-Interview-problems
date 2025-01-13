@@ -6,6 +6,7 @@ import Login from "./pages/Login/Index";
 import Register from "./pages/Register/Index";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import store from "./redux/store";
+import Admin from "./pages/Admin/Index";
 
 function App() {
   return (
@@ -18,6 +19,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <Admin />
                 </ProtectedRoute>
               }
             />

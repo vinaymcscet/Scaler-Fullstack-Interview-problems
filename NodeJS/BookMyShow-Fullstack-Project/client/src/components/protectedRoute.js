@@ -70,7 +70,8 @@ function ProtectedRoute({ children }) {
       } catch (error) {
         dispatch(HideLoading()); // loading -> false
         message.error(error.message);
-
+        dispatch(SetUser(""));
+        localStorage.clear();
         console.log(error);
       }
     };
