@@ -7,6 +7,8 @@ import Register from "./pages/Register/Index";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import store from "./redux/store";
 import Admin from "./pages/Admin/Index";
+import Partner from "./pages/Partner/Index";
+import Profile from "./pages/User/Index";
 
 function App() {
   return (
@@ -27,6 +29,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Admin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/partner"
+              element={
+                <ProtectedRoute>
+                  <Partner />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               }
             />

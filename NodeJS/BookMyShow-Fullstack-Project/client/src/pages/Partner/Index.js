@@ -1,8 +1,16 @@
 import React from 'react'
+import TheatreList from './TheatreList'
+import { Tabs } from 'antd';
 
 const Partner = () => {
+  const tabItems = [
+    { key: 1, label: "Theatres", children: <TheatreList /> }
+  ]
   return (
-    <div>Partner Pages</div>
+    <div>
+      <h1>Theatres Page</h1>
+      <Tabs items={tabItems} />
+    </div>
   )
 }
 
