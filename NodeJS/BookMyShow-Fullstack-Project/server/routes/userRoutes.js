@@ -8,6 +8,6 @@ const userRouter = express.Router(); // create a Router object to handle Routes 
 // register a user
 userRouter.post("/register", registerController);
 userRouter.post("/login", loginController);
-userRouter.get("/current", auth, currentUserController); 
+userRouter.get("/current", auth, currentUserController);
 
 module.exports = userRouter;

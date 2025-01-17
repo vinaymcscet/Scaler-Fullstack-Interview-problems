@@ -41,6 +41,7 @@ const MovieForm = ({
         message.error(response.message);
       }
       setSelectedMovie(null);
+      form.resetFields();
       dispatch(HideLoading());
     } catch (err) {
       dispatch(HideLoading());
@@ -52,6 +53,8 @@ const MovieForm = ({
     setIsModalOpen(false);
     setSelectedMovie(null);
   };
+
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <Modal
@@ -127,7 +130,7 @@ const MovieForm = ({
                     },
                   ]}
                 >
-                  <Input type="date" />
+                  <Input type="date" min={today} />
                 </Form.Item>
               </Col>
             </Row>
