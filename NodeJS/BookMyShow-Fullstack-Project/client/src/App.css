@@ -264,6 +264,15 @@
     overflow-y: auto;
     width: 100%;
   }
+  .selectedBox {
+    flex-flow: wrap column;
+    margin: 0 auto 20px auto;
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+  }
+  .selectedBox p {
+    margin: 0;
+  }
   @-webkit-keyframes spin {
     0% {
       -webkit-transform: rotate(0deg);

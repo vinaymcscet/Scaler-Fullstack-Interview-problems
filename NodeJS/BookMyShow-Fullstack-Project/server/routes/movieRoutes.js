@@ -4,6 +4,7 @@ const {
   updateMovieController,
   getAllMovieController,
   addMovieController,
+  getMovieByIdController,
 } = require("../controllers/movieController");
 
 const movieRouter = express.Router();
@@ -38,5 +39,6 @@ movieRouter.post("/add-movie", addMovieValidations, addMovieController);
 movieRouter.get("/get-all-movies", getAllMovieController);
 movieRouter.put("/update-movie", updateMovieController);
 movieRouter.put("/delete-movie", deleteMovieController);
+movieRouter.get("/movie/:id", getMovieByIdController);
 
 module.exports = movieRouter;

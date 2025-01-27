@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input, message, Radio } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../api/users";
 
 const Register = () => {
@@ -18,6 +18,12 @@ const Register = () => {
       message.error(err.message || "Something went wrong");
     }
   };
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
   return (
     <>
       <main className="App-header">
