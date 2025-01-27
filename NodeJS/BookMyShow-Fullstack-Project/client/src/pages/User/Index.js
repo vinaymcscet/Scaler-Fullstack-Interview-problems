@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import Bookings from './Booking';
 
 const Profile = () => {
   return (
-    <div>Profile Pages</div>
+    <>
+      <Bookings />
+    </>
   )
 }
 

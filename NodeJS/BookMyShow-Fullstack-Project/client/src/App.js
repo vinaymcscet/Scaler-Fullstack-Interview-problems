@@ -9,6 +9,10 @@ import store from "./redux/store";
 import Admin from "./pages/Admin/Index";
 import Partner from "./pages/Partner/Index";
 import Profile from "./pages/User/Index";
+import SingleMovie from "./pages/Booking/SingleMovie";
+import BookShow from "./pages/Booking/BookShow";
+import Forget from "./pages/Forget/Index";
+import Reset from "./pages/Reset/Index";
 
 function App() {
   return (
@@ -16,40 +20,46 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/"
-              element={
+            <Route path="/" element={
                 <ProtectedRoute>
                   <Home />
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/admin"
-              element={
+            <Route path="/admin" element={
                 <ProtectedRoute>
                   <Admin />
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/partner"
-              element={
+            <Route path="/partner" element={
                 <ProtectedRoute>
                   <Partner />
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/profile"
-              element={
+            <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
               }
             />
+            <Route path="/movie/:id" element={
+                <ProtectedRoute>
+                  <SingleMovie />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/book-show/:id" element={
+                <ProtectedRoute>
+                  <BookShow />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forget" element={<Forget />} />
+            <Route path="/reset" element={<Reset />} />
           </Routes>
         </BrowserRouter>
       </Provider>

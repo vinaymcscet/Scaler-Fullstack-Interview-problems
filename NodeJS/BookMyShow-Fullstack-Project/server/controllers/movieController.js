@@ -66,4 +66,22 @@ const deleteMovieController = async(req, res) => {
     }
 }
 
-module.exports = { addMovieController, updateMovieController, getAllMovieController, deleteMovieController };
+const getMovieByIdController = async(req, res) => {
+    try {
+        // const { id } = req.params;
+        const movie = await Movie.findById(req.params.id);
+        res.send({
+            success: true,
+            message: "Movie fetched successfully",
+            data: movie
+        })
+    } catch(err) {
+        console.log(err);
+        res.send({
+            message: err.message,
+            success: false
+        })
+    }
+}
+
+module.exports = { addMovieController, updateMovieController, getAllMovieController, deleteMovieController, getMovieByIdController };

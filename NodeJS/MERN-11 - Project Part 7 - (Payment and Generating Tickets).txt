@@ -1,0 +1,125 @@
+Ques-1 --> (MCQ_11_1_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    What is Stripe?
+
+# Solution - 
+    A payment processing platform
+
+Ques-2 --> (MCQ_11_2_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    Which of the following is required to integrate Stripe with Node.js Express?
+
+# Solution - 
+    Stripe API key
+
+Ques-3 --> (MCQ_11_3_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    In a Node.js Express application, where should you store your Stripe API key?
+
+# Solution - 
+    In a configuration file
+
+Ques-4 --> (MCQ_11_4_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    Which Stripe API method is used to create a payment intent?
+
+# Solution - 
+    stripe.paymentIntent.create()
+
+
+Ques-5 --> (MCQ_11_5_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    What is the purpose of a PaymentIntent in the context of Stripe?
+
+# Solution - 
+    To process a payment
+
+
+Ques-6 --> (MCQ_11_6_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    Which Stripe API method is used to confirm a PaymentIntent?
+
+# Solution - 
+    stripe.paymentIntent.confirm()
+
+Ques-7 --> (MCQ_11_7_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    What is the purpose of the stripe object in a React component that integrates with Stripe?
+
+# Solution - 
+    To interact with the Stripe API
+
+Ques-8 --> (MCQ_11_8_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    Which Stripe API method is used to handle the client-side payment flow in a React component?
+
+# Solution - 
+    stripe.handleCardPayment()
+
+
+Ques-9 --> (MCQ_11_9_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    In a React component, what is the purpose of the Elements component from @stripe/react-stripe-js?
+
+# Solution - 
+    To render payment form elements
+
+
+Ques-10 --> (MCQ_11_10_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    Which of the following is NOT a valid event type in the context of Stripe webhooks?
+
+# Solution - 
+    payment_intent.processing
+
+
+Ques-11 --> (MCQ_11_11_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    MCQ_11_6_MERN Payment gateway integration and shows api
+
+# Solution - 
+    stripe.paymentIntent.confirm()
+
+
+Ques-12 --> (MCQ_11_12_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    What is the purpose of the stripe object in a React component that integrates with Stripe?
+
+# Solution - 
+    To interact with the Stripe API
+
+Ques-13 --> (MCQ_11_13_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    Which Stripe API method is used to handle the client-side payment flow in a React component?
+
+# Solution - 
+    stripe.handleCardPayment()
+
+Ques-14 --> (MCQ_11_14_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    In a React component, what is the purpose of the Elements component from @stripe/react-stripe-js?
+
+# Solution - 
+    To render payment form elements
+
+Ques-15 --> (MCQ_11_15_MERN Payment gateway integration and shows api)
+
+# Problem Description - 
+    Which of the following is NOT a valid event type in the context of Stripe webhooks?
+
+# Solution - 
+    payment_intent.processing

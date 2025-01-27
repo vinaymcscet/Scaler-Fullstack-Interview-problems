@@ -6,6 +6,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { getAllTheatres } from "../../api/theatres";
 import { useSelector, useDispatch } from "react-redux";
 import { ShowLoading, HideLoading } from "../../redux/loaderSlice";
+import ShowModal from "./showModal";
 
 const TheatreList = () => {
   const { user } = useSelector((state) => state.users);
@@ -145,6 +146,14 @@ const TheatreList = () => {
           setIsDeleteModalOpen={setIsDeleteModalOpen}
           setSelectedTheatre={setSelectedTheatre}
           getData={getData}
+        />
+      )}
+      {isShowModalOpen && (
+        <ShowModal
+          isShowModalOpen={isShowModalOpen}
+          setIsShowModalOpen={setIsShowModalOpen}
+          selectedTheatre={selectedTheatre}
+          setSelectedTheatre={setSelectedTheatre}
         />
       )}
     </>
