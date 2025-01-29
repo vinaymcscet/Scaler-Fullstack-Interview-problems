@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const EmailHelper = require("../utils/EmailHelper");
+const bcrypt = require("bcrypt");
 
 const registerController = async (req, res) => {
   try {
@@ -11,7 +12,12 @@ const registerController = async (req, res) => {
         message: "User already exists",
       });
     }
-    const newUser = new User(req.body);
+    const saltRounds = 10;
+    const hashPassword = await bcrypt.hash(req.body.password, saltRounds);
+    const newUser = new User({
+      ...req.body,
+      password: hashPassword,
+    });
     await newUser.save();
     res.send({
       success: true,
@@ -31,7 +37,11 @@ const loginController = async (req, res) => {
         message: "User not found, please register!",
       });
     }
-    if (req.body.password !== userExist.password) {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    const isMatch = await bcrypt.compare(req.body.password, hashedPassword);
+    if (!isMatch) {
+    // if (req.body.password !== userExist.password) {
       return res.send({
         success: false,
         message: "Invalid Password",
@@ -45,6 +55,7 @@ const loginController = async (req, res) => {
       success: true,
       message: "Login successful",
       data: token,
+      user: userExist,
     });
 
     // Send the token as an HTTP-only cookie only
