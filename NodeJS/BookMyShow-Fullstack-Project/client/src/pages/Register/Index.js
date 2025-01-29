@@ -5,12 +5,14 @@ import { RegisterUser } from "../../api/users";
 
 const Register = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
       const response = await RegisterUser(values);
       if (response.success) {
         message.success(response.message);
         form.resetFields(); // This clears all the fields
+        navigate("/login");
       } else {
         message.error(response.message);
       }
@@ -18,7 +20,6 @@ const Register = () => {
       message.error(err.message || "Something went wrong");
     }
   };
-  const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("token")) {
       navigate("/");
