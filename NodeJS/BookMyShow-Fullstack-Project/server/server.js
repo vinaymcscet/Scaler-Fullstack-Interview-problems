@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
+const path = require("path");
 
 const app = express();
 app.use(helmet());
@@ -39,6 +40,8 @@ const bookingRouter = require("./routes/bookingRoutes");
 const auth = require("./middleWares/authMiddleware");
 
 connectDB();
+const clientBuildPath = path.join(__dirname, "../client/build");
+app.use(express.static(clientBuildPath));
 /** Routes */
 app.use(cookieParser());
 app.use(express.json()); // ALLOWS EXPRESS TO PARSE JSON
