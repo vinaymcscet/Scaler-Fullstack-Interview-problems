@@ -1,0 +1,79 @@
+Ques-1 --> (MCQ_13_1_Unit_Testing)
+
+# Problem Description - 
+    What is the purpose of unit testing?
+
+# Solution - 
+    B) To test individual components or functions
+
+Ques-2 --> (MCQ_13_2_Testing_Technique)
+
+# Problem Description - 
+    Which testing technique is used to ensure that the software meets the specified requirements?
+
+# Solution - 
+    Acceptance testing
+
+Ques-3 --> (MCQ_13_3_Purpose_Of_Continuous_Integration)
+
+# Problem Description - 
+    What is the purpose of continuous integration (CI) in the context of software development?
+
+# Solution - 
+    To automatically build and test code changes
+
+Ques-4 --> (MCQ_13_4_Automated_Testing)
+
+# Problem Description - 
+    MCQ_13_4_Automated_TestingWhich of the following is NOT a benefit of automated testing?
+
+# Solution - 
+    Higher code quality without the need for manual testing
+
+Ques-5 --> (MCQ_13_5_Deployment_Pipeline)
+
+# Problem Description - 
+    What is the purpose of a deployment pipeline?
+
+# Solution - 
+    To automate the process of deploying software to production
+
+Ques-6 --> (MCQ_13_6_Testing_Between_Modules)
+
+# Problem Description - 
+    Which testing technique is used to test the interactions between different components or modules of an application?
+
+# Solution - 
+   Integration testing
+
+Ques-7 --> (MCQ_13_7_Load_Testing)
+
+# Problem Description - 
+    What is the purpose of load testing?
+
+# Solution - 
+    To test the application's performance under heavy load
+
+Ques-8 --> (MCQ_13_8_Testing_Overall_Functionality)
+
+# Problem Description - 
+    Which testing technique is used to test the overall functionality and usability of an application?
+
+# Solution - 
+    System testing
+
+Ques-9 --> (MCQ_13_9_Purpose_Of_Smoke_Testing)
+
+# Problem Description - 
+    What is the purpose of smoke testing?
+
+# Solution - 
+    To test the application's basic functionality
+
+Ques-10 --> (MCQ_13_10_Benefit_Of_Continuous_Deployment)
+
+# Problem Description - 
+    Which of the following is NOT a benefit of continuous deployment?
+
+# Solution - 
+    Reduced need for automated testing
