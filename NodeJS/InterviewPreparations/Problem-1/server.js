@@ -28,9 +28,9 @@ const http = require('http');
 const server = http.createServer();
 const path  = require("path");
 
-const filePath = path.join(__dirname, "BigFile.txt");
-const readableStream = fs.createReadStream(filePath);
-const writableStream = fs.createWriteStream("copyOfBigFile.txt");
+// const filePath = path.join(__dirname, "BigFile.txt");
+// const readableStream = fs.createReadStream(filePath);
+// const writableStream = fs.createWriteStream("copyOfBigFile.txt");
 // // event driven
 // readableStream.on('data', (chunk) => {
 //     console.log(`Received ${chunk.length} bytes of data`);
