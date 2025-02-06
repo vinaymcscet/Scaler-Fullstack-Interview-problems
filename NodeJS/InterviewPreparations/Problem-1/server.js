@@ -1,12 +1,13 @@
 const fs = require('fs');
 // const content = Math.random().toString(36).repeat(10000000);
+const content = Math.random().toString(36).repeat(1000);
 
-// fs.writeFileSync(
-//     "D:/scaler/Scaler-Fullstack-Interview-problems/NodeJS/InterviewPreparations/Problem-1/BigFile.txt",
-//     content
-// );
+fs.writeFileSync(
+    "D:/scaler/Scaler-Fullstack-Interview-problems/NodeJS/InterviewPreparations/Problem-1/BigFile.txt",
+    content
+);
 
-// version - 1
+version - 1
 // const http = require('http');
 // const server = http.createServer();
 
